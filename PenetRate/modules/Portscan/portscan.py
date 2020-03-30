@@ -8,9 +8,6 @@ import paramiko
 import wmi
 from scapy.all import *
 
-# Port scanner module for PenetRate
-# Getting port numbers by string, Target IP Address, User-ID
-
 # Local Consts
 RESULTS_FILE_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
@@ -26,25 +23,34 @@ class PortScanner(object):
     _RSTACK = 0x14
         
     def __init__(self, uid, target_ip, port_nums=None, timeout=0.4):
-        if not self._check_host(target_ip):
+        """
+        Before creating the scanner object, 
+        If the IP is reachable, create a scanner object.
+        """
+        if not self.check_host(target_ip):
             return
         
-        self._target_ip = target_ip
-        self._port_nums_to_scan = []
-        self._timeout = timeout
-        self._uid = uid
+        self.target_ip = target_ip
+        self.ports_to_scan = []
+        self.timeout = timeout
+        self.uid = uid
         
-        resp = self._parse_port_range(port_nums)
+        resp = self.parse_port_range(port_nums)
+        
         if resp is not None:
-            if MYSQLPORT_NUM in self._port_nums_to_scan:
+            if MYSQLPORT_NUM in self.ports_to_scan:
                 raise ValueError("DB Name must be specified")
-            self._port_nums_to_scan = resp
+            self.ports_to_scan = resp
 
-        self._open_ports = {}
-        self._filtered_ports = []
-        self._connected_ports = {}
+        self.open_ports = {}
+        self.filtered_ports = []
+        self.connected_ports = {}
 
-    def _check_host(self, ip):
+    def check_host(self, ip):
+        """
+        Check whether the IP is responding to ICMP requests.
+        If so - the IP is reachable.
+        """
         try:
             conf.verb = 0
             ping = sr1(IP(dst = ip)/ICMP())
@@ -55,26 +61,37 @@ class PortScanner(object):
         except:
             return False
         
-    def _TCPScanPort(self, port):
+    def tcp_port_scan(self, port):
+        """
+        TCP Scan for a port.
+        Using scapy, send a proper packet.
+        If a SYN ACK recived, then the port behind the IP will be marked as open.
+        If not, the port will be marked as filtered.
+        In both cases, the method will send a RST packet for the service.
+        """
         srcport = RandShort()
         conf.verb = 0
-        pkt = sr1(IP(dst=self._target_ip)/TCP(sport=srcport,
+        pkt = sr1(IP(dst=self.target_ip)/TCP(sport=srcport,
                                               dport=port,
                                               flags="S"),
-                                              timeout=self._timeout)
+                                              timeout=self.timeout)
         if pkt is not None:
             if pkt.haslayer(TCP):
                 if pkt[TCP].flags == self._SYNACK:
-                    self._open_ports[port] = socket.getservbyport(port)
+                    self.open_ports[port] = socket.getservbyport(port)
                 else:
-                    self._filtered_ports.append(port)
+                    self.filtered_ports.append(port)
             elif pkt.haslayer(ICMP):
-                self._filtered_ports.append(port)
+                self.filtered_ports.append(port)
         else:
-            RSTpkt = IP(dst = self._target_ip)/TCP(sport = srcport, dport = port, flags = "R")
+            RSTpkt = IP(dst = self.target_ip)/TCP(sport = srcport, dport = port, flags = "R")
             send(RSTpkt)
 
-    def _check_valid_ports(self, ports):
+    def check_valid_ports(self, ports):
+        """
+        Check if a port number is valid.
+        Suits for port range and a single port.
+        """
         if '-' not in ports:
             if int(ports) <= 65535:
                 return True
@@ -86,12 +103,16 @@ class PortScanner(object):
                 return False
             return True
     
-    def _parse_port_range(self, port_range):
+    def parse_port_range(self, port_range):
+        """
+        Parsing a port range recived as a string to an iterable list.
+        """
         ports = []
         port_range = port_range.replace(' ', '')
         port_range = port_range.split(',')
+        
         for port in port_range:
-            if self._check_valid_ports(port):
+            if self.check_valid_ports(port):
                 if '-' in port:
                     min_port = int(port.split('-')[0])
                     max_port = int(port.split('-')[1])
@@ -102,76 +123,100 @@ class PortScanner(object):
                     
         return set(ports)
 
-    def _check_connection_to_port(self, port):
+    def check_connection_to_port(self, port):
+        """
+        This method iterates through every Username and Password in the default credentials file
+        And calls the proper connection's check method.
+        """
         with open(DEFAULT_CREDS_PATH, 'r') as creds_file:
             for line in creds_file.readlines():
                 user = re.findall(CREDS_REGEX, line)[0][0]
                 pwd = re.findall(CREDS_REGEX, line)[0][1]
 
                 if port == SSH_PORT_NUM:
-                    if self._check_ssh_connection(user, pwd):
-                        self._connected_ports['SSH'] = { 'Username' : user, 'Password' : pwd }
+                    if self.check_ssh_connection(user, pwd):
+                        self.connected_ports['SSH'] = { 'Username' : user, 'Password' : pwd }
                 elif port == RDP_PORT_NUM:
                     if self.check_rdp_connection(user, pwd):
-                        self._connected_ports['RDP'] = { 'Username' : user, 'Password' : pwd }
+                        self.connected_ports['RDP'] = { 'Username' : user, 'Password' : pwd }
                 else:
                     continue
 
-    def _check_ssh_connection(self, user, pwd):
+    def check_ssh_connection(self, user, pwd):
+        """
+        Check for successful SSH connection with default credentials.
+        """
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
-            ssh_client.connect(hostname=self._target_ip, username=user, password=pwd)
+            ssh_client.connect(hostname=self.target_ip, username=user, password=pwd)
             return True
         except paramiko.AuthenticationException:
             return False
 
-    def _check_rdp_connection(self, user, pwd):
+    def check_rdp_connection(self, user, pwd):
+        """
+        Check for successful RDP connection with default credentials.
+        """
         try:
-            connection = wmi.WMI(self._target_ip, user=user, password=pwd)
+            connection = wmi.WMI(self.target_ip, user=user, password=pwd)
             return True
         except wmi.x_access_denied:
             return False
         
-    def startScan(self):
-        for port in self._port_nums_to_scan:
+    def scan(self):
+        """
+        Main scan method.
+        This method iterates through all the ports in the specified port range.
+        For open SSH, Telnet and RDP ports (22, 23, 3389) the method will
+        try to connect to the service behind the port with common default credentials. 
+        """
+        for port in self.ports_to_scan:
             try:
-                self._TCPScanPort(int(port))
+                self.tcp_port_scan(int(port))
             except OSError:
                 continue
 
-        for port in self._open_ports:
-            self._check_connection_to_port(int(port))
+        for port in self.open_ports:
+            self.check_connection_to_port(int(port))
             
-        self._save_results_to_json()
+        self.save_results_to_json()
 
-    def getOpenPorts(self):
-        if len(self._open_ports) > 0:
-            return self._open_ports
+    def get_open_ports(self):
+        if len(self.open_ports) > 0:
+            return self.open_ports
 
-    def getFilteredPorts(self):
-        if len(self._filtered_ports) > 0:
-            return self._filtered_ports
+    def get_open_ports(self):
+        if len(self.filtered_ports) > 0:
+            return self.filtered_ports
 
-    def getConnectedPorts(self):
-        if len(self._connected_ports) > 0:
-            return self._connected_ports
+    def get_connected_ports(self):
+        if len(self.connected_ports) > 0:
+            return self.connected_ports
 
-    def _save_results_to_json(self):
+    def save_results_to_json(self):
+        """
+        This function makes 'Results' directory if not already exists.
+        After that, writing the results into a json file.
+        The file name will be the UID specified.
+        """
         if not os.path.exists(RESULTS_FILE_PATH):
             os.mkdir(RESULTS_FILE_PATH)
 
         results = {}
         
-        results['Open'] = self.getOpenPorts()
-        results['Filtered'] = self.getFilteredPorts()
-        results['Connects'] = self.getConnectedPorts()
+        results['Open'] = self.get_open_ports()
+        results['Filtered'] = self.get_open_ports()
+        results['Connects'] = self.get_connected_ports()
         
-        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self._uid), 'a', encoding='utf-8') as f:
+        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'a', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
 def get_args():
+    """
+    Get arguments for the port scanner script.
+    """
     parser = argparse.ArgumentParser(description="Port Scan Module",
                                      usage="portscan.py -i <IP> -p <PORTS> -u <USER_ID>")
 
@@ -182,9 +227,12 @@ def get_args():
     return vars(parser.parse_args())
 
 def main():
+    """
+    Main function.
+    """
     args = get_args()
     scanner = PortScanner(args['uid'], args['ip'], args['port'])
-    scanner.startScan()
+    scanner.scan()
 
     #resp = requests.get(r'localhost')
     
