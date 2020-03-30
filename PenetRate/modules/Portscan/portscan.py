@@ -12,7 +12,7 @@ from scapy.all import *
 # Getting port numbers by string, Target IP Address, User-ID
 
 # Local Consts
-RESULTS_FILE_PATH  = os.path.dirname(os.path.abspath(__file__)) + r"/Results"
+RESULTS_FILE_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
 CREDS_REGEX = r"^(.*)\:(.*)$"
 SSH_PORT_NUM = 22
@@ -136,7 +136,10 @@ class PortScanner(object):
         
     def startScan(self):
         for port in self._port_nums_to_scan:
-            self._TCPScanPort(int(port))
+            try:
+                self._TCPScanPort(int(port))
+            except OSError:
+                continue
 
         for port in self._open_ports:
             self._check_connection_to_port(int(port))
