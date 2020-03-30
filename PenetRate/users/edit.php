@@ -21,6 +21,9 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
+    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+
     <style>
         [class^="ti-"], [class*=" ti-"], [class*=" fa-"]
         {
@@ -55,63 +58,66 @@ include('../menu.html');
                             <div class="card-body">
                                 <h4 class="card-title">Edit Profile</h4>
                                 <h6 class="card-subtitle">Edit your profile details</h6>
-                                <form class="form p-t-20">
+                                <form class="form p-t-20 form-valide" action="#" method="post">
                                     <div class="form-group">
                                         <label for="fullname">Full Name <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                            <input type="text" class="form-control" id="fullname" placeholder="Full Name" required>
+                                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="phone">Phone Number <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                                            <input type="number" class="form-control" id="phone" placeholder="Phone Number" required>
+                                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone Number" required>
                                         </div>
                                     </div>
 
+                            
                                     <div class="form-group">
                                         <label for="position">Position <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
-                                            <select class="form-control custom-select" id="position" required>
-                                                <option>--Select User Position--</option>
-                                                <option>Freelancer</option>
-                                                <option>Company Employee</option>
-                                                <option>Other</option>
+                                            <select class="form-control custom-select" id="position" name="position" size="1"><!-- required -->
+                                                <option value=''>--Select User Position--</option>
+                                                <option value='Freelancer'>Freelancer</option>
+                                                <option value='Company Employee'>Company Employee</option>
+                                                <option value='Other'>Other</option>
                                             </select>
                                             </div>
                                     </div>
 
-                                    
+                          
 
                                     <div class="form-group">
                                         <label for="email">Email address <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                                            <input type="email" class="form-control" id="email"  name="email" placeholder="Enter email" ><!-- required -->
                                         </div>
                                     </div>
+
+
                                     <div class="form-group">
                                         <label for="current_password">Current Password</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="current_password" placeholder="Current Password">
+                                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Current Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="new_password">New Password</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="new_password" placeholder="New Password">
+                                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_password">Confirm Password</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
                                         </div>
                                     </div>
 

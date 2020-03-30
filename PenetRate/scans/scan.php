@@ -18,6 +18,11 @@
     <link href="../css/style.css" rel="stylesheet">
     <script src="../js/lib/jquery/jquery.min.js"></script>
 
+
+    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+
+
     <style>
         [class^="ti-"],
         [class*=" ti-"],
@@ -61,33 +66,33 @@
                     <div class="card-body">
                         <h4 class="card-title">Scan Website</h4>
                         <h6 class="card-subtitle">Please enter website to scan and select features to deploy</h6>
-                        <form class="form p-t-20">
+                        <form class="form p-t-20 form-valide" action="#" method="post">
                             <div class="form-group">
                                 <label for="url">Webstie URL <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-globe"></i></div>
-                                    <input type="text" class="form-control" id="url" placeholder="Webstie URL" required>
+                                    <input type="text" class="form-control" id="url" name="url" placeholder="Webstie URL" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="loginurl">Login URL <span class="text-danger">*</span></label>
+                                <label for="loginurl">Login URL</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="ti-desktop"></i></div>
-                                    <input type="text" class="form-control" id="loginurl" placeholder="Login URL" required>
+                                    <input type="text" class="form-control ignore" id="loginurl" name="loginurl" placeholder="Login URL" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="username">Username <span class="text-danger">*</span></label>
+                                <label for="username">Username</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                    <input type="text" class="form-control ignore" id="username" name="username" placeholder="Username" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password <span class="text-danger">*</span></label>
+                                <label for="scan_password">Password</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <input type="password" class="form-control ignore" id="scan_password" name="scan_password" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">

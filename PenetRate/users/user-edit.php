@@ -20,6 +20,11 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+
+
     <style>
         [class^="ti-"], [class*=" ti-"], [class*=" fa-"]
         {
@@ -55,19 +60,19 @@ include('../menu.html');
                             <div class="card-body">
                                 <h4 class="card-title">Edit User</h4>
                                 <h6 class="card-subtitle">Edit User details</h6>
-                                <form class="form p-t-20">
-                                    <div class="form-group">
+                                <form class="form p-t-20 form-valide" action="#" method="post">
+                                <div class="form-group">
                                         <label for="fullname">Full Name <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                            <input type="text" class="form-control" id="fullname" placeholder="Full Name" required>
+                                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" ><!-- required -->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="phone">Phone Number <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                                            <input type="number" class="form-control" id="phone" placeholder="Phone Number" required>
+                                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone Number"><!-- required -->
                                         </div>
                                     </div>
 
@@ -76,11 +81,11 @@ include('../menu.html');
                                         <label for="position">Position <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
-                                            <select class="form-control custom-select" id="position" required>
-                                                <option>--Select User Position--</option>
-                                                <option>Freelancer</option>
-                                                <option>Company Employee</option>
-                                                <option>Other</option>
+                                            <select class="form-control custom-select" id="position" name="position" size="1"><!-- required -->
+                                                <option value=''>--Select User Position--</option>
+                                                <option value='Freelancer'>Freelancer</option>
+                                                <option value='Company Employee'>Company Employee</option>
+                                                <option value='Other'>Other</option>
                                             </select>
                                             </div>
                                     </div>
@@ -89,10 +94,10 @@ include('../menu.html');
                                         <label for="role">Role <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-users"></i></div>
-                                            <select class="form-control custom-select" id="role" required>
-                                                <option>--Select User Role--</option>
-                                                <option>User</option>
-                                                <option>Admin</option>
+                                            <select class="form-control custom-select" id="role" name="role" size="1"><!-- required -->
+                                                <option value=''>--Select User Role--</option>
+                                                <option value='User'>User</option>
+                                                <option value='Admin'>Admin</option>
                                             </select>
                                             </div>
                                     </div>
@@ -101,15 +106,16 @@ include('../menu.html');
                                         <label for="email">Email address <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                                            <input type="email" class="form-control" id="email"  name="email" placeholder="Enter email" ><!-- required -->
                                         </div>
                                     </div>
                                 
                                     <div class="form-group">
-                                        <label for="password">Password</label>
+                                        <label for="password">Password <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="password" placeholder="Password">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password"><!-- required -->
+                                            <div id="val-confirm-password-error" class="invalid-feedback animated fadeInDown">Please enter the same password as above</div>
                                         </div>
                                     </div>
               

@@ -18,6 +18,10 @@
     <link href="../css/style.css" rel="stylesheet">
     <script src="../js/lib/jquery/jquery.min.js"></script>
 
+    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+
+
 <style>
 [class^="ti-"], [class*=" ti-"], [class*=" fa-"]
 {
@@ -52,18 +56,18 @@ include('../menu.html');
                             <div class="card-body">
                                 <h4 class="card-title">Payload Generator</h4>
                                 <h6 class="card-subtitle">Generate your own payload</h6>
-                                <form class="form p-t-20">
+                                <form class="form p-t-20 form-valide" action="#" method="post">
                                  
                     
                                     <div class="form-group">
                                         <label for="attack">Attack <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-star"></i></div>
-                                            <select class="form-control custom-select" id="attack" required>
-                                                <option>--Select Attack--</option>
-                                                <option>SQLI</option>
-                                                <option>XSS</option>
-                                                <option>CSV Injection</option>
+                                            <select class="form-control custom-select" id="attack" name="attack" required>
+                                                <option value=''>--Select Attack--</option>
+                                                <option value='SQLI'>SQLI</option>
+                                                <option value='XSS'>XSS</option>
+                                                <option value='CSV Injection'>CSV Injection</option>
                                             </select>
                                             </div>
                                     </div>
