@@ -23,7 +23,10 @@ class PortScanner(object):
         self.target_ip = ip
         self.ports_to_scan = ports
         self.uid = uid
-        self.scanner = nmap.PortScanner()
+        try:
+            self.scanner = nmap.PortScanner()
+        except:
+            raise ValueError("NMAP can not be found!")
 
         self.open_ports = []
         self.filtered_ports = []
