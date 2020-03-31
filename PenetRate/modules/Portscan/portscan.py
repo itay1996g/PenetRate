@@ -6,7 +6,7 @@ import requests
 import re
 import paramiko
 import wmi
-from scapy.all import *
+import nmap
 
 # Local Consts
 RESULTS_FILE_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
@@ -19,109 +19,29 @@ RDP_PORT_NUM = 3389
 
 class PortScanner(object):
 
-    _SYNACK = 0x12
-    _RSTACK = 0x14
-        
-    def __init__(self, uid, target_ip, port_nums=None, timeout=0.4):
-        """
-        Before creating the scanner object, 
-        If the IP is reachable, create a scanner object.
-        """
-        if not self.check_host(target_ip):
-            return
-        
-        self.target_ip = target_ip
-        self.ports_to_scan = []
-        self.timeout = timeout
+    def __init__(self, uid, ip, ports):
+        self.target_ip = ip
+        self.ports_to_scan = ports
         self.uid = uid
-        
-        resp = self.parse_port_range(port_nums)
-        
-        if resp is not None:
-            if MYSQLPORT_NUM in self.ports_to_scan:
-                raise ValueError("DB Name must be specified")
-            self.ports_to_scan = resp
+        self.scanner = nmap.PortScanner()
 
-        self.open_ports = {}
+        self.open_ports = []
         self.filtered_ports = []
-        self.connected_ports = {}
-
-    def check_host(self, ip):
+        self.connected_ports = []
+        
+    def check_syntax(self):
         """
-        Check whether the IP is responding to ICMP requests.
-        If so - the IP is reachable.
+        Check if the specified hosts and ports are legal.
         """
         try:
-            conf.verb = 0
-            ping = sr1(IP(dst = ip)/ICMP())
-    
-            if ping is not None:
-                return True
-            return False
+            if 'error' in self.scanner.scaninfo().keys():
+                return False
+            if self.scanner.all_hosts() == []:
+                return False
+            self.target_ip = self.scanner.all_hosts()[0]
+            return True
         except:
             return False
-        
-    def tcp_port_scan(self, port):
-        """
-        TCP Scan for a port.
-        Using scapy, send a proper packet.
-        If a SYN ACK recived, then the port behind the IP will be marked as open.
-        If not, the port will be marked as filtered.
-        In both cases, the method will send a RST packet for the service.
-        """
-        srcport = RandShort()
-        conf.verb = 0
-        pkt = sr1(IP(dst=self.target_ip)/TCP(sport=srcport,
-                                              dport=port,
-                                              flags="S"),
-                                              timeout=self.timeout)
-        if pkt is not None:
-            if pkt.haslayer(TCP):
-                if pkt[TCP].flags == self._SYNACK:
-                    self.open_ports[port] = socket.getservbyport(port)
-                else:
-                    self.filtered_ports.append(port)
-            elif pkt.haslayer(ICMP):
-                self.filtered_ports.append(port)
-        else:
-            RSTpkt = IP(dst = self.target_ip)/TCP(sport = srcport, dport = port, flags = "R")
-            send(RSTpkt)
-
-    def check_valid_ports(self, ports):
-        """
-        Check if a port number is valid.
-        Suits for port range and a single port.
-        """
-        if '-' not in ports:
-            if int(ports) <= 65535:
-                return True
-            return False
-        else:
-            min_port = int(ports.split('-')[0])
-            max_port = int(ports.split('-')[1])
-            if min_port > 65535 or max_port > 65535:
-                return False
-            return True
-    
-    def parse_port_range(self, port_range):
-        """
-        Parsing a port range recived as a string to an iterable list.
-        """
-        ports = []
-        port_range = port_range.replace(' ', '')
-        port_range = port_range.split(',')
-        
-        for port in port_range:
-            if self.check_valid_ports(port):
-                if '-' in port:
-                    min_port = int(port.split('-')[0])
-                    max_port = int(port.split('-')[1])
-                    for i in range(min_port, max_port + 1):
-                        ports.append(i)
-                else:
-                    ports.append(port)
-                    
-        return set(ports)
 
     def check_connection_to_port(self, port):
         """
@@ -172,22 +92,40 @@ class PortScanner(object):
         For open SSH, Telnet and RDP ports (22, 23, 3389) the method will
         try to connect to the service behind the port with common default credentials. 
         """
-        for port in self.ports_to_scan:
-            try:
-                self.tcp_port_scan(int(port))
-            except OSError:
-                continue
+        try:
+            output = self.scanner.scan(hosts=self.target_ip, ports=self.ports_to_scan)
+        except AssertionError:
+            pass
 
-        for port in self.open_ports:
-            self.check_connection_to_port(int(port))
-            
+        if self.check_syntax():
+            self.parse_results(output)
+            for port in self.open_ports:
+                self.check_connection_to_port(int(port))
+        
         self.save_results_to_json()
 
+    def parse_results(self, results):
+        """
+        Iterate through all ports in scan's output.
+        Insert each open port to 'open_ports' list.
+        Insert each filtered port to 'filtered_ports' list.
+        """
+        try:
+            for port in results['scan'][self.target_ip]['tcp'].iteritems():
+                if port[1]['state'] == 'open':
+                    self.open_ports.append(port[0])
+                elif port[1]['state'] == 'filtered':
+                    self.filtered_ports.append(port[0])
+                else:
+                    continue
+        except:
+            raise ValueError()
+            
     def get_open_ports(self):
         if len(self.open_ports) > 0:
             return self.open_ports
 
-    def get_open_ports(self):
+    def get_filtered_ports(self):
         if len(self.filtered_ports) > 0:
             return self.filtered_ports
 
@@ -207,10 +145,10 @@ class PortScanner(object):
         results = {}
         
         results['Open'] = self.get_open_ports()
-        results['Filtered'] = self.get_open_ports()
+        results['Filtered'] = self.get_filtered_ports()
         results['Connects'] = self.get_connected_ports()
         
-        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'a', encoding='utf-8') as f:
+        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'a') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
 def get_args():
