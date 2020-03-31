@@ -1,6 +1,7 @@
-python3-nmap
 simplejson
-pymysql
-pywin32
 wmi
 pypiwin32
+import python-nmap
+requests
+json
+paramiko
