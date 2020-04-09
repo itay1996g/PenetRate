@@ -1,3 +1,8 @@
+<?php
+include '../helpers/session.php';
+checkLoggedIn();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
