@@ -116,14 +116,18 @@ class PortScanner(object):
         """
         try:
             for port in results['scan'][self.target_ip]['tcp'].iteritems():
+                try:
+                    service_name = socket.getservbyport(port[0])
+                except:
+                    service_name = 'Unknown'
                 if port[1]['state'] == 'open':
-                    self.open_ports.append({'Port':port[0], 'Service Name' : socket.getservbyport(port[0])})
+                    self.open_ports.append({'Port':port[0], 'Service Name' : service_name})
                 elif port[1]['state'] == 'filtered':
-                    self.filtered_ports.append({'Port':port[0], 'Service Name' : socket.getservbyport(port[0])})
+                    self.filtered_ports.append({'Port':port[0], 'Service Name' : service_name})
                 else:
                     continue
-        except:
-            raise ValueError()
+        except Exception as e:
+            raise ValueError(str(e))
             
     def get_open_ports(self):
         if len(self.open_ports) > 0:
