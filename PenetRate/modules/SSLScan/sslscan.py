@@ -1,6 +1,5 @@
 import os
 import argparse
-import nmap
 import json
 import time
 import sys
@@ -10,7 +9,7 @@ import logging
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 SSL_RESULTS_PATH = RESULTS_DIR_PATH + r"/SSLScan"
-API = 'https://api.ssllabs.com/api/v2/'
+API = 'https://api.ssllabs.com/api/v2/analyze/'
 
 class SSLScan(object):
     """
@@ -25,47 +24,35 @@ class SSLScan(object):
         self.make_results_dir(RESULTS_DIR_PATH)
         self.make_results_dir(SSL_RESULTS_PATH)
         
-    def scan(self, host, publish='off', startNew='on', all='done', ignoreMismatch='on'):
-        path = 'analyze'
-        payload = {
-                    'host': host,
-                    'publish': publish,
-                    'startNew': startNew,
-                    'all': all,
-                    'ignoreMismatch': ignoreMismatch
-                  }
-        results = self.requestAPI(path, payload)
+    def scan(self, host):
+        try:
+            payload = {
+                        'host': host,
+                        'publish': 'off',
+                        'startNew': 'on',
+                        'all': 'done',
+                        'ignoreMismatch': 'on'
+                      }
+            results = self.requestAPI(payload)
 
-        payload.pop('startNew')
+            payload.pop('startNew')
 
-        while results['status'] != 'READY' and results['status'] != 'ERROR':
-            time.sleep(30)
-            results = self.requestAPI(path, payload)
-
+            while results['status'] != 'READY' and results['status'] != 'ERROR':
+                time.sleep(30)
+                results = self.requestAPI(API, payload)
+        except Exception as e:
+            results = {'Error while fetching SSLScan results ' + str(e)}
+            
         self.save_results_to_json(results)
 
-    def resultsFromCache(self, host, publish='off', startNew='off', fromCache='on', all='done'):
-        path = 'analyze'
-        payload = {
-                    'host': host,
-                    'publish': publish,
-                    'startNew': startNew,
-                    'fromCache': fromCache,
-                    'all': all
-                  }
-        data = requestAPI(path, payload)
-        return data
-
-    def requestAPI(self, path, payload={}):
+    def requestAPI(self, payload={}):
         '''This is a helper method that takes the path to the relevant
             API call and the user-defined payload and requests the
             data/server test from Qualys SSL Labs.
             Returns JSON formatted data'''
 
-        url = API + path
-
         try:
-            response = requests.get(url, params=payload)
+            response = requests.get(API, params=payload)
         except requests.exception.RequestException:
             logging.exception('Request failed.')
             sys.exit(1)
