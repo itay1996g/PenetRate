@@ -15,19 +15,20 @@ class SSLScan(object):
     """
     This modules uses free SSLLabs API: https://github.com/TrullJ/ssllabs.
     """
-    def __init__(self, uid):
+    def __init__(self, domain, uid):
         """
         Class variables initialize.
         Creating directories for the results.
         """
         self.user_id = uid
+        self.domain_to_scan = domain
         self.make_results_dir(RESULTS_DIR_PATH)
         self.make_results_dir(SSL_RESULTS_PATH)
         
-    def scan(self, host):
+    def scan(self):
         try:
             payload = {
-                        'host': host,
+                        'host': self.domain_to_scan,
                         'publish': 'off',
                         'startNew': 'on',
                         'all': 'done',
@@ -89,8 +90,8 @@ def main():
     Main function.
     """
     args = get_args()
-    scanner = SSLScan(args['uid'])
-    scanner.scan(args['domain'])
+    scanner = SSLScan(args['domain'], args['uid'])
+    scanner.scan()
 
     #resp = requests.get(r'localhost')
     
