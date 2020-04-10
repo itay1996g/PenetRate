@@ -1,0 +1,16 @@
+scripts
+about
+admin
+wp-content
+wp-admin
+a
+b
+c
+d
+e
+f
+g
+0
+1
+2
+3
