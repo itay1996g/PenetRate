@@ -7,7 +7,7 @@ import argparse
 WAPPALYZER_API_URL = r"https://api.wappalyzer.com/lookup/v1/"
 WAPPALYZER_API_KEY = r"wappalyzer.api.demo.key"
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
-SERVICES_RESULTS_PATH = RESULTS_DIR_PATH + r"/OpenServices"
+SERVICES_RESULTS_PATH = RESULTS_DIR_PATH + r"/ServiceScan"
 
 class OpenServicesScanner(object):
     def __init__(self, url, uid):
