@@ -1,0 +1,7 @@
+paramiko
+wmi
+nmap
+requests
+json
+freeproxy
+fake_useragent
