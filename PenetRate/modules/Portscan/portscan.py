@@ -9,6 +9,7 @@ import nmap
 
 # Local Consts
 RESULTS_FILE_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
+PORTSCAN_RESULTS_PATH = RESULTS_DIR_PATH + r"/Portscan"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
 CREDS_REGEX = r"^(.*)\:(.*)$"
 SSH_PORT_NUM = 22
@@ -143,6 +144,9 @@ class PortScanner(object):
         """
         if not os.path.exists(RESULTS_FILE_PATH):
             os.mkdir(RESULTS_FILE_PATH)
+
+        if not os.path.exists(PORTSCAN_RESULTS_PATH):
+            os.mkdir(PORTSCAN_RESULTS_PATH)
 
         results = {}
         
