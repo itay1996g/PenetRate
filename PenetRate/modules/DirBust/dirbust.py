@@ -19,9 +19,9 @@ class DirBuster(object):
         
     def __init__(self, addr, wordlist_path, uid):
         if wordlist_path == 'large':
-            self.wordlist = LARGE_DIR_LIST_PATH
+            self.wordlist = self.LARGE_DIR_LIST_PATH
         elif wordlist_path == 'small':
-            self.wordlist = SMALL_DIR_LIST_PATH
+            self.wordlist = self.SMALL_DIR_LIST_PATH
         else:
             try:
                 wordlist_file = open(wordlist_path, 'r')
