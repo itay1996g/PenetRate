@@ -77,9 +77,9 @@ def get_args():
     Get arguments for the SSL scanner script.
     """
     parser = argparse.ArgumentParser(description="SSL Scan Module",
-                                     usage="sslscan.py -i <IP> -u <USER_ID>")
+                                     usage="sslscan.py -d <DOMAIN> -u <USER_ID>")
 
-    parser.add_argument('-i','--ip', help='The IP Address to scan', required=True)
+    parser.add_argument('-d','--domain', help='The domain to scan', required=True)
     parser.add_argument('-u','--uid', help='User ID', required=True)
 
     return vars(parser.parse_args())
@@ -90,7 +90,7 @@ def main():
     """
     args = get_args()
     scanner = SSLScan(args['uid'])
-    scanner.scan(args['ip'])
+    scanner.scan(args['domain'])
 
     #resp = requests.get(r'localhost')
     
