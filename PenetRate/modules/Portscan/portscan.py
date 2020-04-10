@@ -3,12 +3,13 @@ import argparse
 import json
 import requests
 import re
+import socket
 import paramiko
 import wmi
 import nmap
 
 # Local Consts
-RESULTS_FILE_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
+RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 PORTSCAN_RESULTS_PATH = RESULTS_DIR_PATH + r"/Portscan"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
 CREDS_REGEX = r"^(.*)\:(.*)$"
@@ -103,7 +104,7 @@ class PortScanner(object):
         if self.check_syntax():
             self.parse_results(output)
             for port in self.open_ports:
-                self.check_connection_to_port(int(port))
+                self.check_connection_to_port(int(port['Port']))
         
         self.save_results_to_json()
 
@@ -116,9 +117,9 @@ class PortScanner(object):
         try:
             for port in results['scan'][self.target_ip]['tcp'].iteritems():
                 if port[1]['state'] == 'open':
-                    self.open_ports.append(port[0])
+                    self.open_ports.append({'Port':port[0], 'Service Name' : socket.getservbyport(port[0])})
                 elif port[1]['state'] == 'filtered':
-                    self.filtered_ports.append(port[0])
+                    self.filtered_ports.append({'Port':port[0], 'Service Name' : socket.getservbyport(port[0])})
                 else:
                     continue
         except:
@@ -142,8 +143,8 @@ class PortScanner(object):
         After that, writing the results into a json file.
         The file name will be the UID specified.
         """
-        if not os.path.exists(RESULTS_FILE_PATH):
-            os.mkdir(RESULTS_FILE_PATH)
+        if not os.path.exists(RESULTS_DIR_PATH):
+            os.mkdir(RESULTS_DIR_PATH)
 
         if not os.path.exists(PORTSCAN_RESULTS_PATH):
             os.mkdir(PORTSCAN_RESULTS_PATH)
@@ -154,7 +155,7 @@ class PortScanner(object):
         results['Filtered'] = self.get_filtered_ports()
         results['Connects'] = self.get_connected_ports()
         
-        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'w') as f:
+        with open(PORTSCAN_RESULTS_PATH + r'/{}.json'.format(self.uid), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
 def get_args():
