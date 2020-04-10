@@ -1,5 +1,6 @@
 paramiko
 wmi
+pypiwin32
 nmap
 requests
 json
