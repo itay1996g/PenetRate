@@ -4,5 +4,5 @@ pypiwin32
 nmap
 requests
 json
-FreeProxy
+free-proxy
 fake_useragent
