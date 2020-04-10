@@ -6,3 +6,4 @@ requests
 json
 free-proxy
 fake_useragent
+beautifulsoup4
