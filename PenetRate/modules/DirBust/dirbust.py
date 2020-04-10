@@ -66,7 +66,6 @@ class DirBuster(object):
                                         proxies={'http': proxy})
                 except requests.exceptions.ProxyError:
                     proxy = FreeProxy().get()
-                    pass
 
             if resp.status_code in ERROR_CODES:
                 dirs_found.append({search_dir:resp.status_code})
