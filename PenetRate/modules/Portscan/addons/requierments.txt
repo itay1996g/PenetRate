@@ -1,7 +1,0 @@
-simplejson
-wmi
-pypiwin32
-import python-nmap
-requests
-json
-paramiko

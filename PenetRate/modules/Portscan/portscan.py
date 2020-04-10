@@ -1,4 +1,3 @@
-import socket
 import os
 import argparse
 import json
@@ -151,7 +150,7 @@ class PortScanner(object):
         results['Filtered'] = self.get_filtered_ports()
         results['Connects'] = self.get_connected_ports()
         
-        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'a') as f:
+        with open(RESULTS_FILE_PATH + r'/{}.json'.format(self.uid), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
 def get_args():
