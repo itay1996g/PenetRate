@@ -17,9 +17,17 @@
     <link href="../css/style.css" rel="stylesheet">
 
     <script src="../js/lib/jquery/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
 
-    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
-    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+    <link href="../css/lib/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../css/lib/sweetalert/sweetalert.css" rel="stylesheet">
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/jquery.validate-init.js"></script>
+    <script src="../js/toastr.min.js"></script>
+    <script src="../js/toastr.init.js"></script>
+    <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/sweetalert.init.js"></script>
+    <script src="../js/form-submit.js"></script>
 
     <style>
         [class^="ti-"],
@@ -48,23 +56,22 @@
 
                             <div class="login-form">
                                 <h4>Login</h4>
-                                <form class="form-valide" action="#" method="post">
-
+                                <form class="form p-t-20 form-valide" method="post" id="myform">
+                                    <input type="text" style="display:none;" id="formType" name="formType" value="Users">
+                                    <input type="text" style="display:none;" id="formID" name="formID" value="Login">
 
                                     <div class="form-group">
                                         <label for="email">Email address <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Enter email" required>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="Password" required>
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                         </div>
                                     </div>
                                     <div class="checkbox">

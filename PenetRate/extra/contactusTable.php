@@ -1,10 +1,7 @@
 <?php
 include '../helpers/session.php';
 checkLoggedIn();
-IsAdmin();
-
-
-
+$IsAdmin = IsAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +15,7 @@ IsAdmin();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
-    <title>PenetRate - All Scans History</title>
+    <title>PenetRate - All ContactUS Messages</title>
 
 
 
@@ -44,36 +41,10 @@ IsAdmin();
     <link href="../css/lib/sweetalert/sweetalert.css" rel="stylesheet">
 
 
-
-
-
     <script>
         $(document).ready(function() {
-            $('#history_users_table').DataTable();
-            $.contextMenu({
-                selector: '#history_users_table tbody tr',
-                callback: function(key, options) {
-                    var row_id = $(this).attr('id');
-                    ///////////////////// DELETE Context MENU ///////////////
-                    if (key == "delete") {
-                        DeleteScanAlert("Are you sure you want to delete the Scan?", "You will not be able to recover the results !!", row_id, 'History');
-                    }
-                    ///////////////////// Update Context MENU ///////////////
-                    else {
-                        $('<form action="../scans/viewscan.php" method="post"><input type="hidden" id="id" name="id" value="' + row_id + '"></input></form>').appendTo('body').submit().remove();
-                    }
-                },
-                items: {
-                    "edit": {
-                        name: "View",
-                        icon: "fa-eye"
-                    },
-                    "delete": {
-                        name: "Delete",
-                        icon: "delete"
-                    }
-                }
-            });
+            $('#contactus_table').DataTable();
+
 
         });
     </script>
@@ -90,10 +61,11 @@ IsAdmin();
 
 <body class="fix-header fix-sidebar">
     <?php
-        if ($IsAdmin) {
+    if ($IsAdmin) {
         include('../menuadmin.php');
     } else {
         include('../menu.php');
+    }
     }
     ?>
     <!-- Bread crumb -->
@@ -103,8 +75,8 @@ IsAdmin();
         </div>
         <div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Users</li>
-                <li class="breadcrumb-item active">Users Scans History
+                <li class="breadcrumb-item">Extra</li>
+                <li class="breadcrumb-item active">ContactUS Messages
                 </li>
             </ol>
         </div>
@@ -119,18 +91,17 @@ IsAdmin();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>Scans History
+                        <h4>ContactUS Messages
                         </h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="history_users_table" class="table table-hover table-bordered" style="width:100%">
+                            <table id="contactus_table" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Full Name</th>
-                                        <th>URL</th>
+                                        <th>Email</th>
+                                        <th>Message</th>
                                         <th>Date</th>
-                                        <th>Status</th>
 
 
 
@@ -140,37 +111,16 @@ IsAdmin();
                                     <?php
                                     $db = new DBController();
                                     $conn = $db->connect();
-                                    $stmt = $conn->prepare("SELECT * FROM scans");
+                                    $stmt = $conn->prepare("SELECT * FROM contactus");
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
 
-
-                                            $user_check = $row['UserID'];
-                                            $user_check = mysqli_real_escape_string($conn, $user_check);
-                                            $stmt = $conn->prepare("SELECT * FROM users WHERE UserID = ?");
-                                            $stmt->bind_param('s', $user_check);
-                                            $stmt->execute();
-                                            $myresult = $stmt->get_result();
-                                            if ($myresult->num_rows > 0) {
-                                                $session_row = $myresult->fetch_assoc();
-                                                $fullname = $session_row["Fullname"];
-                                            } else {
-                                                header("Location: ../users/login.html");
-                                                exit;
-                                            }
-
-                                            if ($row["Status"] == 'Finished') {
-                                                $badge = 'green';
-                                            } else {
-                                                $badge = 'success';
-                                            }
-                                            echo '<tr id="' . $row["ScanID"] . '">';
-                                            echo '<td>' . $fullname . '</td>';
-                                            echo '<td>' . $row["URL"] . '</td>';
-                                            echo '<td>' . $row["Date"] . '</td>';
-                                            echo '<td style="color: white;"><span class="badge badge-' . $badge . '">' . $row["Status"] . '</span></td>';
+                                            echo '<tr id="' . $row["ID"] . '">';
+                                            echo '<td>' . $row["email"] . '</td>';
+                                            echo '<td>' . $row["message"] . '</td>';
+                                            echo '<td>' . $row["DATE"] . '</td>';
 
                                             echo '</tr>';
                                         }
@@ -181,10 +131,9 @@ IsAdmin();
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Full Name</th>
-                                        <th>URL</th>
+                                        <th>Email</th>
+                                        <th>Message</th>
                                         <th>Date</th>
-                                        <th>Status</th>
 
                                     </tr>
                                 </tfoot>

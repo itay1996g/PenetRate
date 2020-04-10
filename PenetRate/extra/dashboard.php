@@ -29,7 +29,11 @@
 
 <body class="fix-header fix-sidebar">
 <?php
-include('../menu.html');
+    if ($IsAdmin) {
+        include('../menuadmin.php');
+    } else {
+        include('../menu.php');
+    }
 ?>
             <!-- Bread crumb -->
             <div class="row page-titles">

@@ -1,3 +1,7 @@
+<?php
+include '../helpers/session.php';
+checkLoggedIn();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,119 +24,145 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
 
-    <script src="../js/lib/form-validation/jquery.validate.min.js"></script>
-    <script src="../js/lib/form-validation/jquery.validate-init.js"></script>
+    <link href="../css/lib/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../css/lib/sweetalert/sweetalert.css" rel="stylesheet">
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/jquery.validate-init.js"></script>
+    <script src="../js/toastr.min.js"></script>
+    <script src="../js/toastr.init.js"></script>
+    <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/sweetalert.init.js"></script>
+    <script src="../js/form-submit.js"></script>
 
     <style>
-        [class^="ti-"], [class*=" ti-"], [class*=" fa-"]
-        {
+        [class^="ti-"],
+        [class*=" ti-"],
+        [class*=" fa-"] {
             padding-right: 5px !important;
         }
-        
-        </style>
+    </style>
+    <?php
+
+    $Fullname = $_SESSION['session_row']["Fullname"];
+    $Phone = $_SESSION['session_row']["Phone"];
+    $Position = $_SESSION['session_row']["Position"];
+    $Email = $_SESSION['session_row']["Email"];
+
+    ?>
 </head>
 
 <body class="fix-header fix-sidebar">
-<?php
-include('../menu.html');
-?>
-            <!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">PenetRate</h3> </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Users</li>
-                        <li class="breadcrumb-item active">Edit My Profile</li>
-                    </ol>
-                </div>
-            </div>
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Edit Profile</h4>
-                                <h6 class="card-subtitle">Edit your profile details</h6>
-                                <form class="form p-t-20 form-valide" action="#" method="post">
-                                    <div class="form-group">
-                                        <label for="fullname">Full Name <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone">Phone Number <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone Number" required>
-                                        </div>
-                                    </div>
-
-                            
-                                    <div class="form-group">
-                                        <label for="position">Position <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
-                                            <select class="form-control custom-select" id="position" name="position" size="1"><!-- required -->
-                                                <option value=''>--Select User Position--</option>
-                                                <option value='Freelancer'>Freelancer</option>
-                                                <option value='Company Employee'>Company Employee</option>
-                                                <option value='Other'>Other</option>
-                                            </select>
-                                            </div>
-                                    </div>
-
-                          
-
-                                    <div class="form-group">
-                                        <label for="email">Email address <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                            <input type="email" class="form-control" id="email"  name="email" placeholder="Enter email" ><!-- required -->
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label for="current_password">Current Password</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Current Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="new_password">New Password</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Edit</button>
-                                    <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
-                                </form>
+    <?php
+        if ($IsAdmin) {
+        include('../menuadmin.php');
+    } else {
+        include('../menu.php');
+    }
+    ?>
+    <!-- Bread crumb -->
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-primary">PenetRate</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active">Edit My Profile</li>
+            </ol>
+        </div>
+    </div>
+    <!-- End Bread crumb -->
+    <!-- Container fluid  -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <h6 class="card-subtitle">Edit your profile details</h6>
+                        <form class="form p-t-20 form-valide" method="post" id="myform">
+                            <input type="text" style="display:none;" id="formType" name="formType" value="Users">
+                            <input type="text" style="display:none;" id="formID" name="formID" value="Edit">
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $Email; ?>"><!-- required -->
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3"></div>
 
-                
+                            <div class="form-group">
+                                <label for="fullname">Full Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" required value="<?php echo $Fullname; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                    <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone Number" required value="<?php echo $Phone; ?>">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="position">Position <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
+                                    <select class="form-control custom-select" id="position" name="position" size="1">
+                                        <!-- required -->
+                                        <option value=''>--Select User Position--</option>
+                                        <option value='Freelancer' <?php if ($Position == 'Freelancer') {
+                                                                        echo ("selected");
+                                                                    } ?>>Freelancer</option>
+                                        <option value='Company Employee' <?php if ($Position == 'Company Employee') {
+                                                                                echo ("selected");
+                                                                            } ?>>Company Employee</option>
+                                        <option value='Other' <?php if ($Position == 'Other') {
+                                                                    echo ("selected");
+                                                                } ?>>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="current_password">Current Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                    <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Current Password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Edit</button>
+                        </form>
+                    </div>
                 </div>
-                <!-- End PAge Content -->
             </div>
-            <?php
-include('../footer.html');
-?>
+            <div class="col-lg-3"></div>
+
+
+        </div>
+        <!-- End PAge Content -->
+    </div>
+    <?php
+    include('../footer.html');
+    ?>

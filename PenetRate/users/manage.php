@@ -1,3 +1,10 @@
+<?php
+include '../helpers/session.php';
+checkLoggedIn();
+IsAdmin();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
     <title>PenetRate - Manage Users</title>
 
- 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
@@ -25,247 +32,149 @@
     <link href="../css/style.css" rel="stylesheet">
 
 
-<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 
 
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../js/toastr.min.js"></script>
+    <script src="../js/toastr.init.js"></script>
+    <script src="../js/form-submit.js"></script>
+    <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/sweetalert.init.js"></script>
+    <link href="../css/lib/sweetalert/sweetalert.css" rel="stylesheet">
 
-
-<script>
-    $(document).ready(function() {
-        $('#manage_users_table').DataTable();
-
-
-        $.contextMenu({
-            selector: '#manage_users_table tbody tr',
-            callback: function(key, options) {
-                //var row_id = $(this).attr('id');
-                //var DBclientUniqueID = row_id.substr(row_id.indexOf("_") + 1);
-                ///////////////////// DELETE Context MENU ///////////////
-
-                if (key == "delete") {
-                    alert('delete');
-                    // $(this).addClass('recordToDelete');
-                    // var clientName = $(this).find("td").eq(1).text();
-                    // var clientID = $(this).find("td").eq(3).text();
-                    // var clientHBdate = $(this).find("td").eq(0).text();
-                    // $('#confirmHBClientDelete #clientHbname').text(clientName);
-                    // $('#confirmHBClientDelete #clientHbid').text(clientID);
-                    // $('#confirmHBClientDelete #clientHbdate').text(clientHBdate);
-                    // $('#confirmHBClientDelete').removeClass('display-none');
-                } else {
-                    alert('edit');
-
-                    ///////////////////// UPDATE Context MENU ///////////////
-                    // $.ajax({
-                    //     url: 'includes/php/GetClientByID.php',
-                    //     type: 'POST',
-                    //     data: {
-                    //         id: DBclientUniqueID
-                    //     },
-                    //     success: function(response) {
-                    //         var json_object = JSON.parse(response)[0];
-                    //         $('#addHbModal').removeClass('display-none');
-                    //         $('.input-material-label-txt').each(function() {
-                    //             $(this).addClass('active-material-label-txt');
-                    //         });
-                    //         reset_Modal();
-
-                    //         var active_stage = (JSON.parse(response)[0].active_stage);
-                    //         var str_stage = '#TabStage' + active_stage + 'Link li';
-                    //         $('.active-tab').removeClass('active-tab');
-                    //         $(str_stage).addClass('active-tab');
-                    //         $('.tab').removeClass('active-tab');
-                    //         str_stage = '#TabStage' + active_stage;
-                    //         $(str_stage).addClass('active-tab');
-
-
-
-
-                    //         $.each(json_object, function(key, value) {
-                    //             if (key == 'verificationDetails') {
-                    //                 if (value == 'true') {
-                    //                     $('#verificationDetails').prop('checked', true);
-
-                    //                 } else {
-                    //                     $('#verificationDetails').prop('checked', false);
-
-                    //                 }
-                    //             } else if (key == 'toIssueBanking') {
-                    //                 if (value == 'true') {
-                    //                     $('#toIssueBanking').prop('checked', true);
-
-                    //                 } else {
-                    //                     $('#toIssueBanking').prop('checked', false);
-
-                    //                 }
-                    //             } else if (key == 'country_3years') {
-                    //                 if (value == 'true') {
-                    //                     $('#country_3years').prop('checked', true);
-
-                    //                 } else {
-                    //                     $('#country_3years').prop('checked', false);
-
-                    //                 }
-                    //             } else if (key == 'passport_3years') {
-                    //                 if (value == 'true') {
-                    //                     $('#passport_3years').prop('checked', true);
-
-                    //                 } else {
-                    //                     $('#passport_3years').prop('checked', false);
-
-                    //                 }
-                    //             } else if (key == 'employeeName') {
-                    //                 $('#employeeName').val(value);
-                    //                 $('#employeeName').trigger('change');
-
-                    //             } else if (key == 'issueHB_employeeName') {
-                    //                 $('#issueHB_employeeName').val(value);
-                    //                 $('#issueHB_employeeName').trigger('change');
-
-                    //             } else if (key == 'processHB_employeeName') {
-                    //                 $('#processHB_employeeName').val(value);
-                    //                 $('#processHB_employeeName').trigger('change');
-
-                    //             } else if (key == 'saleHB_employeeName') {
-                    //                 $('#saleHB_employeeName').val(value);
-                    //                 $('#saleHB_employeeName').trigger('change');
-
-                    //             } else if (key == 'processHB_handler') {
-                    //                 $('#processHB_handler').val(value);
-                    //                 $('#processHB_handler').trigger('change');
-
-                    //             } else if (key == 'product') {
-                    //                 $('#product').val(value);
-                    //                 $('#product').trigger('change');
-
-                    //             } else if (key == 'active_status') {
-                    //                 $('#FirstStage_status').val(value);
-                    //                 $('#FirstStage_status').trigger('change');
-                    //                 $('#SecondStage_status').val(value);
-                    //                 $('#SecondStage_status').trigger('change');
-                    //                 $('#processHB_status').val(value);
-                    //                 $('#processHB_status').trigger('change');
-                    //                 $('#saleHB_status').val(value);
-                    //                 $('#saleHB_status').trigger('change');
-                    //             } else if (key == 'active_comment') {
-                    //                 $('#comments').val(value);
-                    //                 $('#issueHB_comments').val(value);
-                    //                 $('#processHB_comments').val(value);
-                    //                 $('#saleHB_comments').val(value);
-                    //             } else if (key != 'comments' && key != 'issueHB_comments' && key != 'processHB_comments' && key != 'saleHB_comments' && key != 'saleHB_status' && key != 'processHB_status') {
-                    //                 $("#" + key).val(value);
-                    //             }
-                    //         });
-
-                    //         $("#column_id").val(JSON.parse(response)[0].id);
-
-
-
-
-                    //     }
-                    // });
-                }
-            },
-            items: {
-                "edit": {
-                    name: "Edit",
-                    icon: "edit"
+    <script>
+        $(document).ready(function() {
+            $('#manage_users_table').DataTable();
+            $.contextMenu({
+                selector: '#manage_users_table tbody tr',
+                callback: function(key, options) {
+                    var row_id = $(this).attr('id');
+                    ///////////////////// DELETE Context MENU ///////////////
+                    if (key == "delete") {
+                        DeleteUserAlert("Are you sure you want to delete the User?", "You will not be able to recover this User !!", row_id, 'Manage');
+                    }
+                    ///////////////////// Update Context MENU ///////////////
+                    else {
+                        $('<form action="../users/user-edit.php" method="post"><input type="hidden" id="id" name="id" value="' + row_id + '"></input></form>').appendTo('body').submit().remove();
+                    }
                 },
-                "delete": {
-                    name: "Delete",
-                    icon: "delete"
+                items: {
+                    "edit": {
+                        name: "Edit",
+                        icon: "edit"
+                    },
+                    "delete": {
+                        name: "Delete",
+                        icon: "delete"
+                    }
                 }
-            }
-        });
+            });
 
-    });
-</script>
+        });
+    </script>
+    <style>
+        table,
+        th,
+        td,
+        tr {
+            text-align: left !important;
+        }
+    </style>
 
 </head>
 
 <body class="fix-header fix-sidebar">
-    
-<?php
-include('../menu.html');
-?>
-            <!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">PenetRate</h3> </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Users</li>
-                        <li class="breadcrumb-item active">Manage Users</li>
-                    </ol>
-                </div>
-            </div>
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <!-- Start Page Content -->
-                <div class="row">
-               
-                    <!-- /# column -->
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-title">
-                                <h4>Manage Users </h4>
-                            </br>
-                                <a href="create.html"> <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Create User</button></a>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="manage_users_table" class="table table-hover table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Full Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Etai Yaffe</td>
-                                                <td>etai@gmail.com</td>
-                                                <td><span class="badge badge-primary">Admin</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Etai Yaffe</td>
-                                                <td>etai@gmail.com</td>
-                                                <td><span class="badge badge-success">User</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Etai Yaffe</td>
-                                                <td>etai@gmail.com</td>
-                                                <td><span class="badge badge-success">User</span></td>
-                                            </tr>
-                                            
-                                
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Full Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /# card -->
-                    </div>
-                    <!-- /# column -->
-                </div>
-                <!-- /# row -->
-                <!-- End PAge Content -->
-            </div>
 
     <?php
-include('../footer.html');
-?>
+        if ($IsAdmin) {
+        include('../menuadmin.php');
+    } else {
+        include('../menu.php');
+    }
+    ?>
+    <!-- Bread crumb -->
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-primary">PenetRate</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active">Manage Users</li>
+            </ol>
+        </div>
+    </div>
+    <!-- End Bread crumb -->
+    <!-- Container fluid  -->
+    <div class="container-fluid">
+        <!-- Start Page Content -->
+        <div class="row">
+
+            <!-- /# column -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-title">
+                        <h4>Manage Users </h4>
+                        </br>
+                        <a href="create.php"> <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Create User</button></a>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="manage_users_table" class="table table-hover table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $db = new DBController();
+                                    $conn = $db->connect();
+                                    $query = "SELECT * from users";
+                                    if ($result = $conn->query($query)) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            if ($row["UserRole"] == 'Admin') {
+                                                $badge = 'primary';
+                                            } else {
+                                                $badge = 'success';
+                                            }
+                                            echo '<tr id="' . $row["UserID"] . '">';
+                                            echo '<td>' . $row["Fullname"] . '</td>';
+                                            echo '<td>' . $row["Email"] . '</td>';
+                                            echo '<td><span class="badge badge-' . $badge . '">' . $row["UserRole"] . '</span></td>';
+                                            echo '</tr>';
+                                        }
+                                        $result->free();
+                                    }
+                                    ?>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /# card -->
+            </div>
+            <!-- /# column -->
+        </div>
+        <!-- /# row -->
+        <!-- End PAge Content -->
+    </div>
+
+    <?php
+    include('../footer.html');
+    ?>

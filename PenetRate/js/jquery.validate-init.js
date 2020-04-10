@@ -1,4 +1,3 @@
-
 var form_validation = function () {
     var e = function () {
         jQuery(".form-valide").validate({
@@ -14,7 +13,18 @@ var form_validation = function () {
             success: function (e) {
                 jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
             },
+            submitHandler: function (form) {
+                var formData = new FormData(form);
+                if (formData.get('formType') == 'Users') {
+                    UsersForm(form);
+                } else if (formData.get('formType') == 'Scans') {
+                    ScansForm(form);
+                } else if (formData.get('formType') == 'Extra') {
+                    ExtrasForm(form);
+                }
+            },
             rules: {
+                "terms": { required: !0 },
                 "fullname": {
                     required: !0,
                     minlength: 3
@@ -38,16 +48,19 @@ var form_validation = function () {
                     minlength: 6
                 },
                 "current_password": {
-                    required: !0,
+                    required: function () {
+                        return ($("#current_password").val() != "");
+                    },
                     minlength: 6
                 },
                 "new_password": {
-                    required: !0,
+                    required: function () {
+                        return ($("#current_password").val() != "");
+                    },
                     minlength: 6
+
                 },
                 "confirm_password": {
-                    required: !0,
-                    minlength: 6,
                     equalTo: "#new_password"
                 },
                 "url": {
@@ -65,6 +78,7 @@ var form_validation = function () {
                 }
             },
             messages: {
+                "terms": "Please agree to terms",
                 "fullname": {
                     required: "Please enter a fullname",
                     minlength: "Your fullname must consist of at least 3 characters"
@@ -74,20 +88,12 @@ var form_validation = function () {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 6 characters long"
                 },
-                "new_password": {
-                    required: "Please provide a password",
-                    minlength: "Your password must be at least 6 characters long"
-                },
                 "current_password": {
                     required: "Please provide a password",
                     minlength: "Your password must be at least 6 characters long"
                 },
-                "confirm_password": {
-                    required: "Please confirm password",
-                    minlength: "Your password must be at least 6 characters long",
-                    equalTo: "Please enter the same password as above"
-
-                },
+                "new_password": "Your password must be at least 6 characters long",
+                "confirm_password": "Please enter the same password as above",
                 "url": {
                     required: "Please enter a URL",
                     minlength: "Your url must consist of at least 3 characters"
@@ -98,8 +104,6 @@ var form_validation = function () {
                 "phone": "Please enter a IL phone!",
                 "httpmethod": "Please select a value!",
                 "username": "Please enter a Username"
-
-
             }
         })
     }
