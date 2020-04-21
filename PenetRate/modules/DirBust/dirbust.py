@@ -29,22 +29,66 @@ class DirBuster(object):
             except:
                 raise ValueError("[-] Dirlist file not found")
             
-        self.addr = addr
+        self._check_valid_domain_format(addr)
         self.user_id = uid
         self.make_results_dir(RESULTS_DIR_PATH)
         self.make_results_dir(DIRBUST_RESULTS_PATH)
 
+    def _check_valid_domain_format(self, addr):
+        if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
+            raise ValueError("[-] Address format is invalid!")
+        self.addr = addr
+        
     def make_results_dir(self, path):
         if not os.path.exists(path):
             os.mkdir(path)
 
-    def save_results_to_json(self, results):
+    def _dirbust_results_from_urls(self, path, dictionaryarray):
+        headarray = dictionaryarray
+        
+        for index,element in enumerate(path):
+            exists = 0
+            for head in headarray:
+                if head['name'] == element:
+                    head.setdefault('children', [])
+                    headarray = head['children']
+                    exists = 1
+                    break
+            if not exists:
+                if index == len(path) - 1: 
+                    headarray.append({'name': element})
+                else:
+                    headarray.append({'name': element, 'children': []})
+                    headarray = headarray[-1]['children']
+                
+    def save_results_to_json(self, dirbust_results, crawler_results_file=None):
         """
         Writes the results into a json file.
         The file name will be the UID specified.
+        If crawler's results file specified, the output JSON will
+        be merged with it.
         """
+        total_results = []
+        temp_results = []
+        
+        if crawler_results_file:
+            with open(crawler_results_file, 'r') as crawler_results:
+                for url in crawler_results.read().splitlines():
+                    dirbust_results.append({url: 200})
+
+            for url in dirbust_results:
+                for key in url.keys():
+                    temp_results.append(key.replace(self.addr, ''))
+
+            for i in temp_results:
+                self._dirbust_results_from_urls([j for j in i.split('/') if j != ''] ,total_results)
+
+            data = {'name': self.addr, 'children': total_results}
+        else:
+            data = dirbust_results
+                    
         with open(DIRBUST_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
+            json.dump(data, f, ensure_ascii=False, indent=4)
             
     def dirbust(self):
         dirs_found = []
@@ -57,7 +101,7 @@ class DirBuster(object):
         proxy = FreeProxy().get()
             
         for directory in dir_list:
-            search_dir = self.addr + '/{}'.format(directory)
+            search_dir = self.addr + '{}'.format(directory)
             resp = None
             while resp is None:
                 try:
@@ -72,13 +116,13 @@ class DirBuster(object):
 
         return dirs_found
         
-    def scan(self):
+    def scan(self, crawler_results_file=None):
         try:
             dirs_found = self.dirbust()
         except Exception as e:
             dirs_found = {'DirBust': 'Failed to run DirBust module ' + str(e)}
             
-        self.save_results_to_json(dirs_found)
+        self.save_results_to_json(dirs_found, crawler_results_file)
 
 
 def get_args():
@@ -97,6 +141,7 @@ def get_args():
 def main():
     args = get_args()
     scanner = DirBuster(args['domain'], args['wordlist'], args['uid'])
+    #scanner.scan(r'D:\המכללה למנהל\פרוייקט גמר\PenetRate\PenetRate\Results\Crawler\1234.txt')
     scanner.scan()
     
 if __name__ == '__main__':
