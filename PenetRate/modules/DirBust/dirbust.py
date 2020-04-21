@@ -46,7 +46,7 @@ class DirBuster(object):
     def _dirbust_results_from_urls(self, path, dictionaryarray):
         headarray = dictionaryarray
         
-        for index,element in enumerate(path):
+        for index, element in enumerate(path):
             exists = 0
             for head in headarray:
                 if head['name'] == element:
@@ -112,7 +112,7 @@ class DirBuster(object):
                     proxy = FreeProxy().get()
 
             if resp.status_code in ERROR_CODES:
-                dirs_found.append({search_dir:resp.status_code})
+                dirs_found.append({search_dir: resp.status_code})
 
         return dirs_found
         
