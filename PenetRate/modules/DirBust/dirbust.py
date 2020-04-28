@@ -74,18 +74,17 @@ class DirBuster(object):
         if crawler_results_file:
             with open(crawler_results_file, 'r') as crawler_results:
                 for url in crawler_results.read().splitlines():
-                    dirbust_results.append({url: 200})
+                    dirbust_results['Pages'].append({'Page': url, 'Response': 200})
 
-            for url in dirbust_results:
-                for key in url.keys():
-                    temp_results.append(key.replace(self.addr, ''))
+            for url in dirbust_results['Pages']:
+                temp_results.append(url['Page'].replace(self.addr, ''))
 
             for i in temp_results:
                 self._dirbust_results_from_urls([j for j in i.split('/') if j != ''] ,total_results)
 
             data = {'name': self.addr, 'children': total_results}
         else:
-            data = dirbust_results
+            data = dirbust_results['Pages']
                     
         with open(DIRBUST_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -112,7 +111,7 @@ class DirBuster(object):
                     proxy = FreeProxy().get()
 
             if resp.status_code in ERROR_CODES:
-                dirs_found.append({search_dir: resp.status_code})
+                dirs_found.append({'Page': search_dir, 'Response': resp.status_code})
 
         return dirs_found
         
@@ -122,7 +121,7 @@ class DirBuster(object):
         except Exception as e:
             dirs_found = {'DirBust': 'Failed to run DirBust module ' + str(e)}
             
-        self.save_results_to_json(dirs_found, crawler_results_file)
+        self.save_results_to_json({'Pages' : dirs_found}, crawler_results_file)
 
 
 def get_args():
@@ -135,14 +134,14 @@ def get_args():
     parser.add_argument('-d','--domain', help='The domain to scan', required=True)
     parser.add_argument('-u','--uid', help='User ID', required=True)
     parser.add_argument('-f','--wordlist', help='Wordlist File', required=True)
+    parser.add_argument('-c','--crawler', help='Crawler results File', const=None, required=False)
 
     return vars(parser.parse_args())
 
 def main():
     args = get_args()
     scanner = DirBuster(args['domain'], args['wordlist'], args['uid'])
-    #scanner.scan(r'D:\המכללה למנהל\פרוייקט גמר\PenetRate\PenetRate\Results\Crawler\1234.txt')
-    scanner.scan()
+    scanner.scan(args['crawler'])
     
 if __name__ == '__main__':
     main()
