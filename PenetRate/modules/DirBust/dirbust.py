@@ -84,7 +84,7 @@ class DirBuster(object):
 
             data = {'name': self.addr, 'children': total_results}
         else:
-            data = dirbust_results['Pages']
+            data = dirbust_results
                     
         with open(DIRBUST_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
