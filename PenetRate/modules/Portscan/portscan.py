@@ -31,7 +31,7 @@ class PortScanner(object):
 
         self.open_ports = []
         self.filtered_ports = []
-        self.connected_ports = []
+        self.connected_ports = {}
         
     def check_syntax(self):
         """
