@@ -118,16 +118,20 @@ class Crawler(object):
             os.mkdir(path)
             
     def save_results(self):
-        try:
+        try:            
             # Saving all of the URLs retrived
             with open(CRAWLER_RESULTS_PATH + r'/{}.txt'.format(self._user_id), 'w') as output_file:
+                results = {'Info': []}
                 for link in self._visited:
-                    output_file.write(link + '\n')
+                    results['Info'].append(link)
+                json.dump(results, output_file, ensure_ascii=False, indent=4)
 
             # Saving all of the data extracted from source codes
             with open(CRAWLER_RESULTS_PATH + r'/{}_extract_info.txt'.format(self._user_id), 'w') as output_file:
+                results = {'Info': []}
                 for info in self._personal_info:
-                    output_file.write(str(info) + '\n')
+                    results['Info'].append(str(info))
+                json.dump(results, output_file, ensure_ascii=False, indent=4)
         except Exception as e:
             raise e
             
