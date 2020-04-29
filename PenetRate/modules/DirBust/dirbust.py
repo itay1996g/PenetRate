@@ -11,7 +11,7 @@ from fp.fp import FreeProxy
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 DIRBUST_RESULTS_PATH = RESULTS_DIR_PATH + r"/Dirbust"
-ERROR_CODES = [200, 401, 403, 405]
+ERROR_CODES = [200, 401, 403, 405, 406]
 
 class DirBuster(object):
     SMALL_DIR_LIST_PATH = os.path.join(os.path.dirname(__file__), 'small_dirlist.txt')
@@ -31,6 +31,7 @@ class DirBuster(object):
             
         self._check_valid_domain_format(addr)
         self.user_id = uid
+        self.addr = addr
         self.make_results_dir(RESULTS_DIR_PATH)
         self.make_results_dir(DIRBUST_RESULTS_PATH)
 
@@ -49,18 +50,29 @@ class DirBuster(object):
         for index, element in enumerate(path):
             exists = 0
             for head in headarray:
-                if head['name'] == element:
+                if head['Page'] == element:
                     head.setdefault('children', [])
                     headarray = head['children']
                     exists = 1
                     break
             if not exists:
-                if index == len(path) - 1: 
-                    headarray.append({'name': element})
+                if index == len(path) - 1:
+                    headarray.append({'Page': element, 'Response': 200})
                 else:
-                    headarray.append({'name': element, 'children': []})
+                    headarray.append({'Page': element,
+                                      'Response': '',
+                                      'children': []})
                     headarray = headarray[-1]['children']
-                
+
+    def fill_status_codes(self, json, url):
+        for child in json['children']:
+            child['Response'] = requests.head(url  + child['Page'],
+                                              headers=self.headers).status_code
+            try:
+                self.fill_status_codes(child, url + child['Page'] + '/')
+            except:
+                continue
+            
     def save_results_to_json(self, dirbust_results, crawler_results_file=None):
         """
         Writes the results into a json file.
@@ -73,7 +85,7 @@ class DirBuster(object):
         
         if crawler_results_file:
             with open(crawler_results_file, 'r') as crawler_results:
-                for url in crawler_results.read().splitlines():
+                for url in json.load(crawler_results)['Info']:
                     dirbust_results['Pages'].append({'Page': url, 'Response': 200})
 
             for url in dirbust_results['Pages']:
@@ -82,7 +94,8 @@ class DirBuster(object):
             for i in temp_results:
                 self._dirbust_results_from_urls([j for j in i.split('/') if j != ''] ,total_results)
 
-            data = {'name': self.addr, 'children': total_results}
+            data = {'Page': self.addr, 'Response': 200, 'children': total_results}
+            self.fill_status_codes(data, self.addr)
         else:
             data = dirbust_results
                     
@@ -93,7 +106,7 @@ class DirBuster(object):
         dirs_found = []
         ua = fake_useragent.UserAgent()
 
-        headers = { 'User-Agent': ua.random }
+        self.headers = {'User-Agent': ua.random}
 
         remove_new_lines = lambda x: x.replace('\n', '')
         dir_list = list(map(remove_new_lines, open(self.wordlist, 'r').readlines()))
@@ -105,7 +118,7 @@ class DirBuster(object):
             while resp is None:
                 try:
                     resp = requests.get(search_dir,
-                                        headers=headers,
+                                        headers=self.headers,
                                         proxies={'http': proxy})
                 except requests.exceptions.ProxyError:
                     proxy = FreeProxy().get()
