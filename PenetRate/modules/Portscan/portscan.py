@@ -14,8 +14,6 @@ PORTSCAN_RESULTS_PATH = RESULTS_DIR_PATH + r"/Portscan"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
 CREDS_REGEX = r"^(.*)\:(.*)$"
 SSH_PORT_NUM = 22
-TELNET_PORT_NUM = 23
-MYSQLPORT_NUM = 3306
 RDP_PORT_NUM = 3389
 
 class PortScanner(object):
@@ -31,7 +29,7 @@ class PortScanner(object):
 
         self.open_ports = []
         self.filtered_ports = []
-        self.connected_ports = {}
+        self.connected_ports = []
         
     def check_syntax(self):
         """
@@ -59,10 +57,14 @@ class PortScanner(object):
 
                 if port == SSH_PORT_NUM:
                     if self.check_ssh_connection(user, pwd):
-                        self.connected_ports['SSH'] = { 'Username' : user, 'Password' : pwd }
+                        self.connected_ports.append({'Service Name': 'SSH',
+                                                     'Username' : user,
+                                                     'Password' : pwd })
                 elif port == RDP_PORT_NUM:
                     if self.check_rdp_connection(user, pwd):
-                        self.connected_ports['RDP'] = { 'Username' : user, 'Password' : pwd }
+                        self.connected_ports.append({'Service Name': 'RDP',
+                                                     'Username' : user,
+                                                     'Password' : pwd })
                 else:
                     continue
 
@@ -93,7 +95,7 @@ class PortScanner(object):
         """
         Main scan method.
         This method iterates through all the ports in the specified port range.
-        For open SSH, Telnet and RDP ports (22, 23, 3389) the method will
+        For open SSH, RDP ports (22, 3389) the method will
         try to connect to the service behind the port with common default credentials. 
         """
         try:
