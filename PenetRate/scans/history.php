@@ -88,10 +88,13 @@ checkLoggedIn();
 
 <body class="fix-header fix-sidebar">
     <?php
-        if ($IsAdmin) {
+    if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
-    } else {
+    } else if ($_SESSION['UserRole'] == 'User') {
         include('../menu.php');
+    } else {
+        header("Location: ../users/login.html");
+        exit;
     }
     ?>
     <!-- Bread crumb -->

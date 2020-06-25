@@ -1,7 +1,6 @@
 <?php
 include '../helpers/session.php';
-checkLoggedIn();
-$IsAdmin = IsAdmin();
+//checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@ $IsAdmin = IsAdmin();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
-    <title>PenetRate - All ContactUS Messages</title>
+    <title>PenetRate - Sensitive Info Scan</title>
 
 
 
@@ -36,14 +35,40 @@ $IsAdmin = IsAdmin();
 
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../js/sweetalert.min.js"></script>
-    <script src="../js/sweetalert.init.js"></script>
-    <link href="../css/lib/sweetalert/sweetalert.css" rel="stylesheet">
 
+
+    <?php
+    if (isset($_GET["UID"])) {
+        $db = new DBController();
+        $conn = $db->connect();
+        $UID = $_GET["UID"];
+    }
+
+    ?>
 
     <script>
         $(document).ready(function() {
-            $('#contactus_table').DataTable();
+
+            $('#sensitiveinfo').DataTable({
+                "ajax": {
+                    /*NEED TO CHECK FILE EXISTS!!! */
+                    "url": "../Results/sensitiveinfo/<?php echo $UID; ?>.json",
+                    "dataSrc": "Info"
+                },
+                columns: [{
+                    data: 'Name',
+                    title: 'Name'
+                }, {
+                    data: 'Value',
+                    title: 'Value'
+                }, {
+                    data: 'URL',
+                    title: 'URL'
+                }]
+            });
+
+
+
 
 
         });
@@ -56,11 +81,10 @@ $IsAdmin = IsAdmin();
             text-align: left !important;
         }
     </style>
-
 </head>
 
 <body class="fix-header fix-sidebar">
-<?php
+    <?php
     if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
     } else if ($_SESSION['UserRole'] == 'User') {
@@ -77,9 +101,8 @@ $IsAdmin = IsAdmin();
         </div>
         <div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Extra</li>
-                <li class="breadcrumb-item active">ContactUS Messages
-                </li>
+                <li class="breadcrumb-item">Scans</li>
+                <li class="breadcrumb-item active"> Sensitive Info</li>
             </ol>
         </div>
     </div>
@@ -93,50 +116,33 @@ $IsAdmin = IsAdmin();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>ContactUS Messages
-                        </h4>
+                        <h4> Sensitive Info</h4>
                     </div>
                     <div class="card-body">
+
+
+                        <h4> Sensitive Info</h4>
                         <div class="table-responsive">
-                            <table id="contactus_table" class="table table-hover table-bordered" style="width:100%">
+                            <table id="sensitiveinfo" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Email</th>
-                                        <th>Message</th>
-                                        <th>Date</th>
-
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                        <th>URL</th>
 
 
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                    $db = new DBController();
-                                    $conn = $db->connect();
-                                    $stmt = $conn->prepare("SELECT * FROM contactus");
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
+                                <tbody id="sensitiveinfo_tbody">
 
-                                            echo '<tr id="' . $row["ID"] . '">';
-                                            echo '<td>' . $row["email"] . '</td>';
-                                            echo '<td>' . $row["message"] . '</td>';
-                                            echo '<td>' . $row["DATE"] . '</td>';
 
-                                            echo '</tr>';
-                                        }
-                                        $result->free();
-                                    }
-                                    ?>
 
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Email</th>
-                                        <th>Message</th>
-                                        <th>Date</th>
-
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                        <th>URL</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -145,6 +151,7 @@ $IsAdmin = IsAdmin();
                 </div>
                 <!-- /# card -->
             </div>
+
             <!-- /# column -->
         </div>
         <!-- /# row -->

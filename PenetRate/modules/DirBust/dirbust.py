@@ -11,7 +11,15 @@ from fp.fp import FreeProxy
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 DIRBUST_RESULTS_PATH = RESULTS_DIR_PATH + r"/Dirbust"
-ERROR_CODES = [200, 401, 403, 405, 406]
+ERROR_CODES = [200, 302, 400, 401, 403, 405, 406, 500]
+FILE_EXTENSIONS = [r'.css', r'.js', r'.html', r'.asp', r'.aspx', r'.php', r'.htm', r'.py', r'.cs',
+                   r'.xml', r'.png', r'.jpeg', r'.jpg', r'.svg', r'.gif', r'.txt', r'.json']
+
+API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_DATA = {'table_name': 'directories_scan',
+            'ScanID': '',
+            'Status': 'Finished',
+            'GUID': 'ETAI_ITAY123AA6548'}
 
 class DirBuster(object):
     SMALL_DIR_LIST_PATH = os.path.join(os.path.dirname(__file__), 'small_dirlist.txt')
@@ -35,6 +43,13 @@ class DirBuster(object):
         self.make_results_dir(RESULTS_DIR_PATH)
         self.make_results_dir(DIRBUST_RESULTS_PATH)
 
+    def _remove_empty_childs(self, json):
+        for child in json['children']:
+            if len(child['children']) == 0:
+                child.pop('children')
+                continue
+            self._remove_empty_childs(child)
+	
     def _check_valid_domain_format(self, addr):
         if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
             raise ValueError("[-] Address format is invalid!")
@@ -46,8 +61,19 @@ class DirBuster(object):
 
     def _dirbust_results_from_urls(self, path, dictionaryarray):
         headarray = dictionaryarray
+        ext_found = False
         
         for index, element in enumerate(path):
+            try:
+                element = element.rsplit('?')[0]
+            except:
+                pass
+            for ext in FILE_EXTENSIONS:
+                if ext in element:
+                    ext_found = True
+                    break
+            if ext_found:
+                continue
             exists = 0
             for head in headarray:
                 if head['Page'] == element:
@@ -57,7 +83,7 @@ class DirBuster(object):
                     break
             if not exists:
                 if index == len(path) - 1:
-                    headarray.append({'Page': element, 'Response': 200})
+                    headarray.append({'Page': element, 'Response': 200, 'children': []})
                 else:
                     headarray.append({'Page': element,
                                       'Response': '',
@@ -86,7 +112,7 @@ class DirBuster(object):
         if crawler_results_file:
             with open(crawler_results_file, 'r') as crawler_results:
                 for url in json.load(crawler_results)['Info']:
-                    dirbust_results['Pages'].append({'Page': url, 'Response': 200})
+                    dirbust_results['Pages'].append({'Page': url, 'Response': 200, 'children': []})
 
             for url in dirbust_results['Pages']:
                 temp_results.append(url['Page'].replace(self.addr, ''))
@@ -98,8 +124,10 @@ class DirBuster(object):
             self.fill_status_codes(data, self.addr)
         else:
             data = dirbust_results
-                    
-        with open(DIRBUST_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
+
+        self._remove_empty_childs(data)
+        
+        with open(DIRBUST_RESULTS_PATH + r'/{}_before.json'.format(self.user_id), 'w') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
             
     def dirbust(self):
@@ -124,7 +152,7 @@ class DirBuster(object):
                     proxy = FreeProxy().get()
 
             if resp.status_code in ERROR_CODES:
-                dirs_found.append({'Page': search_dir, 'Response': resp.status_code})
+                dirs_found.append({'Page': search_dir, 'Response': resp.status_code, 'children': []})
 
         return dirs_found
         
@@ -137,6 +165,10 @@ class DirBuster(object):
         self.save_results_to_json({'Pages' : dirs_found}, crawler_results_file)
 
 
+def send_to_api(scan_id):
+    API_DATA['ScanID'] = scan_id 
+    resp = requests.post(API_URL, API_DATA)
+    
 def get_args():
     """
     Get arguments for the port scanner script.
@@ -155,6 +187,7 @@ def main():
     args = get_args()
     scanner = DirBuster(args['domain'], args['wordlist'], args['uid'])
     scanner.scan(args['crawler'])
+    send_to_api(args['uid'])
     
 if __name__ == '__main__':
     main()

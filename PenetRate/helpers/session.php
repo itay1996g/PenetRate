@@ -33,6 +33,26 @@ function checkLoggedIn()
 	}
 }
 
+
+function IsAdmin()
+{
+	if (!isset($_SESSION['UserRole'])) {
+		header("Location: ../users/login.html");
+		exit;
+		return false;
+	} else {
+		if ($_SESSION['UserRole'] == 'Admin') {
+			return true;
+		} else {
+			header("Location: ../users/login.html");
+			exit;
+			return false;
+		}
+	}
+}
+
+
+
 function checkLoggedInMenu()
 {
 	$db = new DBController();
@@ -58,23 +78,6 @@ function checkLoggedInMenu()
 			return true;
 		} else {
 			header("Location: users/login.html");
-			exit;
-			return false;
-		}
-	}
-}
-
-function IsAdmin()
-{
-	if (!isset($_SESSION['UserRole'])) {
-		header("Location: ../users/login.html");
-		exit;
-		return false;
-	} else {
-		if ($_SESSION['UserRole'] == 'Admin') {
-			return true;
-		} else {
-			header("Location: ../users/login.html");
 			exit;
 			return false;
 		}

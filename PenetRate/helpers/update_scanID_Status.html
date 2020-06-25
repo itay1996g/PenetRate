@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon icon -->
+
+
+<body class="fix-header fix-sidebar">
+   
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="login-content card">
+                            <!--<img src='../images/logo.png' style="width: 250px;float: left;"> -->
+
+                            <div class="login-form">
+                                <h4>Login</h4>
+                                <form class="form p-t-20 form-valide" method="post" action="ScansForm.php">
+
+                                    <div class="form-group">
+                                        <label for="ScanID">ScanID</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="ScanID" name="ScanID" placeholder="Enter ScanID" value="10" required>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="Status">Status</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Status" name="Status" placeholder="Enter Status" value="finished" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="table_name">table_name</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="table_name" name="table_name" placeholder="Enter table_name" value="directories_scan" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="GUID">GUID</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="GUID" name="GUID" placeholder="Enter GUID" value="12345" required>
+                                        </div>
+                                    </div>
+                                    
+                                
+                                    <button type="submit" >Login</button>
+                              
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

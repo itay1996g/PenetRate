@@ -43,7 +43,7 @@ if (isset($_POST['formID'])) {
                     if (isset($_POST['Generalvulnerability'])) {
                         $Generalvulnerability = '1';
                     }
-                   
+
                     $stmt = $conn->prepare('SELECT * FROM Users WHERE UserID = ?');
                     $stmt->bind_param('s', $_SESSION['UserID']);
                     $stmt->execute();
@@ -132,6 +132,24 @@ if (isset($_POST['formID'])) {
                 header("Location: ../users/login.html");
             }
         }
+    }
+} else if (isset($_POST['ScanID']) && isset($_POST['Status']) && isset($_POST['table_name']) && isset($_POST['GUID'])) {
+    $db = new DBController();
+    $conn = $db->connect();
+    $form = $_POST;
+    $table_name = Input::str($form['table_name']);
+    $ScanID = Input::str($form['ScanID']);
+    $Status = Input::str($form['Status']);
+    $GUID = Input::str($form['GUID']);
+    if ($GUID == 'ETAI_ITAY123AA6548') {
+        $stmt = $conn->prepare("UPDATE " . $table_name . " set Status = ? WHERE ScanID = ?");
+        $stmt->bind_param('ss', $Status, $ScanID);
+        if ($stmt->execute()) {
+            $data = "Updated";
+        } else {
+            $data = "ErrorUpdated";
+        }
+        echo $data;
     }
 } else {
     header("Location: ../users/login.html");

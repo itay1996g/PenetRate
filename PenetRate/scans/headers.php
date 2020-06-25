@@ -39,7 +39,6 @@ include '../helpers/session.php';
 
     <?php
     if (isset($_GET["uid"])) {
-
         $db = new DBController();
         $conn = $db->connect();
         $UID = $_GET["uid"];
@@ -130,10 +129,13 @@ include '../helpers/session.php';
 
 <body class="fix-header fix-sidebar">
     <?php
-        if ($IsAdmin) {
+    if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
-    } else {
+    } else if ($_SESSION['UserRole'] == 'User') {
         include('../menu.php');
+    } else {
+        header("Location: ../users/login.html");
+        exit;
     }
     ?>
     <!-- Bread crumb -->

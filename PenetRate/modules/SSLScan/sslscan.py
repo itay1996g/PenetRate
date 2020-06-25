@@ -11,6 +11,12 @@ RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.absp
 SSL_RESULTS_PATH = RESULTS_DIR_PATH + r"/SSLScan"
 API = 'https://api.ssllabs.com/api/v2/analyze/'
 
+API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_DATA = {'table_name': 'ssl_scan',
+            'ScanID': '',
+            'Status': 'Finished',
+            'GUID': 'ETAI_ITAY123AA6548'}
+
 class SSLScan(object):
     """
     This modules uses free SSLLabs API: https://github.com/TrullJ/ssllabs.
@@ -73,6 +79,10 @@ class SSLScan(object):
         with open(SSL_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'a') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
+def send_to_api(scan_id):
+    API_DATA['ScanID'] = scan_id 
+    resp = requests.post(API_URL, API_DATA)
+    
 def get_args():
     """
     Get arguments for the SSL scanner script.
@@ -92,8 +102,7 @@ def main():
     args = get_args()
     scanner = SSLScan(args['domain'], args['uid'])
     scanner.scan()
-
-    #resp = requests.get(r'localhost')
-    
+    send_to_api(args['uid'])
+        
 if __name__ == '__main__':
     main()

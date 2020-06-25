@@ -1,3 +1,7 @@
+<?php
+include '../helpers/session.php';
+checkLoggedIn();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,11 +45,14 @@
 </head>
 
 <body class="fix-header fix-sidebar">
-    <?php
-    if ($IsAdmin) {
+<?php
+    if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
-    } else {
+    } else if ($_SESSION['UserRole'] == 'User') {
         include('../menu.php');
+    } else {
+        header("Location: ../users/login.html");
+        exit;
     }
     ?>
     <!-- Bread crumb -->
@@ -89,7 +96,7 @@
                                 <label for="payload">Message</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-text-width"></i></div>
-                                    <textarea class="form-control" rows="10" id="message" name="message" style="height: 120px;" required></textarea>
+                                    <textarea class="form-control" rows="10" id="message" name="message" style="height: 120px;" placeholder="Type Your Message" required></textarea>
 
                                 </div>
                             </div>

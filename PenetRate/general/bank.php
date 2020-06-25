@@ -40,14 +40,49 @@ checkLoggedIn();
 
     <script>
         $(document).ready(function() {
-            $('#Finding_Database_table').DataTable();
+            $('#Finding_Database_table').DataTable({
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100, -1],
+                    [5, 10, 25, 50, 100, "All"]
+                ],
+                columnDefs: [{
+                    targets: [0, 1, 2],
+                    createdCell: function(cell, cellData) {
+                        if (cellData.length > 150) {
+
+                            var $cell = $(cell);
+                            $(cell).contents().wrapAll("<div class='content'></div>");
+                            var $content = $cell.find(".content");
+
+                            $(cell).append($("<button>Read more</button>"));
+                            $btn = $(cell).find("button");
+
+                            $content.css({
+                                "height": "150px",
+                                "overflow": "hidden"
+                            })
+                            $cell.data("isLess", true);
+
+                            $btn.click(function() {
+                                var isLess = $cell.data("isLess");
+                                $content.css("height", isLess ? "auto" : "150px")
+                                $(this).text(isLess ? "Read less" : "Read more")
+                                $cell.data("isLess", !isLess)
+                            })
+                        }
+                    }
+                }]
+            });
+
+
+
             $.contextMenu({
                 selector: '#Finding_Database_table tbody tr',
                 callback: function(key, options) {
                     var row_id = $(this).attr('id');
                     ///////////////////// View Context MENU ///////////////
                     if (key == "view") {
-                        $('<form action="../general/finding.php" method="post"><input type="hidden" id="id" name="id" value="' + row_id + '"></input></form>').appendTo('body').submit().remove();
+                        $('<form action="../general/finding.php" method="GET"><input type="hidden" id="id" name="id" value="' + row_id + '"></input></form>').appendTo('body').submit().remove();
                     }
 
                 },
@@ -69,17 +104,27 @@ checkLoggedIn();
         tr {
             text-align: left !important;
         }
+
+        .truncate {
+            max-width: 50px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 
 </head>
 
 <body class="fix-header fix-sidebar">
-    <?php
-        if ($IsAdmin) {
+<?php
+    if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
-    } else {
+    } else if ($_SESSION['UserRole'] == 'User') {
         include('../menu.php');
+    } else {
+        header("Location: ../users/login.html");
+        exit;
     }
     ?>
     <!-- Bread crumb -->

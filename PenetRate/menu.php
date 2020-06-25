@@ -71,29 +71,7 @@ checkLoggedInMenu();
 
                                     </ul>
                                 </li>
-                                <li class="col-lg-3 col-xlg-3 m-b-30">
-                                    <h4 class="m-b-20">Users</h4>
-                                    <!-- List style -->
-                                    <ul class="list-style-none">
-                                        <li> <a href="../users/edit.php" aria-expanded="false"><i class="fa fa-edit"></i><span class="hide-menu">Edit My
-                                                    Profile</span></a>
 
-                                        </li>
-                                        <li> <a href="../users/manage.php" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Manage
-                                                    Users</span></a>
-
-                                        </li>
-                                        <li> <a href="../users/create.php" aria-expanded="false"><i class="fa fa-plus-square"></i><span class="hide-menu">Create A
-                                                    User</span></a>
-
-                                        </li>
-                                        <li> <a href="../users/history.php" aria-expanded="false"><i class="fa fa-eye"></i><span class="hide-menu">Users Scans
-                                                    History</span></a>
-
-                                        </li>
-
-                                    </ul>
-                                </li>
                                 <li class="col-lg-3 col-xlg-3 m-b-30">
                                     <h4 class="m-b-20">Extra</h4>
                                     <!-- List style -->
@@ -106,10 +84,7 @@ checkLoggedInMenu();
                                                     Us</span></a>
 
                                         </li>
-                                        <li> <a href="../extra/contactus.php" aria-expanded="false"><i class="fa fa-inbox"></i><span class="hide-menu">Contact
-                                                    Us Records</span></a>
 
-                                        </li>
 
                                     </ul>
                                 </li>
@@ -178,22 +153,6 @@ checkLoggedInMenu();
 
 
 
-                    <li class="nav-label">Users <span class="label label-rouded btn-primary pull-right">4</span></li>
-                    <li> <a href="../users/edit.php" aria-expanded="false"><i class="fa fa-edit"></i><span class="hide-menu">Edit My
-                                Profile</span></a>
-
-                    </li>
-                    <li> <a href="../users/manage.php" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Manage
-                                Users</span></a>
-
-                    </li>
-                    <li> <a href="../users/create.php" aria-expanded="false"><i class="fa fa-plus-square"></i><span class="hide-menu">Create A User</span></a>
-
-                    </li>
-                    <li> <a href="../users/history.php" aria-expanded="false"><i class="fa fa-eye"></i><span class="hide-menu">Users Scans
-                                History</span></a>
-
-                    </li>
 
                     <li class="nav-label">EXTRA <span class="label label-rouded label-success pull-right">3</span></li>
 
@@ -204,10 +163,7 @@ checkLoggedInMenu();
                                 Us</span></a>
 
                     </li>
-                    <li> <a href="../extra/contactusTable.php" aria-expanded="false"><i class="fa fa-inbox"></i><span class="hide-menu">Contact
-                                Us Records</span></a>
 
-                    </li>
 
                 </ul>
             </nav>

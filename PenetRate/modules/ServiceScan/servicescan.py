@@ -9,6 +9,12 @@ WAPPALYZER_API_KEY = r"wappalyzer.api.demo.key"
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 SERVICES_RESULTS_PATH = RESULTS_DIR_PATH + r"/ServiceScan"
 
+API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_DATA = {'table_name': 'service_scan',
+            'ScanID': '',
+            'Status': 'Finished',
+            'GUID': 'ETAI_ITAY123AA6548'}
+
 class OpenServicesScanner(object):
     def __init__(self, url, uid):
         """
@@ -60,7 +66,10 @@ class OpenServicesScanner(object):
             results = {'Error while fetching Open Services results ' + str(e)}
 
         self.save_results_to_json(results)
-            
+
+def send_to_api(scan_id):
+    API_DATA['ScanID'] = scan_id 
+    resp = requests.post(API_URL, API_DATA)  
 
 def get_args():
     """
@@ -81,8 +90,7 @@ def main():
     args = get_args()
     scanner = OpenServicesScanner(args['domain'], args['uid'])
     scanner.scan()
-
-    #resp = requests.get(r'localhost')
+    send_to_api(args['uid'])
     
 if __name__ == '__main__':
     main()

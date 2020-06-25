@@ -16,6 +16,12 @@ CRAWLER_RESULTS_PATH = RESULTS_DIR_PATH + r"/Crawler"
 EMAIL_REGEX = '[\w\.=-]+@[\w\.-]+\.[\w]{2,3}'
 IP_ADDRESS_REGEX = '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
 
+API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_DATA = {'table_name': 'clientside_scan',
+            'ScanID': '',
+            'Status': 'Finished',
+            'GUID': 'ETAI_ITAY123AA6548'}
+
 class Crawler(object):
     def __init__(self, uid, starting_url):
         self._starting_url = starting_url
@@ -120,17 +126,17 @@ class Crawler(object):
     def save_results(self):
         try:            
             # Saving all of the URLs retrived
-            with open(CRAWLER_RESULTS_PATH + r'/{}.txt'.format(self._user_id), 'w') as output_file:
+            with open(CRAWLER_RESULTS_PATH + r'/{}.json'.format(self._user_id), 'w') as output_file:
                 results = {'Info': []}
                 for link in self._visited:
                     results['Info'].append(link)
                 json.dump(results, output_file, ensure_ascii=False, indent=4)
 
             # Saving all of the data extracted from source codes
-            with open(CRAWLER_RESULTS_PATH + r'/{}_extract_info.txt'.format(self._user_id), 'w') as output_file:
+            with open(CRAWLER_RESULTS_PATH + r'/{}_extract_info.json'.format(self._user_id), 'w') as output_file:
                 results = {'Info': []}
                 for info in self._personal_info:
-                    results['Info'].append(str(info))
+                    results['Info'].append(info)
                 json.dump(results, output_file, ensure_ascii=False, indent=4)
         except Exception as e:
             raise e
@@ -138,6 +144,10 @@ class Crawler(object):
     def scan(self):             
         self.crawl(self._starting_url)
         self.save_results()
+
+def send_to_api(scan_id):
+    API_DATA['ScanID'] = scan_id 
+    resp = requests.post(API_URL, API_DATA)
 
 def get_args():
     """
@@ -158,6 +168,7 @@ def main():
     args = get_args()
     scanner = Crawler(args['uid'], args['domain'])
     scanner.scan()
+    send_to_api(args['uid'])
 
 if __name__ == "__main__":
     main()

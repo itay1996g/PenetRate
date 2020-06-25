@@ -14,7 +14,7 @@ include '../helpers/session.php';
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
-    <title>PenetRate - Mapped Headers</title>
+    <title>PenetRate - SSLScan</title>
 
 
 
@@ -52,71 +52,55 @@ include '../helpers/session.php';
     <script>
         $(document).ready(function() {
 
-            $('#RESPONSE_Headers_Details').DataTable({
+            $('#CipherSuites').DataTable({
                 "ajax": {
-                    "url": "../Results/Headers/<?php echo $UID; ?>.json",
-                    "dataSrc": "RESPONSE_Headers_Details"
-                },
-                columns: [{
-                        data: 'Header Field Name',
-                        title: 'Field Name'
-                    },
-                    {
-                        data: 'Value',
-                        title: 'Value'
-                    },
-                    {
-                        data: 'CWE',
-                        title: 'CWE(Common Weakness Enumeration)'
-                    },
-                    {
-                        data: 'CWE URL',
-                        title: 'CWE URL'
-                    },
-                    {
-                        data: 'Security Reference',
-                        title: 'Reference'
+                    "url": "../Results/SSLScan/<?php echo $UID; ?>.json",
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        for (var i = 0; i < json.endpoints[0].details.suites.list.length; i++) {
+                            return_data.push({
+                                'name': "" + json.endpoints[0].details.suites.list[i].name,
+                                'cipherStrength': "" + json.endpoints[0].details.suites.list[i].cipherStrength
+                            })
+                        }
+                        return return_data;
                     }
-                ]
-            });
 
-            $('#Missing_Headers_Details').DataTable({
-                "ajax": {
-                    "url": "../Results/Headers/<?php echo $UID; ?>.json",
-                    "dataSrc": "Missing_Headers_Details"
                 },
                 columns: [{
-                        data: 'Header Field Name',
-                        title: 'Field Name'
+                        data: 'name',
+                        title: 'name'
                     },
                     {
-                        data: 'CWE',
-                        title: 'CWE(Common Weakness Enumeration)'
-                    },
-                    {
-                        data: 'CWE URL',
-                        title: 'CWE URL'
-                    },
-                    {
-                        data: 'Security Reference',
-                        title: 'Reference'
+                        data: 'cipherStrength',
+                        title: 'cipherStrength'
                     }
                 ]
             });
 
 
-            $('#RESPONSE_Headers_Info').DataTable({
+            $('#protocols').DataTable({
                 "ajax": {
-                    "url": "../Results/Headers/<?php echo $UID; ?>.json",
-                    "dataSrc": "RESPONSE_Headers_Info"
+                    "url": "../Results/SSLScan/<?php echo $UID; ?>.json",
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        for (var i = 0; i < json.endpoints[0].details.protocols.length; i++) {
+                            return_data.push({
+                                'name': "" + json.endpoints[0].details.protocols[i].name,
+                                'version': "" + json.endpoints[0].details.protocols[i].version
+                            })
+                        }
+                        return return_data;
+                    }
+
                 },
                 columns: [{
-                        data: 'Name',
-                        title: 'Name'
+                        data: 'name',
+                        title: 'name'
                     },
                     {
-                        data: 'Value',
-                        title: 'Value'
+                        data: 'version',
+                        title: 'version'
                     }
                 ]
             });
@@ -130,10 +114,13 @@ include '../helpers/session.php';
 
 <body class="fix-header fix-sidebar">
     <?php
-        if ($IsAdmin) {
+    if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
-    } else {
+    } else if ($_SESSION['UserRole'] == 'User') {
         include('../menu.php');
+    } else {
+        header("Location: ../users/login.html");
+        exit;
     }
     ?>
     <!-- Bread crumb -->
@@ -144,7 +131,7 @@ include '../helpers/session.php';
         <div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Scans</li>
-                <li class="breadcrumb-item active">Headers</li>
+                <li class="breadcrumb-item active">SSLScan</li>
             </ol>
         </div>
     </div>
@@ -158,27 +145,21 @@ include '../helpers/session.php';
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>Mapped Headers</h4>
+                        <h4>SSLScan</h4>
                     </div>
                     <div class="card-body">
-                        <h4>RESPONSE Headers Details</h4>
-                        <table id="RESPONSE_Headers_Details" class="table table-hover table-bordered" style="width:100%">
+                        <h4>Cipher Suites</h4>
+                        <table id="CipherSuites" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Field Name</th>
-                                    <th>Value</th>
-                                    <th>CWE(Common Weakness Enumeration)</th>
-                                    <th>CWE URL</th>
-                                    <th>Reference</th>
+                                    <th>name</th>
+                                    <th>cipherStrength</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Field Name</th>
-                                    <th>Value</th>
-                                    <th>CWE(Common Weakness Enumeration)</th>
-                                    <th>CWE URL</th>
-                                    <th>Reference</th>
+                                    <th>name</th>
+                                    <th>cipherStrength</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -186,52 +167,27 @@ include '../helpers/session.php';
                         </br>
                         </br>
 
-                        <h4>Missing Headers Details</h4>
-                        <table id="Missing_Headers_Details" class="table table-hover table-bordered" style="width:100%">
+                        <h4>protocols</h4>
+                        <table id="protocols" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Field Name</th>
-                                    <th>CWE(Common Weakness Enumeration)</th>
-                                    <th>CWE URL</th>
-                                    <th>Reference</th>
+                                    <th>name</th>
+                                    <th>version</th>
                                 </tr>
                             </thead>
+                            <tbody id="protocols_tbody">
+
+
+
+                            </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Field Name</th>
-                                    <th>CWE(Common Weakness Enumeration)</th>
-                                    <th>CWE URL</th>
-                                    <th>Reference</th>
+                                    <th>name</th>
+                                    <th>version</th>
                                 </tr>
                             </tfoot>
                         </table>
 
-                        </br>
-                        </br>
-
-                        <h4>RESPONSE Headers Info</h4>
-                        <div class="table-responsive">
-                            <table id="RESPONSE_Headers_Info" class="table table-hover table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Value</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody id="RESPONSE_Headers_Info_tbody">
-
-
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Value</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
                     </div>
                 </div>
                 <!-- /# card -->

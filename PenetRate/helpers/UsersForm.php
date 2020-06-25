@@ -65,8 +65,9 @@ if (isset($_POST['formID'])) {
                     $data = "Exists";
                 } else {
 
-                    $stmt = $conn->prepare("INSERT INTO Users (Fullname,Phone,Position,Email,UserPassword) values (?,?,?,?,?)");
-                    $stmt->bind_param('sssss', $fullname, $phone, $position, $email, $password);
+                    $UserRole = 'User';
+                    $stmt = $conn->prepare("INSERT INTO Users (Fullname,Phone,Position,Email,UserPassword,UserRole) values (?,?,?,?,?,?)");
+                    $stmt->bind_param('ssssss', $fullname, $phone, $position, $email, $password,$UserRole);
                     if ($stmt->execute()) {
                         $data = "Register";
                     }

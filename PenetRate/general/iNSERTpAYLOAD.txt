@@ -1,0 +1,1 @@
+INSERT INTO `payloadgenerator`(`name`, `findingID`, `payload`) VALUES ('xss', '2','')
