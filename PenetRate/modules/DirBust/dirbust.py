@@ -8,6 +8,9 @@ import fake_useragent
 from time import sleep
 from fp.fp import FreeProxy
 
+sys.path.append(os.getcwd() + '/..')
+from Utils.helpers import *
+
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 DIRBUST_RESULTS_PATH = RESULTS_DIR_PATH + r"/Dirbust"
@@ -15,11 +18,6 @@ ERROR_CODES = [200, 302, 400, 401, 403, 405, 406, 500]
 FILE_EXTENSIONS = [r'.css', r'.js', r'.html', r'.asp', r'.aspx', r'.php', r'.htm', r'.py', r'.cs',
                    r'.xml', r'.png', r'.jpeg', r'.jpg', r'.svg', r'.gif', r'.txt', r'.json']
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
-API_DATA = {'table_name': 'directories_scan',
-            'ScanID': '',
-            'Status': 'Finished',
-            'GUID': 'ETAI_ITAY123AA6548'}
 
 class DirBuster(object):
     SMALL_DIR_LIST_PATH = os.path.join(os.path.dirname(__file__), 'small_dirlist.txt')
@@ -40,8 +38,8 @@ class DirBuster(object):
         self._check_valid_domain_format(addr)
         self.user_id = uid
         self.addr = addr
-        self.make_results_dir(RESULTS_DIR_PATH)
-        self.make_results_dir(DIRBUST_RESULTS_PATH)
+        make_results_dir(RESULTS_DIR_PATH)
+        make_results_dir(DIRBUST_RESULTS_PATH)
 
     def _remove_empty_childs(self, json):
         for child in json['children']:
@@ -54,10 +52,6 @@ class DirBuster(object):
         if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
             raise ValueError("[-] Address format is invalid!")
         self.addr = addr
-        
-    def make_results_dir(self, path):
-        if not os.path.exists(path):
-            os.mkdir(path)
 
     def _dirbust_results_from_urls(self, path, dictionaryarray):
         headarray = dictionaryarray
@@ -164,10 +158,6 @@ class DirBuster(object):
             
         self.save_results_to_json({'Pages' : dirs_found}, crawler_results_file)
 
-
-def send_to_api(scan_id):
-    API_DATA['ScanID'] = scan_id 
-    resp = requests.post(API_URL, API_DATA)
     
 def get_args():
     """
