@@ -1,21 +1,18 @@
 import os
-import argparse
-import json
-import time
 import sys
-import requests
+import time
 import logging
+import requests
+import argparse
+
+sys.path.append(os.getcwd() + '/..')
+from Utils.helpers import *
 
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 SSL_RESULTS_PATH = RESULTS_DIR_PATH + r"/SSLScan"
-API = 'https://api.ssllabs.com/api/v2/analyze/'
+API = r'https://api.ssllabs.com/api/v2/analyze/'
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
-API_DATA = {'table_name': 'ssl_scan',
-            'ScanID': '',
-            'Status': 'Finished',
-            'GUID': 'ETAI_ITAY123AA6548'}
 
 class SSLScan(object):
     """
@@ -28,8 +25,8 @@ class SSLScan(object):
         """
         self.user_id = uid
         self.domain_to_scan = domain
-        self.make_results_dir(RESULTS_DIR_PATH)
-        self.make_results_dir(SSL_RESULTS_PATH)
+        make_results_dir(RESULTS_DIR_PATH)
+        make_results_dir(SSL_RESULTS_PATH)
         
     def scan(self):
         try:
@@ -46,11 +43,11 @@ class SSLScan(object):
 
             while results['status'] != 'READY' and results['status'] != 'ERROR':
                 time.sleep(30)
-                results = self.requestAPI(API, payload)
+                results = self.requestAPI(payload)
         except Exception as e:
-            results = {'Error while fetching SSLScan results ' + str(e)}
-            
-        self.save_results_to_json(results)
+            results = {'Error while fetching SSLScan results':  str(e)}
+
+        save_results_to_json(SSL_RESULTS_PATH, results, self.user_id)
 
     def requestAPI(self, payload={}):
         '''This is a helper method that takes the path to the relevant
@@ -60,28 +57,13 @@ class SSLScan(object):
 
         try:
             response = requests.get(API, params=payload)
-        except requests.exception.RequestException:
+        except requests.exceptions.RequestException:
             logging.exception('Request failed.')
             sys.exit(1)
 
         data = response.json()
         return data
-
-    def make_results_dir(self, path):
-        if not os.path.exists(path):
-            os.mkdir(path)
-
-    def save_results_to_json(self, results):
-        """
-        Writes the results into a json file.
-        The file name will be the UID specified.
-        """
-        with open(SSL_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'a') as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
-
-def send_to_api(scan_id):
-    API_DATA['ScanID'] = scan_id 
-    resp = requests.post(API_URL, API_DATA)
+    
     
 def get_args():
     """
