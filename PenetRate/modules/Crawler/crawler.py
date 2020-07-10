@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 import json
 import time
 import random
@@ -10,17 +11,15 @@ from bs4 import BeautifulSoup
 from fp.fp import FreeProxy
 from urllib.parse import urlparse
 
+sys.path.append(os.getcwd() + '/..')
+from Utils.helpers import *
+
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 CRAWLER_RESULTS_PATH = RESULTS_DIR_PATH + r"/Crawler"
 EMAIL_REGEX = '[\w\.=-]+@[\w\.-]+\.[\w]{2,3}'
 IP_ADDRESS_REGEX = '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
-API_DATA = {'table_name': 'clientside_scan',
-            'ScanID': '',
-            'Status': 'Finished',
-            'GUID': 'ETAI_ITAY123AA6548'}
 
 class Crawler(object):
     def __init__(self, uid, starting_url):
@@ -31,8 +30,8 @@ class Crawler(object):
         self._domain_name = f"{parsed.scheme}://{parsed.netloc}"
         self._proxy = FreeProxy().get()
         self._user_id = uid
-        self._make_results_dir(RESULTS_DIR_PATH)
-        self._make_results_dir(CRAWLER_RESULTS_PATH)
+        make_results_dir(RESULTS_DIR_PATH)
+        make_results_dir(CRAWLER_RESULTS_PATH)
         self._personal_info = []
         
     def _random_sleep(self):
@@ -118,10 +117,6 @@ class Crawler(object):
                 continue
             self._visited.add(link)
             self.crawl(link)
-
-    def _make_results_dir(self, path):
-        if not os.path.exists(path):
-            os.mkdir(path)
             
     def save_results(self):
         try:            
@@ -144,10 +139,6 @@ class Crawler(object):
     def scan(self):             
         self.crawl(self._starting_url)
         self.save_results()
-
-def send_to_api(scan_id):
-    API_DATA['ScanID'] = scan_id 
-    resp = requests.post(API_URL, API_DATA)
 
 def get_args():
     """
