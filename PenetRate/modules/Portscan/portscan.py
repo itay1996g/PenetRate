@@ -1,12 +1,15 @@
 import os
-import argparse
-import json
-import requests
 import re
-import socket
-import paramiko
+import sys
 import wmi
 import nmap
+import socket
+import argparse
+import requests
+import paramiko
+
+sys.path.append(os.getcwd() + '/..')
+from Utils.helpers import *
 
 # Local Consts
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
@@ -15,12 +18,6 @@ DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/defa
 CREDS_REGEX = r"^(.*)\:(.*)$"
 SSH_PORT_NUM = 22
 RDP_PORT_NUM = 3389
-
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
-API_DATA = {'table_name': 'ports_scan',
-            'ScanID': '',
-            'Status': 'Finished',
-            'GUID': 'ETAI_ITAY123AA6548'}
 
 class PortScanner(object):
 
@@ -170,9 +167,6 @@ class PortScanner(object):
         with open(PORTSCAN_RESULTS_PATH + r'/{}.json'.format(self.uid), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
-def send_to_api(scan_id):
-    API_DATA['ScanID'] = scan_id 
-    resp = requests.post(API_URL, API_DATA)
     
 def get_args():
     """
