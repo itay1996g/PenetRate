@@ -1,7 +1,10 @@
-import requests
 import os
-import json
+import sys
+import requests
 import argparse
+
+sys.path.append(os.getcwd() + '/..')
+from Utils.helpers import *
 
 # Local Consts
 WAPPALYZER_API_URL = r"https://api.wappalyzer.com/lookup/v1/"
@@ -9,11 +12,6 @@ WAPPALYZER_API_KEY = r"wappalyzer.api.demo.key"
 RESULTS_DIR_PATH  = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + r"/Results"
 SERVICES_RESULTS_PATH = RESULTS_DIR_PATH + r"/ServiceScan"
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
-API_DATA = {'table_name': 'service_scan',
-            'ScanID': '',
-            'Status': 'Finished',
-            'GUID': 'ETAI_ITAY123AA6548'}
 
 class OpenServicesScanner(object):
     def __init__(self, url, uid):
@@ -24,20 +22,8 @@ class OpenServicesScanner(object):
         self.user_id = uid
         self.url_to_scan = url
         self.open_services = []
-        self.make_results_dir(RESULTS_DIR_PATH)
-        self.make_results_dir(SERVICES_RESULTS_PATH)
-
-    def make_results_dir(self, path):
-        if not os.path.exists(path):
-            os.mkdir(path)
-
-    def save_results_to_json(self, results):
-        """
-        Writes the results into a json file.
-        The file name will be the UID specified.
-        """
-        with open(SERVICES_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
+        make_results_dir(RESULTS_DIR_PATH)
+        make_results_dir(SERVICES_RESULTS_PATH)
 
     def find_services(self):
         """
@@ -63,17 +49,14 @@ class OpenServicesScanner(object):
                                                  'Version': app['versions'] } )
             results =  { 'Service Scan': self.open_services }
         except Exception as e:
-            results = {'Error while fetching Open Services results ' + str(e)}
+            results = {'Error while fetching Open Services results':  str(e)}
 
-        self.save_results_to_json(results)
-
-def send_to_api(scan_id):
-    API_DATA['ScanID'] = scan_id 
-    resp = requests.post(API_URL, API_DATA)  
+        save_results_to_json(SERVICES_RESULTS_PATH, results, self.user_id)
+        
 
 def get_args():
     """
-    Get arguments for the port scanner script.
+    Get arguments for the Services Scan script.
     """
     parser = argparse.ArgumentParser(description="Service Scan Module",
                                      usage="servicescan.py -d <DOMAIN> -u <USER_ID>")
@@ -89,7 +72,7 @@ def main():
     """
     args = get_args()
     scanner = OpenServicesScanner(args['domain'], args['uid'])
-    scanner.scan()
+    results = scanner.scan()
     send_to_api(args['uid'])
     
 if __name__ == '__main__':
