@@ -1,0 +1,15 @@
+help,info,mobile,account,support,api,about,contact,message,info,home,login,signin,join,register,connect,admin,administrator,main,details,account,myaccount,user
+disconnect,logout,signout
+m,mobile,web,app,phone,device,api
+edu,ac,academy,education,scholar,school,lab,learn,library,math,literature,english,history
+he,en,il,uk,nl,de,cn,ru,ca,fr,it,md,mx,no,nz,ph,pl,pt,ro,se,tw,uamn,au,jp,ae,af,al,am,cm,tv,br,cz,gl,us,ar,kz,az,be,dk,es,fi,hk,in,kr,lu
+www,ww,go
+localhost,host,local,central,server,proxy,connect,cdn,code,desktop,docs,documents,downloads
+app,bbs,rss,news,archive,history,blog,translate,search,publish,author,write,browse,trending,archive,post,article,community,culture,debate,diet,earth,election,environment,page,category,details,discover,event,events,fashion,celebs,general,feed,newsfeed,feeds,finance,food,review,fun,fusion,game,games,tech,technology,gallery,chat,forum,forums,media,gadgets,magazine,lookup,find,m,mobile,subscribe,unsubscribe,notifications,book,books,health
+auction,buy,buynow,business,buyer,purchase,exchange,currency,balance,order,ordernow,myorder,yourorder,mycart,yourcart,offer,item,items,itemid,page,page=,category,id,id=,product,productid,item,itemid,checkout,shop,shopping,store,details,favorite,favorites,favourite,favourites,search,browse,lot,gallery
+ads,app,apps,adwords,bureau,bureaus,customer,customers,client,clients,ad,ads,details,department,departments,dept,enterprise,jobs,profile,user,userprofile,lookup,notifications,book,booking,reservation,reserve,branch,branches
+autoconfig,autodiscover,backup,beta,cloud,config,dev,dialogue,file,files,flag,get,post,git,integrations,issues,test,prd,prod,preprod,dmz,gw,web,qa,debug,run,lib,library,libraries,list,lists
+mail,mailbox,webmail,inbox,outbox
+ask,answer,answers,search,browse,question,q,find
+it,jupiter,jira,vm1,webconf,sandbox,git,lab,firewall,member,gitlab,admin,cdn,api,exchange,vpn,barracuda,auth,jenkins,staging,citrix,login,router,helpdesk,mdm
+gallery,tv,vid,video,pic,picture,media,photo,player,movie,mov,movies,gomovies,film,watch,watchonline,stream,live,livestream,art,img,image,images,draw,edit,create,upload,subscribe,channel,follow,donate,donation,like,favorite,favourite,favorites,favourites,dislike,unlike,report,block,spam,scene,maps,location,travel,trip,page,page=,films

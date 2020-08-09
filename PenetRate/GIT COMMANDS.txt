@@ -1,4 +1,0 @@
-cd D:\PenetRateGit
-git add PenetRate
-git commit -m "CHANGE_NAME"
-git push
