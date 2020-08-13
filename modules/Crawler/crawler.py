@@ -21,8 +21,7 @@ def get_args():
   """
   Get arguments for the crawler's script.
   """
-  parser = argparse.ArgumentParser(description="Website Crawler Module",
-                                   usage="crawler.py -d <domain> -u <USER_ID>")
+  parser = argparse.ArgumentParser(description="Website Crawler Module")
 
   parser.add_argument('-d','--domain', help='The IP Address to scan', required=True)
   parser.add_argument('-u','--uid', help='User ID', required=True)
@@ -44,7 +43,7 @@ def save_results(results, personal_info, user_id, attack_mode='unauth'):
     with open(CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format(attack_mode, user_id), 'w') as output_file:
       json.dump({'Info': results}, output_file, ensure_ascii=False, indent=4)
 
-    with open(CRAWLER_RESULTS_PATH + r'/{}_{}_extract_info.json'.format(attack_mode, user_id), 'w', encoding='latin1') as output_file:
+    with open(CRAWLER_RESULTS_PATH + r'/{}_{}_extract_info.json'.format(attack_mode, user_id), 'w', encoding='utf8', errors="surrogateescape") as output_file:
       results_to_file = {'Info': []}
       for info in personal_info:
         results_to_file['Info'].append(info)
@@ -137,10 +136,16 @@ def route_crawl(args):
   start_crawl(args)
 
   if attack_selected:
-    scanner = AuthBypassScan(args['uid'], 
+    authbypass_scanner = AuthBypassScan(args['uid'], 
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('auth', args['uid']),
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('unauth', args['uid']))
-    scanner.scan()
+
+    sqli_scanner = SQLIScanner(user_id=args['domain'],
+                               base_url=args['site'], 
+                               auth_cookie=args['auth_cookie'])
+    
+    authbypass_scanner.scan()
+    sqli_scanner.scan()
 
 
 def main():

@@ -3,6 +3,7 @@ import os
 import sys
 import ssl
 import queue
+import traceback
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen, urljoin, URLError, HTTPError
@@ -10,6 +11,7 @@ from urllib.request import Request, urlopen, urljoin, URLError, HTTPError
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
 from VulnScan.xss import XssScanner
 from VulnScan.csrf import CsrfScanner
+from VulnScan.sqli import SQLIScanner
 from Utils.helpers import *
 
 EMAIL_REGEX = '[\w\.=-]+@[\w\.-]+\.[\w]{2,3}'
@@ -37,10 +39,6 @@ class Crawler(object):
     self._personal_info = []
     self.headers = {}
   
-    self.myssl = ssl.create_default_context()
-    self.myssl.check_hostname = False
-    self.myssl.verify_mode = ssl.CERT_NONE
-    
     self.crawledLinks = set()
     self.errorLinks = set()
     
@@ -50,7 +48,7 @@ class Crawler(object):
       unauth_cookie = get_unauth_cookie(base_url)
 
       if unauth_cookie:
-        self.headers['Cookie'] = unauth_cookie
+        self.headers['Cookie'] = "; ".join([str(x)+"="+str(y) for x, y in unauth_cookie.items()])
     
     self.headers['User-Agent'] = DEFAULT_USER_AGENT
 
@@ -61,14 +59,18 @@ class Crawler(object):
       if (urlparse(link).netloc == urlparse(self.base_url).netloc) and (link not in self.crawledLinks):
         request = Request(link, headers=self.headers)
         response = urlopen(request, context=self.myssl)
-        
+
         self.crawledLinks.add(link)
         html = response.read().decode('utf-8', 'ignore')
-        response_url = response.url
+
+        if html is not None:
+          response_url = response.url
+          self.extract_info(html, response_url)
+        else:
+          return None
 
         soup = BeautifulSoup(html, "html.parser")
-        self.extract_info(html, response_url)
-        
+
         self.enqueueLinks(soup.find_all('a'), links_to_crawl)
 
         if attack:
@@ -90,8 +92,7 @@ class Crawler(object):
     except URLError:
       pass
     except Exception as e:
-      print (url)
-      print (str(e))
+      print (traceback.format_exc())
 
   def enqueueLinks(self, links, links_to_crawl): 
     for link in links:
@@ -127,8 +128,10 @@ class Crawler(object):
 
     self.xss_scanner = XssScanner(auth_cookie=self.cookies)
     self.csrf_scanner = CsrfScanner(auth_cookie=self.cookies)
+    self.sqli_scanner = SQLIScanner(auth_cookie=self.cookies)
 
     make_results_dir(RESULTS_DIR_PATH)
     make_results_dir(XSS_RESULTS_PATH)
     make_results_dir(CSRF_RESULTS_PATH)
+    make_results_dir(SQLI_RESULTS_PATH)
     make_results_dir(AUTHBYPASS_RESULTS_PATH)
