@@ -1,9 +1,7 @@
-import os
-import sys
 import copy
 import argparse
-from urllib.parse import urljoin, urlparse
-from bs4 import BeautifulSoup as bs
+
+from .scanner import *
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
 from Utils.helpers import *
@@ -27,25 +25,20 @@ COMMON_CSRF_NAMES = [
     'at'
 ]
 
-class CsrfScanner(object):
+class CsrfScanner(VulnScanner):
     def __init__(self, auth_cookie, standalone=False):
+        super().__init__(auth_cookie)
         self._vuln_forms = []
-        self.headers = {}
 
         if auth_cookie is None:
             raise ValueError("User must specify auth cookie")
             
         self.headers['Cookie'] = auth_cookie
-        self.headers['User-Agnet'] = DEFAULT_USER_AGENT
+        self.headers['User-Agent'] = DEFAULT_USER_AGENT
 
         if standalone:
             make_results_dir(RESULTS_DIR_PATH)
             make_results_dir(CSRF_RESULTS_PATH)
-    
-
-    def _check_same_site(self, url):
-        if urlparse(url).netloc == urlparse(self.url).netloc or urlparse(url).netloc == '':
-            return True
 
     def _check_csrf_token(self, input_name, input_value):
         for csrf_token_name in COMMON_CSRF_NAMES:
@@ -98,25 +91,25 @@ class CsrfScanner(object):
         try:
             for form in self.get_all_post_forms(self.url):
                 if self._check_vuln_form(form):
-                    self._vuln_forms.append({'url': url, 'form': str(form)})
+                    if form is not None and url is not None:
+                        self._vuln_forms.append({'URL': url, 'FORM': str(form)})
                 else:
                     if not self._is_refer_checked(self.url):
-                        self._vuln_forms.append({'url': url, 'form': str(form)})
+                        if form is not None and url is not None:
+                            self._vuln_forms.append({'URL': url, 'FORM': str(form)})
 
             return self._vuln_forms
         except requests.exceptions.ConnectionError:
             pass
         except Exception as e:
-            print ("csrf error")
-            print(str(e))
+            print ("CSRF: " + str(e))
 
 
 def get_args():
     """
     Get arguments for the CSRF Scanner Module.
     """
-    parser = argparse.ArgumentParser(description="CSRF Scan Module",
-                                     usage="csrf.py -s <SITE>")
+    parser = argparse.ArgumentParser(description="CSRF Scan Module")
 
     parser.add_argument('-d','--domain', help='The domain to scan', required=True)
     parser.add_argument('-c','--auth-cookie', help='Auth cookie', required=True)
