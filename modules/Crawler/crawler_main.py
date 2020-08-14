@@ -1,137 +1,66 @@
-import re
-import os
-import sys
-import ssl
-import queue
-import traceback
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse
-from urllib.request import Request, urlopen, urljoin, URLError, HTTPError
+import argparse
+from crawler import *
 
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
-from VulnScan.xss import XssScanner
-from VulnScan.csrf import CsrfScanner
-from VulnScan.sqli import SQLIScanner
-from Utils.helpers import *
+CRAWLER_TABLE_NAME = r"clientside_scan"
 
-EMAIL_REGEX = '[\w\.=-]+@[\w\.-]+\.[\w]{2,3}'
-IP_ADDRESS_REGEX = '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+def get_args():
+  """
+  Get arguments for the crawler's script.
+  """
+  parser = argparse.ArgumentParser(description="Website Crawler Module")
 
-class CheckableQueue(queue.Queue):
-  def __contains__(self, item):
-    with self.mutex:
-      return item in self.queue
+  parser.add_argument('-d','--domain', help='The IP Address to scan', required=True)
+  parser.add_argument('-u','--uid', help='User ID', required=True)
+  parser.add_argument('-c','--auth-cookie', help='Authenticated Cookie', required=False, default=None)
+  parser.add_argument('-a','--attack', help='Attack Mode', required=False, default=False, action='store_true')
 
-  def __len__(self):
-    return len(self.queue)
+  args = vars(parser.parse_args())
 
+  if args['attack']:
+    if not args['auth_cookie']:
+      parser.error('In attack mode user must supply authenticated cookie')
+
+  return args
+
+def route_crawl(args):
+  """
+  If attack mode is selected:
+    1. Start unauth crawling (by disabling attack mode and auth_cookie)
+    2. Start auth crawling (attack mode dependes on user's selection)
+    3. Run AuthBypass Scanner
+    4. Run SQLInjection Scanner
+  """
+  with Crawler(base_url=args['domain'], attack_mode=False, auth_cookie=None) as crawler:
+    crawler.crawl()
+    crawler.save_results(args['uid'])
+
+  if args['attack']:
+    with Crawler(base_url=args['domain'], attack_mode=args['attack'], auth_cookie=args['auth_cookie']) as crawler:
+      crawler._config_attack()
+      crawler.crawl()
+      crawler.save_results(args['uid'], 'auth')
+      save_results_to_json(XSS_RESULTS_PATH, {'XSS': crawler_instance.vuln_results['XSS']}, args['uid'])
+      save_results_to_json(CSRF_RESULTS_PATH, {'CSRF': crawler_instance.vuln_results['CSRF']}, args['uid'])
+
+    authbypass_scanner = AuthBypassScan(args['uid'], 
+                             CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('auth', args['uid']),
+                             CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('unauth', args['uid']))
+
+    sqli_scanner = SQLIScanner(base_url=args['domain'],
+                               user_id=args['uid'],
+                               auth_cookie=args['auth_cookie'],
+                               auth_crawler_results=True)
+    
+    authbypass_scanner.scan()
+    sqli_scanner.scan()
+
+def main():
+  args = get_args()
+
+  make_results_dir(RESULTS_DIR_PATH)
+  make_results_dir(CRAWLER_RESULTS_PATH)
   
-class Crawler(object):
-  def __init__(self, base_url, cookies=None, attack_mode=False):
-    self.base_url = base_url
-    
-    self.myssl = ssl.create_default_context()
-    self.myssl.check_hostname = False
-    self.myssl.verify_mode = ssl.CERT_NONE
+  route_crawl(args)
 
-    self.cookies = cookies 
-    self.attack = attack_mode
-    self._personal_info = []
-    self.headers = {}
-  
-    self.crawledLinks = set()
-    self.errorLinks = set()
-    
-    if cookies is not None:
-      self.headers['Cookie'] = self.cookies
-    else:
-      unauth_cookie = get_unauth_cookie(base_url)
-
-      if unauth_cookie:
-        self.headers['Cookie'] = "; ".join([str(x)+"="+str(y) for x, y in unauth_cookie.items()])
-    
-    self.headers['User-Agent'] = DEFAULT_USER_AGENT
-
-  def crawl(self, thread_name, url, links_to_crawl, attack=False):
-    try:
-      link = urljoin(self.base_url, url)
-
-      if (urlparse(link).netloc == urlparse(self.base_url).netloc) and (link not in self.crawledLinks):
-        request = Request(link, headers=self.headers)
-        response = urlopen(request, context=self.myssl)
-
-        self.crawledLinks.add(link)
-        html = response.read().decode('utf-8', 'ignore')
-
-        if html is not None:
-          response_url = response.url
-          self.extract_info(html, response_url)
-        else:
-          return None
-
-        soup = BeautifulSoup(html, "html.parser")
-
-        self.enqueueLinks(soup.find_all('a'), links_to_crawl)
-
-        if attack:
-          xss_result = self.xss_scanner.scan(link)
-          csrf_result = self.csrf_scanner.scan(link)
-
-          if xss_result != []:
-            self.vuln_results['XSS'].append(xss_result)
-
-          if csrf_result != []:
-            self.vuln_results['CSRF'].append(csrf_result)
-
-        return url, response.getcode()
-
-    except requests.exceptions.SSLError as ssl_error:
-      pass
-    except HTTPError:
-      pass
-    except URLError:
-      pass
-    except Exception as e:
-      print (traceback.format_exc())
-
-  def enqueueLinks(self, links, links_to_crawl): 
-    for link in links:
-      if (urljoin(self.base_url, link.get('href')) not in self.crawledLinks):
-        if (urljoin(self.base_url, link.get('href')) not in links_to_crawl):
-          links_to_crawl.put(link.get('href'))
-
-  def add_regex_results(self, regex, category, html, response_url):
-    JSON_OUTPUT_FORMAT = {'Name': None,
-                          'Value': None,
-                          'URL': None}
-    
-    regex_result = re.findall(regex, html)
-
-    if len(regex_result) > 0:
-        JSON_OUTPUT_FORMAT['Name'] = category
-        JSON_OUTPUT_FORMAT['Value'] = regex_result
-        JSON_OUTPUT_FORMAT['URL'] = response_url
-
-        if JSON_OUTPUT_FORMAT not in self._personal_info:
-            self._personal_info.append(JSON_OUTPUT_FORMAT)
-
-  def extract_info(self, html, response_url):
-    self.add_regex_results(EMAIL_REGEX, 'Email', html, response_url)
-    self.add_regex_results(IP_ADDRESS_REGEX, 'IP Address', html, response_url)
-
-  def _config_attack(self):
-    self.vuln_results = {}
-
-    self.vuln_results['XSS'] = []
-    self.vuln_results['CSRF'] = []
-    self.vuln_results['SQLI'] = []
-
-    self.xss_scanner = XssScanner(auth_cookie=self.cookies)
-    self.csrf_scanner = CsrfScanner(auth_cookie=self.cookies)
-    self.sqli_scanner = SQLIScanner(auth_cookie=self.cookies)
-
-    make_results_dir(RESULTS_DIR_PATH)
-    make_results_dir(XSS_RESULTS_PATH)
-    make_results_dir(CSRF_RESULTS_PATH)
-    make_results_dir(SQLI_RESULTS_PATH)
-    make_results_dir(AUTHBYPASS_RESULTS_PATH)
+if __name__ == '__main__':
+  main()
