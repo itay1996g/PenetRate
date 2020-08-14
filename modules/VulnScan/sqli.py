@@ -84,7 +84,10 @@ class SQLIScanner(object):
 
                 for payload in self._sqli_payloads():
                     website = domain + "?" + ("&".join([param + payload for param in queries]))
-                    source = self._get_html(website).decode()
+                    html = self._get_html(website)
+                    if html is None:
+                        continue
+                    source = html.decode()
                     if source:
                         vuln_db_name = self._check_sql_errors(source)
                         if vuln_db_name != None:
