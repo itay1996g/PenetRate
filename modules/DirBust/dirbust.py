@@ -41,11 +41,12 @@ class DirBuster(object):
         make_results_dir(DIRBUST_RESULTS_PATH)
 
     def _remove_empty_childs(self, json):
-        for child in json['children']:
-            if len(child['children']) == 0:
-                child.pop('children')
-                continue
-            self._remove_empty_childs(child)
+        if 'children' in json.keys():
+            for child in json['children']:
+                if len(child['children']) == 0:
+                    child.pop('children')
+                    continue
+                self._remove_empty_childs(child)
 	
     def _check_valid_domain_format(self, addr):
         if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
@@ -120,7 +121,7 @@ class DirBuster(object):
 
         self._remove_empty_childs(data)
         
-        with open(DIRBUST_RESULTS_PATH + r'/{}_before.json'.format(self.user_id), 'w') as f:
+        with open(DIRBUST_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
             
     def dirbust(self):
