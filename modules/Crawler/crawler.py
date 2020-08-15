@@ -147,7 +147,7 @@ class Crawler(object):
       with open(CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format(attack_mode, user_id), 'w') as output_file:
         json.dump({'Info': list(self.crawled_links)}, output_file, ensure_ascii=False, indent=4)
 
-      with open(CRAWLER_RESULTS_PATH + r'/{}_{}_extract_info.json'.format(attack_mode, user_id), 'w', encoding='utf8', errors="surrogateescape") as output_file:
+      with open(SENSITIVEINFO_RESULTS_PATH + r'/{}_{}_extract_info.json'.format(attack_mode, user_id), 'w', encoding='utf8', errors="surrogateescape") as output_file:
         results_to_file = {'Info': []}
         for info in self._personal_info:
           results_to_file['Info'].append(info)
