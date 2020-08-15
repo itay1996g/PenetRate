@@ -179,7 +179,6 @@ class Crawler(object):
 
     self.vuln_results['XSS'] = []
     self.vuln_results['CSRF'] = []
-    self.vuln_results['SQLI'] = []
 
     self.xss_scanner = XssScanner(auth_cookie=self.cookies)
     self.csrf_scanner = CsrfScanner(auth_cookie=self.cookies)
