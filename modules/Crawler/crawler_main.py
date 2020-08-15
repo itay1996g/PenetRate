@@ -39,8 +39,8 @@ def route_crawl(args):
       crawler._config_attack()
       crawler.crawl()
       crawler.save_results(args['uid'], 'auth')
-      save_results_to_json(XSS_RESULTS_PATH, {'XSS': crawler_instance.vuln_results['XSS']}, args['uid'])
-      save_results_to_json(CSRF_RESULTS_PATH, {'CSRF': crawler_instance.vuln_results['CSRF']}, args['uid'])
+      save_results_to_json(XSS_RESULTS_PATH, {'XSS': crawler.vuln_results['XSS']}, args['uid'])
+      save_results_to_json(CSRF_RESULTS_PATH, {'CSRF': crawler.vuln_results['CSRF']}, args['uid'])
 
     authbypass_scanner = AuthBypassScan(args['uid'], 
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('auth', args['uid']),
