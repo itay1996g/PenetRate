@@ -102,6 +102,7 @@ class CsrfScanner(VulnScanner):
         except requests.exceptions.ConnectionError:
             pass
         except Exception as e:
+            raise e
             return []
 
 

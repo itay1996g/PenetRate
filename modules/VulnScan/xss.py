@@ -1,6 +1,6 @@
 import argparse
 
-from .scanner import *
+from scanner import *
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
 from Utils.helpers import *
@@ -38,7 +38,6 @@ class XssScanner(VulnScanner):
         returns True if any is vulnerable, False otherwise
         """
         self.url = url
-        final_results = []
 
         try:
             forms = self.get_all_forms(self.url)
@@ -46,26 +45,20 @@ class XssScanner(VulnScanner):
                 form_details = self.get_form_details(form)
                 if form_details != {}:
                     for payload in self._xss_payloads():
-                        content = self.submit_form(form_details, self.url, payload).content.decode()
-                        if content is not None:
-                            if payload in content:
-                                self.results.append(form_details)
+                        content, input_name = self.submit_form(form_details, self.url, payload)
+                        if content.content.decode() is not None and input_name is not None:
+                            if payload in content.content.decode():
+                                self.results.append({'URL': form_details['action'],
+                                                     'input_name': input_name,
+                                                     'value': payload })
                                 break
-
-            for result in self.results:
-                for inp in results['inputs']:
-                    if inp['type'] != 'submit':
-                        final_results.append({'URL': result['action'], 
-                                              'form_name': result['name'],
-                                              'input_name': inp['name'],
-                                              'value': inp['value']})
 
         except requests.exceptions.ConnectionError:
             pass
         except Exception as e:
-            final_results = []
+            raise e
 
-        return final_results
+        return self.results
         
 
 def get_args():

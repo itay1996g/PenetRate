@@ -71,10 +71,12 @@ class VulnScanner(object):
         
         inputs = form_details["inputs"]
         data = {}
-        
+        payload_input_name = None
+
         for input in inputs:
-            if input["type"] == "text" or input["type"] == "search":
+            if input["type"] != "submit":
                 input["value"] = value
+                payload_input_name = input["name"]
             input_name = input.get("name")
             input_value = input.get("value")
             if input_name and input_value:
@@ -83,10 +85,10 @@ class VulnScanner(object):
         if form_details["method"] == "post":
             resp = requests.post(target_url, headers=DEFAULT_HEADERS, data=data)
             if resp.status_code == 200:
-                return resp
+                return resp, payload_input_name
         else:
             resp = requests.get(target_url, headers=DEFAULT_HEADERS, params=data)
             if resp.status_code == 200:
-                return resp
+                return resp, payload_input_name
 
-        return None
+        return None, None
