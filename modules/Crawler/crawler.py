@@ -97,11 +97,15 @@ class Crawler(object):
     xss_result = self.xss_scanner.scan(url)
     csrf_result = self.csrf_scanner.scan(url)
 
-    if xss_result != []:
-      self.vuln_results['XSS'].append(xss_result)
+    if xss_result is not None:
+      for form in xss_result:
+        if form != {} and form not in self.vuln_results['XSS']:
+          self.vuln_results['XSS'].append(form)
 
-    if csrf_result != []:
-      self.vuln_results['CSRF'].append(csrf_result)
+    if csrf_result is not None:
+      for form in csrf_result:
+        if form != {} and form not in self.vuln_results['CSRF']:
+          self.vuln_results['CSRF'].append(form)
 
   def post_crawl_callback(self, res):
     result = res.result()
