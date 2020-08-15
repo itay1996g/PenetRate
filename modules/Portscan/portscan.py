@@ -59,12 +59,12 @@ class PortScanner(object):
 
                 if port == SSH_PORT_NUM:
                     if self.check_ssh_connection(user, pwd):
-                        self.connected_ports.append({'Service Name': 'SSH',
+                        self.connected_ports.append({'ServiceName': 'SSH',
                                                      'Username' : user,
                                                      'Password' : pwd })
                 elif port == RDP_PORT_NUM:
                     if self.check_rdp_connection(user, pwd):
-                        self.connected_ports.append({'Service Name': 'RDP',
+                        self.connected_ports.append({'ServiceName': 'RDP',
                                                      'Username' : user,
                                                      'Password' : pwd })
                 else:
@@ -125,9 +125,9 @@ class PortScanner(object):
                 except:
                     service_name = 'Unknown'
                 if port[1]['state'] == 'open':
-                    self.open_ports.append({'Port':port[0], 'Service Name' : service_name})
+                    self.open_ports.append({'Port':port[0], 'ServiceName' : service_name})
                 elif port[1]['state'] == 'filtered':
-                    self.filtered_ports.append({'Port':port[0], 'Service Name' : service_name})
+                    self.filtered_ports.append({'Port':port[0], 'ServiceName' : service_name})
                 else:
                     continue
         except Exception as e:

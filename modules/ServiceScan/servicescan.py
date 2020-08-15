@@ -46,7 +46,7 @@ class OpenServicesScanner(object):
                 for app in service['applications']:
                     self.open_services.append( { 'Name': app['name'],
                                                  'Version': app['versions'] } )
-            results =  { 'Service Scan': self.open_services }
+            results =  { 'ServiceScan': self.open_services }
         except Exception as e:
             results = {'Error while fetching Open Services results':  str(e)}
 
