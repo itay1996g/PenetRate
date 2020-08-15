@@ -56,8 +56,9 @@ class XssScanner(VulnScanner):
                 for inp in results['inputs']:
                     if inp['type'] != 'submit':
                         final_results.append({'URL': result['action'], 
-                                              'FORM': inp['name'],
-                                              'PAYLOAD': inp['value']})
+                                              'form_name': result['name'],
+                                              'input_name': inp['name'],
+                                              'value': inp['value']})
 
         except requests.exceptions.ConnectionError:
             pass
