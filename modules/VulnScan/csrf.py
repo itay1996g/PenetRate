@@ -102,7 +102,7 @@ class CsrfScanner(VulnScanner):
         except requests.exceptions.ConnectionError:
             pass
         except Exception as e:
-            print ("CSRF: " + str(e))
+            return []
 
 
 def get_args():

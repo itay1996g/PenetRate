@@ -53,13 +53,16 @@ class XssScanner(VulnScanner):
                                 break
 
             for result in self.results:
-                final_results.append({'URL': result['action'], 
-                                      'XSS': list({v['name']: v for v in result['inputs']}.values())})
+                for inp in results['inputs']:
+                    if inp['type'] != 'submit':
+                        final_results.append({'URL': result['action'], 
+                                              'FORM': inp['name'],
+                                              'PAYLOAD': inp['value']})
 
         except requests.exceptions.ConnectionError:
             pass
         except Exception as e:
-            final_results = {"Error while tring to attack target": str(e)}
+            final_results = []
 
         return final_results
         
