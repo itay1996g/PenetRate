@@ -49,3 +49,9 @@ def get_unauth_cookie(url):
         return None
     return unauth_cookies
 
+def check_valid_url(url):
+    if (not url.startswith('http://')) or (not url.startswith('https://')):
+        raise ValueError("URL must start with http or https")
+    if (not url.endswith('/')):
+        raise ValueError("URL must end with /")
+
