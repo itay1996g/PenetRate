@@ -31,9 +31,17 @@ class AuthBypassScan(object):
     def _compare_results(self):
         return list(set(self.unauth_crawler_results['Info']) - (set(self.auth_crawler_results['Info'])))
 
+    def _convert_results_to_json(self, results):
+        json_results = []
+
+        for result in results:
+            json_results.append({'URL': result})
+
+        return json_results
+
     def scan(self):
         self._read_crawler_results()
-        results = self._compare_results()
+        results = self._convert_results_to_json(self._compare_results())
         save_results_to_json(AUTHBYPASS_RESULTS_PATH, {'AuthBypass': results}, self.uid)
     
 def get_args():
