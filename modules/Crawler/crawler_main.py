@@ -59,6 +59,7 @@ def main():
 
   make_results_dir(RESULTS_DIR_PATH)
   make_results_dir(CRAWLER_RESULTS_PATH)
+  make_results_dir(SENSITIVEINFO_RESULTS_PATH)
   
   route_crawl(args)
 
