@@ -65,6 +65,8 @@ def route_crawl(args):
     
     authbypass_scanner.scan()
     sqli_scanner.scan()
+
+    send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
     
   if args['dirbust']:
       sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/../DirBust')
@@ -81,8 +83,6 @@ def main():
   make_results_dir(SENSITIVEINFO_RESULTS_PATH)
   
   route_crawl(args)
-  
-  send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
 
 if __name__ == '__main__':
   main()
