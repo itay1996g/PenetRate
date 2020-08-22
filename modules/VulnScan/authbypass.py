@@ -21,11 +21,11 @@ class AuthBypassScan(object):
 
     def _read_crawler_results(self):
         if self.unauth_crawler_results_file is not None:
-            with open(self.unauth_crawler_results_file, 'r') as crawler_results_file:
+            with open(self.unauth_crawler_results_file, 'r', encoding='utf8', errors="surrogateescape") as crawler_results_file:
                 self.unauth_crawler_results = json.load(crawler_results_file)
 
         if self.auth_crawler_results_file is not None:
-            with open(self.auth_crawler_results_file, 'r') as crawler_results_file:
+            with open(self.auth_crawler_results_file, 'r', encoding='utf8', errors="surrogateescape") as crawler_results_file:
                 self.auth_crawler_results = json.load(crawler_results_file)
 
     def _compare_results(self):
