@@ -1,6 +1,6 @@
 import argparse
 
-from scanner import *
+from .scanner import *
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
 from Utils.helpers import *
