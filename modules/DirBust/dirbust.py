@@ -6,7 +6,6 @@ import requests
 import argparse
 import fake_useragent 
 from time import sleep
-from fp.fp import FreeProxy
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/..')
 from Utils.helpers import *
@@ -47,7 +46,7 @@ class DirBuster(object):
                     child.pop('children')
                     continue
                 self._remove_empty_childs(child)
-	
+    
     def _check_valid_domain_format(self, addr):
         if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
             raise ValueError("[-] Address format is invalid!")
@@ -132,18 +131,16 @@ class DirBuster(object):
 
         remove_new_lines = lambda x: x.replace('\n', '')
         dir_list = list(map(remove_new_lines, open(self.wordlist, 'r').readlines()))
-        proxy = FreeProxy().get()
-            
+                    
         for directory in dir_list:
             search_dir = self.addr + '{}'.format(directory)
             resp = None
             while resp is None:
                 try:
                     resp = requests.get(search_dir,
-                                        headers=self.headers,
-                                        proxies={'http': proxy})
-                except requests.exceptions.ProxyError:
-                    proxy = FreeProxy().get()
+                                        headers=self.headers)
+                except Exception as e:
+                    print (str(e))
 
             if resp.status_code in ERROR_CODES:
                 dirs_found.append({'Page': search_dir, 'Response': resp.status_code, 'children': []})
