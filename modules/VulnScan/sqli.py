@@ -36,7 +36,7 @@ class SQLIScanner(object):
         self.headers['User-Agent'] = DEFAULT_USER_AGENT
 
         if auth_crawler_results:
-            with open(os.path.join(CRAWLER_RESULTS_PATH, r'auth_{}.json'.format(user_id)), 'r') as f:
+            with open(os.path.join(CRAWLER_RESULTS_PATH, r'auth_{}.json'.format(user_id)), 'r', encoding='utf8', errors="surrogateescape") as f:
                 self.auth_crawler_results = json.load(f)
 
     def _check_sql_errors(self, html):
@@ -94,7 +94,7 @@ class SQLIScanner(object):
                             self.results.append({'DB_TYPE': vuln_db_name, 'URL': url})
 
         unique_result = list({result['URL']:result for result in self.results}.values())
-        results = {'SQL Injection': unique_result}
+        results = {'SQLInjection': unique_result}
 
         save_results_to_json(SQLI_RESULTS_PATH, results, self.user_id)
         
