@@ -144,7 +144,7 @@ class Crawler(object):
 
   def save_results(self, user_id, attack_mode='unauth'):
     try:            
-      with open(CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format(attack_mode, user_id), 'w') as output_file:
+      with open(CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format(attack_mode, user_id), 'w', encoding='utf8', errors="surrogateescape") as output_file:
         json.dump({'Info': list(self.crawled_links)}, output_file, ensure_ascii=False, indent=4)
 
       with open(SENSITIVEINFO_RESULTS_PATH + r'/{}_{}_extract_info.json'.format(attack_mode, user_id), 'w', encoding='utf8', errors="surrogateescape") as output_file:
