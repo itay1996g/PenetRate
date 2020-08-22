@@ -14,16 +14,27 @@ from Utils.helpers import *
 PORTSCAN_RESULTS_PATH = RESULTS_DIR_PATH + r"/Portscan"
 DEFAULT_CREDS_PATH = os.path.dirname(os.path.abspath(__file__)) + r"/addons/default_creds.txt"
 CREDS_REGEX = r"^(.*)\:(.*)$"
+VALID_SITE_REGEX = r'https?:\/\/(.*)\/.'
 SSH_PORT_NUM = 22
 RDP_PORT_NUM = 3389
 PORTSCAN_TABLE_NAME = r"ports_scan"
+DEFAULT_PORTS_TO_SCAN = '21, 22, 23, 25, 53, 80, 110, 113, 115, 135, 138, 443, 445, 3306, 3389, 8080, 8000'
 
 class PortScanner(object):
 
-    def __init__(self, uid, ip, ports):
+    def __init__(self, uid, ip):
         self.target_ip = ip
-        self.ports_to_scan = ports
+        self.ports_to_scan = DEFAULT_PORTS_TO_SCAN
         self.uid = uid
+        
+        try:
+            socket.inet_aton(ip)
+        except socket.error:
+            self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)[0]
+            
+        if self.target_ip == []:
+            raise ValueError("Invalid Address")
+        
         try:
             self.scanner = nmap.PortScanner()
         except:
@@ -80,7 +91,7 @@ class PortScanner(object):
         try:
             ssh_client.connect(hostname=self.target_ip, username=user, password=pwd)
             return True
-        except paramiko.AuthenticationException:
+        except Exception as e:
             return False
 
     def check_rdp_connection(self, user, pwd):
@@ -102,8 +113,8 @@ class PortScanner(object):
         """
         try:
             output = self.scanner.scan(hosts=self.target_ip, ports=self.ports_to_scan)
-        except AssertionError:
-            pass
+        except AssertionError as e:
+            print (str(e))
 
         if self.check_syntax():
             self.parse_results(output)
@@ -172,10 +183,9 @@ def get_args():
     Get arguments for the port scanner script.
     """
     parser = argparse.ArgumentParser(description="Port Scan Module",
-                                     usage="portscan.py -i <IP> -p <PORTS> -u <USER_ID>")
+                                     usage="portscan.py -i <IP> -u <USER_ID>")
 
     parser.add_argument('-i','--ip', help='The IP Address to scan', required=True)
-    parser.add_argument('-p','--port', help='Port range', required=True)
     parser.add_argument('-u','--uid', help='User ID', required=True)
 
     return vars(parser.parse_args())
@@ -185,10 +195,9 @@ def main():
     Main function.
     """
     args = get_args()
-    scanner = PortScanner(args['uid'], args['ip'], args['port'])
+    scanner = PortScanner(args['uid'], args['ip'])
     scanner.scan()
     send_to_api(args['uid'], PORTSCAN_TABLE_NAME)
     
 if __name__ == '__main__':
     main()
-    
