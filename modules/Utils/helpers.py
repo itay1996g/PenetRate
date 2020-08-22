@@ -18,7 +18,7 @@ SENSITIVEINFO_RESULTS_PATH = RESULTS_DIR_PATH + r"/SensitiveInfo"
 
 SQLI_RESULTS_PATH = RESULTS_DIR_PATH + r"/SQLInjection"
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_URL = r'http://193.106.55.103:8080/penetrate/helpers/ScansForm.php'
 
 API_DATA = {'table_name': '',
             'ScanID': '',
@@ -36,7 +36,7 @@ def save_results_to_json(path, results, user_id):
     Writes the results into a json file.
     The file name will be the UID specified.
     """
-    with open(path + r'/{}.json'.format(user_id), 'w') as f:
+    with open(path + r'/{}.json'.format(user_id), 'w', encoding='utf8', errors="surrogateescape") as f:
         json.dump(results, f, ensure_ascii=False, indent=4)
 
 def send_to_api(scan_id, table_name):
