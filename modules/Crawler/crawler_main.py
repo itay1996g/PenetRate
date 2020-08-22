@@ -51,6 +51,9 @@ def route_crawl(args):
       save_results_to_json(XSS_RESULTS_PATH, {'XSS': crawler.vuln_results['XSS']}, args['uid'])
       save_results_to_json(CSRF_RESULTS_PATH, {'CSRF': crawler.vuln_results['CSRF']}, args['uid'])
 
+    send_to_api(args['uid'], CRAWLER_TABLE_NAME)
+    send_to_api(args['uid'], CLIENTSIDE_TABLE_NAME)
+
     authbypass_scanner = AuthBypassScan(args['uid'], 
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('auth', args['uid']),
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('unauth', args['uid']))
@@ -79,8 +82,6 @@ def main():
   
   route_crawl(args)
   
-  send_to_api(args['uid'], CRAWLER_TABLE_NAME)
-  send_to_api(args['uid'], CLIENTSIDE_TABLE_NAME)
   send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
 
 if __name__ == '__main__':
