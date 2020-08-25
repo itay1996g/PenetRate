@@ -30,11 +30,13 @@ class PortScanner(object):
         try:
             socket.inet_aton(ip)
         except socket.error:
-            self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)[0]
-            
+            self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)
+
         if self.target_ip == []:
             raise ValueError("Invalid Address")
-        
+
+        self.target_ip = self.target_ip[0]
+
         try:
             self.scanner = nmap.PortScanner()
         except:
@@ -120,7 +122,7 @@ class PortScanner(object):
             self.parse_results(output)
             for port in self.open_ports:
                 self.check_connection_to_port(int(port['Port']))
-        
+
         self.save_results_to_json()
 
     def parse_results(self, results):
@@ -177,7 +179,7 @@ class PortScanner(object):
         with open(PORTSCAN_RESULTS_PATH + r'/{}.json'.format(self.uid), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
-    
+
 def get_args():
     """
     Get arguments for the port scanner script.
@@ -195,9 +197,20 @@ def main():
     Main function.
     """
     args = get_args()
-    scanner = PortScanner(args['uid'], args['ip'])
-    scanner.scan()
-    send_to_api(args['uid'], PORTSCAN_TABLE_NAME)
+    try:
+        scanner = PortScanner(args['uid'], args['ip'])
+        scanner.scan()
+    except:
+        results = {}
+
+        results['Open'] = []
+        results['Filtered'] = []
+        results['Connects'] = []
+
+        with open(PORTSCAN_RESULTS_PATH + r'/{}.json'.format(args['uid']), 'w') as f:
+            json.dump(results, f, ensure_ascii=False, indent=4)
+
+        send_to_api(args['uid'], PORTSCAN_TABLE_NAME)
     
 if __name__ == '__main__':
     main()
