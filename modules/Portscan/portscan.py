@@ -210,7 +210,7 @@ def main():
         with open(PORTSCAN_RESULTS_PATH + r'/{}.json'.format(args['uid']), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
-        send_to_api(args['uid'], PORTSCAN_TABLE_NAME)
+    send_to_api(args['uid'], PORTSCAN_TABLE_NAME)
     
 if __name__ == '__main__':
     main()
