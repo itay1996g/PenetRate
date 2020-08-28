@@ -46,11 +46,12 @@ class XssScanner(VulnScanner):
                 if form_details != {}:
                     for payload in self._xss_payloads():
                         content, input_name = self.submit_form(form_details, self.url, payload)
-                        if content.content.decode() is not None and input_name is not None:
-                            if payload in content.content.decode():
-                                self.results.append({'URL': form_details['action'],
-                                                     'input_name': input_name,
-                                                     'value': payload })
+                        if content is not None:
+                            if content.content.decode() is not None and input_name is not None:
+                                if payload in content.content.decode():
+                                    self.results.append({'URL': form_details['action'],
+                                                         'input_name': input_name,
+                                                         'value': payload })
                                 break
 
         except requests.exceptions.ConnectionError:
