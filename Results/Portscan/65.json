@@ -1,0 +1,75 @@
+{
+    "Filtered": [
+        {
+            "ServiceName": "Unknown", 
+            "Port": 8000
+        }, 
+        {
+            "ServiceName": "Unknown", 
+            "Port": 3306
+        }, 
+        {
+            "ServiceName": "epmap", 
+            "Port": 135
+        }, 
+        {
+            "ServiceName": "netbios-dgm", 
+            "Port": 138
+        }, 
+        {
+            "ServiceName": "pop3", 
+            "Port": 110
+        }, 
+        {
+            "ServiceName": "ms-wbt-server", 
+            "Port": 3389
+        }, 
+        {
+            "ServiceName": "auth", 
+            "Port": 113
+        }, 
+        {
+            "ServiceName": "Unknown", 
+            "Port": 115
+        }, 
+        {
+            "ServiceName": "telnet", 
+            "Port": 23
+        }, 
+        {
+            "ServiceName": "smtp", 
+            "Port": 25
+        }, 
+        {
+            "ServiceName": "microsoft-ds", 
+            "Port": 445
+        }
+    ], 
+    "Open": [
+        {
+            "ServiceName": "Unknown", 
+            "Port": 8080
+        }, 
+        {
+            "ServiceName": "http", 
+            "Port": 80
+        }, 
+        {
+            "ServiceName": "domain", 
+            "Port": 53
+        }, 
+        {
+            "ServiceName": "ssh", 
+            "Port": 22
+        }, 
+        {
+            "ServiceName": "https", 
+            "Port": 443
+        }, 
+        {
+            "ServiceName": "ftp", 
+            "Port": 21
+        }
+    ], 
+    "Connects": null
+}

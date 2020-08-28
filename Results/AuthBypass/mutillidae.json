@@ -1,0 +1,13 @@
+{
+    "AuthBypass": [
+        {
+            "URL": "http://127.0.0.1:8080/index.php?page=edit-account-profile.php&uid=24"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/index.php?page=password-generator.php&username=itay"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/index.php?do=logout"
+        }
+    ]
+}

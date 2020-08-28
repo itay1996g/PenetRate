@@ -1,0 +1,315 @@
+{
+    "Info": [
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "social-icons@2x.png",
+                "social-icons-large@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/stylesheets/all.css"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/index.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/applications.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/howto.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "auth_username=your-gmail-username@gmail.com",
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/faq.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "license@php.net"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/phpinfo.php"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/backup-restore-mysql.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/transfer-files-ftp.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/deploy-git-app.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/reset-mysql-password.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/configure-vhosts.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/install-wordpress.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/configure-wildcard-subdomains.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "auth_username=your-gmail-username@gmail.com",
+                "recipients@email-address.com",
+                "your@email-address.com",
+                "your-gmail-username@gmail.com",
+                "your@email-address.com",
+                "recipients@email-address.com",
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/send-mail.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/use-sqlite.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/activate-use-xdebug.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/create-framework-project-zf1.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/change-mysql-temp-dir.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/create-framework-project-zf2.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/auto-start-xampp.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/use-different-php-version.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/increase-php-file-upload-limit.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/access-phpmyadmin-remotely.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/configure-use-tomcat.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/use-php-fcgi.html"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/backup-restore-mysql.html#using_command_line_tools"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "feZ@W.W摧"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/transfer-files-ftp.pdf"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/backup-restore-mysql.html#using_phpmyadmin"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "O7@y.kyk",
+                "5pd@REW.Kj"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/backup-restore-mysql.pdf"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/install-wordpress.html#introduction"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/install-wordpress.html#step_1_install_bitnami_wordpress_module_for_xampp"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/install-wordpress.html#step_2_test_wordpress"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/install-wordpress.html#step_3_create_an_editor_account_and_start_blogging"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#ports_80_and_443_in_use_by_skype"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "tp@fʨ.șE",
+                "-Z@DF.wk"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.pdf"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#port_80_in_use_by_pid_4"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#port_443_in_use_by_vmware"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#serverroot_must_be_a_valid_directory"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#xampp_cannot_start_on_port_80_windows_10"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "fastly-logo@2x.png"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/troubleshoot-apache.html#the_microsoft_edge_browser_cannot_be_used_to_access_local_addresses_using_the_machine_host_name"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "m@N.WS"
+            ],
+            "URL": "http://127.0.0.1:8080/dashboard/docs/configure-use-tomcat.pdf"
+        }
+    ]
+}

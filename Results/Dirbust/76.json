@@ -1,0 +1,119 @@
+{
+    "Pages": [
+        {
+            "Page": "http://18.221.137.102/mutillidae/Images",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/ajax",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/aux",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/classes",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/com1",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/com2",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/com3",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/com4",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/con",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/data",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/documentation",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/images",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/includes",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/javascript",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/lpt1",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/lpt2",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/nul",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/passwords",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/phpMyAdmin",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/phpmyadmin",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/prn",
+            "Response": 403,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/styles",
+            "Response": 200,
+            "children": []
+        },
+        {
+            "Page": "http://18.221.137.102/mutillidae/test",
+            "Response": 200,
+            "children": []
+        }
+    ]
+}

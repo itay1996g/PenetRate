@@ -1,0 +1,204 @@
+{
+    "RESPONSE_Headers_Info": [
+        {
+            "Name": "Server", 
+            "Value": " nginx/1.19.0"
+        }, 
+        {
+            "Name": "Content-Type", 
+            "Value": " text/html; charset=UTF-8"
+        }, 
+        {
+            "Name": "Link", 
+            "Value": " <https://isi-slonim.co.il/wp-json/>; rel=\"https://api.w.org/\", <https://isi-slonim.co.il/wp-json/wp/v2/pages/1285>; rel=\"alternate\"; type=\"application/json\", <https://isi-slonim.co.il/>; rel=shortlink"
+        }, 
+        {
+            "Name": "Content-Security-Policy", 
+            "Value": " upgrade-insecure-requests"
+        }, 
+        {
+            "Name": "Vary", 
+            "Value": " Accept-Encoding"
+        }, 
+        {
+            "Name": "host-header", 
+            "Value": " c2hhcmVkLmJsdWVob3N0LmNvbQ=="
+        }, 
+        {
+            "Name": "X-Server-Cache", 
+            "Value": " true"
+        }, 
+        {
+            "Name": "X-Proxy-Cache", 
+            "Value": " EXPIRED"
+        }, 
+        {
+            "Name": "Transfer-Encoding", 
+            "Value": " chunked"
+        }
+    ], 
+    "RESPONSE_Headers_Details": [
+        {
+            "Reference": "http://www.w3.org/TR/CSP/", 
+            "Security Description": "Content Security Policy requires careful tuning and precise definition of the policy. If enabled, CSP has significant impact on the way browser renders pages (e.g., inline JavaScript disabled by default and must be explicitly allowed in policy). CSP prevents a wide range of attacks, including Cross-site scripting and other cross-site injections.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "Value": "upgrade-insecure-requests", 
+            "Recommendations": "Read the reference http://www.w3.org/TR/CSP/ and set according to your case. This is not a easy job.", 
+            "Header Field Name": "Content-Security-Policy", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7230#section-3.3.1", 
+            "Security Description": "Response splitting (a.k.a, CRLF injection) is a common technique, used in various attacks on Web usage, that exploits the line-based nature of HTTP message framing and the ordered association of requests to responses on persistent connections. This technique can be particularly damaging when the requests pass through a shared cache.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "Value": "chunked", 
+            "Recommendations": "A common defense against response splitting is to filter requests for data that looks like encoded CR and LF (e.g., \"%0D\" and \"%0A\"). However, that assumes the application server is only performing URI decoding, rather than more obscure data transformations like charset transcoding, XML entity translation, base64 decoding, sprintf reformatting, etc. A more effective mitigation is to prevent anything other than the server's core protocol libraries from sending a CR or LF within the header section, which means restricting the output of header fields to APIs that filter for bad octets and not allowing application servers to write directly to the protocol stream.", 
+            "Header Field Name": "Transfer-Encoding", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7230#section-9'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7231#section-7.4.2", 
+            "Security Description": "Overly long and detailed Server field values increase response latency and potentially reveal internal implementation details that might make it (slightly) easier for attackers to find and exploit known security holes.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/200.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "Value": "nginx/1.19.0", 
+            "Recommendations": "An origin server SHOULD NOT generate a Server field containing needlessly fine-grained detail and SHOULD limit the addition of subproducts by third parties.", 
+            "Header Field Name": "Server", 
+            "CWE": "CWE-200: Information Exposure", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7231#section-7.4.2'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc5988#section-5", 
+            "Security Description": "The content of the Link header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/319.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "Value": "<https://isi-slonim.co.il/wp-json/>; rel=\"https://api.w.org/\", <https://isi-slonim.co.il/wp-json/wp/v2/pages/1285>; rel=\"alternate\"; type=\"application/json\", <https://isi-slonim.co.il/>; rel=shortlink", 
+            "Recommendations": "Use of Transport Layer Security (TLS) with HTTP ([RFC2818] and [RFC2817]) is currently the only end-to-end way to provide such protection. Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from HTTP headers. In particular, Link headers that use the \"anchor\" parameter to associate a link's context with another resource should be treated with due caution. The Link entity-header field makes extensive use of IRIs and URIs. See [RFC3987] for security considerations relating to IRIs. See [RFC3986] for security considerations relating to URIs. See [RFC2616] for security considerations relating to HTTP headers.", 
+            "Header Field Name": "Link", 
+            "CWE": "CWE-319: Cleartext Transmission of Sensitive Information", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc5988#section-5'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7231#section-3.1.1.5", 
+            "Security Description": "In practice, resource owners do not always properly configure their origin server to provide the correct Content-Type for a given representation, with the result that some clients will examine a payload's content and override the specified type. Clients that do so risk drawing incorrect conclusions, which might expose additional security risks (e.g., \"privilege escalation\").", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/430.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "Value": "text/html; charset=UTF-8", 
+            "Recommendations": "Properly configure their origin server to provide the correct Content-Type for a given representation.", 
+            "Header Field Name": "Content-Type", 
+            "CWE": "CWE-430: Deployment of Wrong Handler", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7231#section-3.1.1.5'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }
+    ], 
+    "Missing_Headers_Details": [
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7234#section-5.4", 
+            "Security Description": "Caches expose additional potential vulnerabilities, since the contents of the cache represent an attractive target for malicious exploitation.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/524.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "The \"Pragma\" header field allows backwards compatibility with HTTP/1.0 caches, so that clients can specify a \"no-cache\" request that they will understand (as Cache-Control was not defined until HTTP/1.1). When the Cache-Control header field is also present and understood in a request, Pragma is ignored. Define \"Pragma: no-cache\" whenever is possible.", 
+            "Header Field Name": "Pragma", 
+            "CWE": "CWE-524: Information Exposure Through Caching", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7234#section-8'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7469", 
+            "Security Description": "HTTP Public Key Pinning (HPKP) is a trust on first use security mechanism which protects HTTPS websites from impersonation using fraudulent certificates issued by compromised certificate authorities. The security context or pinset data is supplied by the site or origin.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/295.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "Y", 
+            "Recommendations": "Deploying Public Key Pinning (PKP) safely will require operational and organizational maturity due to the risk that hosts may make themselves unavailable by pinning to a set of SPKIs that becomes invalid. With care, host operators can greatly reduce the risk of man-in-the-middle (MITM) attacks and other false- authentication problems for their users without incurring undue risk. PKP is meant to be used together with HTTP Strict Transport Security (HSTS) [RFC6797], but it is possible to pin keys without requiring HSTS.", 
+            "Header Field Name": "Public-Key-Pins", 
+            "CWE": "CWE-295: Improper Certificate Validation", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7469'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7469", 
+            "Security Description": "HTTP Public Key Pinning (HPKP) is a trust on first use security mechanism which protects HTTPS websites from impersonation using fraudulent certificates issued by compromised certificate authorities. The security context or pinset data is supplied by the site or origin.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/295.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "Y", 
+            "Recommendations": "Deploying Public Key Pinning (PKP) safely will require operational and organizational maturity due to the risk that hosts may make themselves unavailable by pinning to a set of SPKIs that becomes invalid. With care, host operators can greatly reduce the risk of man-in-the-middle (MITM) attacks and other false- authentication problems for their users without incurring undue risk. PKP is meant to be used together with HTTP Strict Transport Security (HSTS) [RFC6797], but it is possible to pin keys without requiring HSTS.", 
+            "Header Field Name": "Public-Key-Pins-Report-Only", 
+            "CWE": "CWE-295: Improper Certificate Validation", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7469'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc6797", 
+            "Security Description": "HTTP Strict Transport Security (HSTS) is a web security policy mechanism which helps to protect secure HTTPS websites against downgrade attacks and cookie hijacking. It allows web servers to declare that web browsers (or other complying user agents) should only interact with it using secure HTTPS connections, and never via the insecure HTTP protocol. HSTS is an IETF standards track protocol and is specified in RFC 6797.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/311.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "Y", 
+            "Recommendations": "Please at least read this reference: https://www.owasp.org/index.php/HTTP_Strict_Transport_Security.", 
+            "Header Field Name": "Strict-Transport-Security", 
+            "CWE": "CWE-311: Missing Encryption of Sensitive Data", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc6797'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7034", 
+            "Security Description": "The use of \"X-Frame-Options\" allows a web page from host B to declare that its content (for example, a button, links, text, etc.) must not be displayed in a frame (<frame> or <iframe>) of another page (e.g., from host A). This is done by a policy declared in the HTTP header and enforced by browser implementations.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/693.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": " In 2009 and 2010, many browser vendors ([Microsoft-X-Frame-Options] and [Mozilla-X-Frame-Options]) introduced the use of a non-standard HTTP [RFC2616] header field \"X-Frame-Options\" to protect against clickjacking. Please check here https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet what's the best option for your case.", 
+            "Header Field Name": "X-Frame-Options", 
+            "CWE": "CWE-693: Protection Mechanism Failure", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7034'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "https://tools.ietf.org/html/rfc7034", 
+            "Security Description": "The use of \"X-Frame-Options\" allows a web page from host B to declare that its content (for example, a button, links, text, etc.) must not be displayed in a frame (<frame> or <iframe>) of another page (e.g., from host A). This is done by a policy declared in the HTTP header and enforced by browser implementations.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/693.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": " In 2009 and 2010, many browser vendors ([Microsoft-X-Frame-Options] and [Mozilla-X-Frame-Options]) introduced the use of a non-standard HTTP [RFC2616] header field \"X-Frame-Options\" to protect against clickjacking. Please check here https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet what's the best option for your case.", 
+            "Header Field Name": "Frame-Options", 
+            "CWE": "CWE-693: Protection Mechanism Failure", 
+            "Security Reference": "<a href='https://tools.ietf.org/html/rfc7034'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-iv-the-xss-filter.aspx", 
+            "Security Description": "This header enables the Cross-site scripting (XSS) filter built into most recent web browsers. It's usually enabled by default anyway, so the role of this header is to re-enable the filter for this particular website if it was disabled by the user. This header is supported in IE 8+, and in Chrome (not sure which versions). The anti-XSS filter was added in Chrome 4. Its unknown if that version honored this header.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "Use \"X-XSS-Protection: 1; mode=block\" whenever is possible (ref. http://blogs.msdn.com/b/ieinternals/archive/2011/01/31/controlling-the-internet-explorer-xss-filter-with-the-x-xss-protection-http-header.aspx).", 
+            "Header Field Name": "X-XSS-Protection", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "http://blogs.msdn.com/b/ie/archive/2008/09/02/ie8-security-part-vi-beta-2-update.aspx", 
+            "Security Description": "The only defined value, \"nosniff\", prevents Internet Explorer and Google Chrome from MIME-sniffing a response away from the declared content-type. This also applies to Google Chrome, when downloading extensions. This reduces exposure to drive-by download attacks and sites serving user uploaded content that, by clever naming, could be treated by MSIE as executable or dynamic HTML files.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "Always use the only defined value, \"nosniff\".", 
+            "Header Field Name": "X-Content-Type-Options", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "http://www.w3.org/TR/CSP/", 
+            "Security Description": "Content Security Policy requires careful tuning and precise definition of the policy. If enabled, CSP has significant impact on the way browser renders pages (e.g., inline JavaScript disabled by default and must be explicitly allowed in policy). CSP prevents a wide range of attacks, including Cross-site scripting and other cross-site injections.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "Read the reference http://www.w3.org/TR/CSP/ and set according to your case. This is not a easy job.", 
+            "Header Field Name": "X-Content-Security-Policy", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "http://www.w3.org/TR/CSP/", 
+            "Security Description": "Content Security Policy requires careful tuning and precise definition of the policy. If enabled, CSP has significant impact on the way browser renders pages (e.g., inline JavaScript disabled by default and must be explicitly allowed in policy). CSP prevents a wide range of attacks, including Cross-site scripting and other cross-site injections.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "Read the reference http://www.w3.org/TR/CSP/ and set according to your case. This is not a easy job.", 
+            "Header Field Name": "X-WebKit-CSP", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }, 
+        {
+            "Reference": "http://www.w3.org/TR/CSP/", 
+            "Security Description": "Like Content-Security-Policy, but only reports. Useful during implementation, tuning and testing efforts.", 
+            "CWE URL": "<a href='https://cwe.mitre.org/data/definitions/79.html'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>", 
+            "HTTPS": "N", 
+            "Recommendations": "Read the reference http://www.w3.org/TR/CSP/ and set according to your case. This is not a easy job.", 
+            "Header Field Name": "Content-Security-Policy-Report-Only", 
+            "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", 
+            "Security Reference": "<a href='https://www.owasp.org/index.php/List_of_useful_HTTP_headers'><button class='btn btn-success waves-effect waves-light m-r-10' style='width: 100% !important;'>Click Here</button></a>"
+        }
+    ]
+}

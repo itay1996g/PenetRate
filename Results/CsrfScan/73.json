@@ -1,0 +1,36 @@
+{
+    "CSRF": [
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/about.php",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?loggedout=true&wp_lang=en_US",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/profile.php",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?redirect_to=https%3A%2F%2Fisi-slonim.co.il%2Fwp-admin%2Fpost.php%3Fpost%3D457%26action%3Delementor&reauth=1",
+            "FORM": "loginform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?action=lostpassword",
+            "FORM": "lostpasswordform"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?redirect_to=https%3A%2F%2Fisi-slonim.co.il%2Fwp-admin%2Fpost.php%3Fpost%3D1285%26action%3Delementor&reauth=1",
+            "FORM": "loginform"
+        }
+    ]
+}

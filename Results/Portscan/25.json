@@ -1,0 +1,30 @@
+{
+    "Filtered": null, 
+    "Open": [
+        {
+            "Service Name": "http", 
+            "Port": 80
+        }, 
+        {
+            "Service Name": "ftp", 
+            "Port": 21
+        }, 
+        {
+            "Service Name": "ssh", 
+            "Port": 22
+        }, 
+        {
+            "Service Name": "smtp", 
+            "Port": 25
+        }, 
+        {
+            "Service Name": "Unknown", 
+            "Port": 26
+        }, 
+        {
+            "Service Name": "domain", 
+            "Port": 53
+        }
+    ], 
+    "Connects": null
+}

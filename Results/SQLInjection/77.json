@@ -1,0 +1,116 @@
+{
+    "SQLInjection": [
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=60"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=57"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=39"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=12"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=9"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=14"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=10"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=show-log.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=30"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=13"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=home.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=55"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=62"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/webservices/rest/ws-user-account.php?username=*"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/webservices/rest/ws-user-account.php?username=adrian"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=C:\\xampp\\htdocs\\mutillidae/home.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=add-to-your-blog.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=54"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=48"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=captured-data.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=53"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=59"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=11"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=40"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=61"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=56"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=1"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=user-info.php"
+        }
+    ]
+}

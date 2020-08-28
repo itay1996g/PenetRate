@@ -1,0 +1,43 @@
+{
+    "AuthBypass": [
+        {
+            "URL": "https://isi-slonim.co.il/wp-includes/css/admin-bar.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/css/l10n.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/#wp-toolbar"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/css/login.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-includes/css/dashicons.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?action=lostpassword"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php?action=logout&_wpnonce=08ffeca7b0"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/about.php"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/css/forms.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-login.php"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-includes/css/buttons.min.css?ver=5.5"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/"
+        },
+        {
+            "URL": "https://isi-slonim.co.il/wp-admin/profile.php"
+        }
+    ]
+}

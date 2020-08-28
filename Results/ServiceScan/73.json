@@ -1,0 +1,22 @@
+{
+    "JavaScript Frameworks": [
+        "jQuery",
+        "jQuery UI"
+    ],
+    "Font Scripts": [
+        "Font Awesome",
+        "Google Font API"
+    ],
+    "SEO": [
+        "Yoast SEO"
+    ],
+    "Blogs": [
+        "WordPress"
+    ],
+    "Programming Languages": [
+        "PHP"
+    ],
+    "Web Servers": [
+        "Nginx"
+    ]
+}

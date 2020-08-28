@@ -1,0 +1,19 @@
+{
+    "Web Frameworks": [
+        "Bootstrap",
+        "animate.css"
+    ],
+    "JavaScript Frameworks": [
+        "jQuery Migrate",
+        "jQuery"
+    ],
+    "Operating Systems": [
+        "Windows Server"
+    ],
+    "Font Scripts": [
+        "Font Awesome"
+    ],
+    "Web Servers": [
+        "IIS"
+    ]
+}

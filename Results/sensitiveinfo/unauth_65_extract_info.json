@@ -1,0 +1,23 @@
+{
+    "Info": [
+        {
+            "Name": "Email",
+            "Value": [
+                "office@isi-slonim.co.il",
+                "office@isi-slonim.co.il",
+                "office@isi-slonim.com",
+                "office@isi-slonim.com"
+            ],
+            "URL": "https://isi-slonim.co.il/"
+        },
+        {
+            "Name": "Email",
+            "Value": [
+                "michal@slonim.co.il",
+                "noamyaffe0@gmail.com",
+                "noamyaffe0@gmail.com"
+            ],
+            "URL": "https://isi-slonim.co.il/feed/"
+        }
+    ]
+}

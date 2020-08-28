@@ -1,0 +1,104 @@
+{
+    "SQLInjection": [
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/includes/pop-up-help-context-generator.php?pagename=home.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=54"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=10"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=1"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=39"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=59"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/webservices/rest/ws-user-account.php?username=adrian"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=20"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=30"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=13"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=40"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=64"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=56"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=60"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=55"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=61"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=11"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/includes/pop-up-help-context-generator.php?pagename=edit-account-profile.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=57"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=14"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/includes/pop-up-help-context-generator.php?pagename=dns-lookup.php"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=48"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=53"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=16"
+        },
+        {
+            "DB_TYPE": "MySQL",
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=12"
+        }
+    ]
+}

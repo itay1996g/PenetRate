@@ -1,0 +1,37 @@
+{
+    "AuthBypass": [
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?do=toggle-security&page=edit-account-profile.php"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?do=toggle-bubble-hints&page=edit-account-profile.php"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?do=toggle-hints&page=edit-account-profile.php"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=14"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?page=password-generator.php&username=etai"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=30"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?do=logout"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?page=edit-account-profile.php&uid=24"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/index.php?do=toggle-enforce-ssl&page=edit-account-profile.php"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/includes/pop-up-help-context-generator.php?pagename=edit-account-profile.php"
+        },
+        {
+            "URL": "http://127.0.0.1:8080/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=16"
+        }
+    ]
+}

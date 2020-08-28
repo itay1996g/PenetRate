@@ -1,0 +1,19 @@
+{
+    "Subdomain_list": [
+        {
+            "Subdomain": "mobile.google.com"
+        },
+        {
+            "Subdomain": "help.google.com"
+        },
+        {
+            "Subdomain": "admin.google.com"
+        },
+        {
+            "Subdomain": "support.google.com"
+        },
+        {
+            "Subdomain": "account.google.com"
+        }
+    ]
+}

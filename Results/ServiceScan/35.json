@@ -1,0 +1,164 @@
+{
+    "Service Scan": [
+        {
+            "Name": "PHP",
+            "Version": []
+        },
+        {
+            "Name": "Google Analytics",
+            "Version": []
+        },
+        {
+            "Name": "jQuery",
+            "Version": [
+                "1.12.4"
+            ]
+        },
+        {
+            "Name": "Apache",
+            "Version": []
+        },
+        {
+            "Name": "MySQL",
+            "Version": []
+        },
+        {
+            "Name": "WordPress",
+            "Version": [
+                "5.4.1"
+            ]
+        },
+        {
+            "Name": "jQuery UI",
+            "Version": [
+                "1.11.4",
+                "1.12.1"
+            ]
+        },
+        {
+            "Name": "Backbone.js",
+            "Version": [
+                "1.4.0"
+            ]
+        },
+        {
+            "Name": "Underscore.js",
+            "Version": [
+                "1.8.3"
+            ]
+        },
+        {
+            "Name": "Marionette.js",
+            "Version": [
+                "2.4.5"
+            ]
+        },
+        {
+            "Name": "jQuery Migrate",
+            "Version": [
+                "1.4.1"
+            ]
+        },
+        {
+            "Name": "Elementor",
+            "Version": [
+                "2.9.8"
+            ]
+        },
+        {
+            "Name": "Gravatar",
+            "Version": []
+        },
+        {
+            "Name": "Babel",
+            "Version": []
+        },
+        {
+            "Name": "Nginx",
+            "Version": [
+                "1.17.6"
+            ]
+        },
+        {
+            "Name": "Google Font API",
+            "Version": []
+        },
+        {
+            "Name": "Twitter Emoji (Twemoji)",
+            "Version": []
+        },
+        {
+            "Name": "Select2",
+            "Version": []
+        },
+        {
+            "Name": "jQuery Migrate",
+            "Version": [
+                "1.4.1"
+            ]
+        },
+        {
+            "Name": "Elementor",
+            "Version": [
+                "2.9.13",
+                "2.9.14"
+            ]
+        },
+        {
+            "Name": "Google Font API",
+            "Version": []
+        },
+        {
+            "Name": "Swiper Slider",
+            "Version": []
+        },
+        {
+            "Name": "MySQL",
+            "Version": []
+        },
+        {
+            "Name": "Google Analytics",
+            "Version": []
+        },
+        {
+            "Name": "Yoast SEO",
+            "Version": [
+                "14.5",
+                "14.6.1"
+            ]
+        },
+        {
+            "Name": "WordPress",
+            "Version": [
+                "5.4.2"
+            ]
+        },
+        {
+            "Name": "Twitter Emoji (Twemoji)",
+            "Version": []
+        },
+        {
+            "Name": "Nginx",
+            "Version": [
+                "1.19.0"
+            ]
+        },
+        {
+            "Name": "Font Awesome",
+            "Version": [
+                "2.9.13",
+                "2.9.14"
+            ]
+        },
+        {
+            "Name": "jQuery",
+            "Version": [
+                "1.12.4"
+            ]
+        },
+        {
+            "Name": "PHP",
+            "Version": []
+        }
+    ]
+}

@@ -1,0 +1,106 @@
+{
+    "AuthBypass": [
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=48"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-enforce-ssl&page=home.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-enforce-ssl&page=captured-data.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-enforce-ssl&page=add-to-your-blog.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=captured-data.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?page=password-generator.php&username=itay"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-bubble-hints&page=home.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-security&page=add-to-your-blog.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=10"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=show-log.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-security&page=user-info.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=53"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=30"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/styles/gritter/jquery.gritter.css"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-bubble-hints&page=user-info.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=user-info.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-enforce-ssl&page=show-log.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=13"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=11"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-security&page=show-log.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=home.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-security&page=captured-data.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=12"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-bubble-hints&page=add-to-your-blog.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=55"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-security&page=home.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/includes/pop-up-help-context-generator.php?pagename=add-to-your-blog.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=54"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=logout"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-bubble-hints&page=captured-data.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-enforce-ssl&page=user-info.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/hints-page-wrapper.php?level1HintIncludeFile=14"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/index.php?do=toggle-bubble-hints&page=show-log.php"
+        },
+        {
+            "URL": "http://18.221.137.102/mutillidae/?page=register.php"
+        }
+    ]
+}

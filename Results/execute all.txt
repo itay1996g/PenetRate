@@ -1,0 +1,55 @@
+#Problem
+
+#DirBuster Not Working
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\DirBust\\dirbust.py -d https://isi-slonim.co.il/ -u 37 -f small
+ 
+  
+#crawler only
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d https://isi-slonim.co.il/ -u 37
+
+#crawler authenticated
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d https://isi-slonim.co.il/ -u 37 -c "wordpress_test_cookie=WP%20Cookie%20check; wordpress_logged_in_6053d147e01c0bb6e7d93323897dca34=admin%7C1597779901%7CWGIqEjRhL6O6Dl5UTppx8Fub3yXnkNHbL8IWmSdXCXe%7C4ea143a7698b4e7c543f96ecdce6c352aa543177108ed8112d13f73673a17c2c; wp-settings-time-3=1597607118; _ga=GA1.3.1707215392.1597607123; _gid=GA1.3.87375044.1597607123; _gat=1" -a
+
+#crawler attack
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d https://isi-slonim.co.il/ -u 37 -c <COOKIE> -a
+    
+	
+#General Vulen
+
+
+
+#Duplicates	 
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\ServiceScan\\servicescan.py -d https://mileon-portal.co.il/Manager/Default.aspx?Rashut=911111 -u 37
+ 
+
+
+#Works
+
+
+
+
+#SSL
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\SSLScan\\sslscan.py -d https://mileon-portal.co.il/Manager/Default.aspx?Rashut=911111 -u 37
+   
+   
+   
+   
+#Subdomains   
+python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\runsubdomains.py -d https://google.com -u 37
+    
+
+	
+#Headers Scan
+hsecscan -i 37 -u https://mileon-portal.co.il/Manager/Default.aspx?Rashut=911111
+
+
+
+
+#NMAP
+python C:\\xampp\\htdocs\\PenetRate\\modules\\Portscan\\portscan.py -i 193.106.55.103 -p 1-65535 -u 37
+
+python C:\\xampp\\htdocs\\PenetRate\\modules\\Portscan\\portscan.py -i https://isi-slonim.co.il/wp-admin -p 1-65535 -u 39
+
+
+
+                     

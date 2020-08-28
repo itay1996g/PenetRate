@@ -1,0 +1,20 @@
+{
+    "Web Server Extensions": [
+        "OpenSSL"
+    ],
+    "Payment Processors": [
+        "PayPal"
+    ],
+    "JavaScript Frameworks": [
+        "jQuery"
+    ],
+    "Programming Languages": [
+        "PHP"
+    ],
+    "Operating Systems": [
+        "Windows Server"
+    ],
+    "Web Servers": [
+        "Apache"
+    ]
+}

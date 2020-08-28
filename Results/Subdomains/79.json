@@ -1,0 +1,16 @@
+{
+    "Subdomain_list": [
+        {
+            "Subdomain": "accountgoogle.com"
+        },
+        {
+            "Subdomain": "betagoogle.com"
+        },
+        {
+            "Subdomain": "www.google.com"
+        },
+        {
+            "Subdomain": "backup-google.com"
+        }
+    ]
+}

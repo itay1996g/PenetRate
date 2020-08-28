@@ -1,0 +1,30 @@
+{
+	"XSS" : 
+			
+				[
+					{
+				    	"URL": "index.php?page=dns-lookup.php",
+				    	"input_name": "target_host",
+				    	"value": "<script>alert('InJecTeD')</script>"
+					},
+
+					{
+				    	"URL": "index.php?page=dns-lookup.php",
+				    	"input_name": "target_host",
+				    	"value": "<script>alert('InJecTeD')</script>"
+					}, 
+
+					{
+				    	"URL": "index.php?page=sdasddns-lookup.php",
+				    	"input_name": "target_host",
+				    	"value": "<script>alert('InJecTeD')</script>"
+					},
+
+					{
+				    	"URL": "index.php?pagdasdae=dns-lookup.php",
+				    	"input_name": "target_host",
+				    	"value": "<script>alert('InJecTeD')</script>"
+					}
+				]
+
+}
