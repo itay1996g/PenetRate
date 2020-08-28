@@ -1,0 +1,9 @@
+paramiko
+wmi
+pypiwin32
+nmap
+requests
+json
+free-proxy
+fake_useragent
+beautifulsoup4
