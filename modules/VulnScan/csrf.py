@@ -92,11 +92,11 @@ class CsrfScanner(VulnScanner):
             for form in self.get_all_post_forms(self.url):
                 if self._check_vuln_form(form):
                     if form is not None and url is not None:
-                        self._vuln_forms.append({'URL': url, 'FORM': form['name']})
+                        self._vuln_forms.append({'URL': url, 'FORM': form})
                 else:
                     if not self._is_refer_checked(self.url):
                         if form is not None and url is not None:
-                            self._vuln_forms.append({'URL': url, 'FORM': form['name']})
+                            self._vuln_forms.append({'URL': url, 'FORM': form})
 
             return self._vuln_forms
         except requests.exceptions.ConnectionError:
