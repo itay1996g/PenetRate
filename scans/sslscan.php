@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +43,6 @@ include '../helpers/session.php';
         $db = new DBController();
         $conn = $db->connect();
         $UID = $_GET["UID"];
-        echo "../Results/SSLScan/<?php echo $UID; ?>.json";
     }
 
 
@@ -58,12 +57,23 @@ include '../helpers/session.php';
                     "url": "../Results/SSLScan/<?php echo $UID; ?>.json",
                     "dataSrc": function(json) {
                         var return_data = new Array();
-                        for (var i = 0; i < json.endpoints[0].details.suites.list.length; i++) {
-                            return_data.push({
-                                'name': "" + json.endpoints[0].details.suites.list[i].name,
-                                'cipherStrength': "" + json.endpoints[0].details.suites.list[i].cipherStrength
-                            })
+                        try {
+
+                            for (var i = 0; i < json.endpoints[0].details.suites.list.length; i++) {
+                                cipher_name = json.endpoints[0].details.suites.list[i].name;
+                                if ((cipher_name.toLowerCase().indexOf("tls_rsa") >= 0) || (cipher_name.toLowerCase().indexOf("cbc") >= 0) || (cipher_name.toLowerCase().indexOf("3des") >= 0)) {
+                                    cipher_name = "<bb style='background:yellow;'>Weak - " + cipher_name + "</bb>";
+                                }
+
+                                return_data.push({
+                                    'name': "" + cipher_name,
+                                    'cipherStrength': "" + json.endpoints[0].details.suites.list[i].cipherStrength
+                                })
+                            }
+                        } catch (err) {
+                            console.log(err);
                         }
+
                         return return_data;
                     }
 
@@ -85,11 +95,22 @@ include '../helpers/session.php';
                     "url": "../Results/SSLScan/<?php echo $UID; ?>.json",
                     "dataSrc": function(json) {
                         var return_data = new Array();
-                        for (var i = 0; i < json.endpoints[0].details.protocols.length; i++) {
-                            return_data.push({
-                                'name': "" + json.endpoints[0].details.protocols[i].name,
-                                'version': "" + json.endpoints[0].details.protocols[i].version
-                            })
+                        try {
+                            for (var i = 0; i < json.endpoints[0].details.protocols.length; i++) {
+                                protocol_version = json.endpoints[0].details.protocols[i].version;
+                                if ((protocol_version.toLowerCase().indexOf("1.2") >= 0) || (protocol_version.toLowerCase().indexOf("1.3") >= 0)) {
+                                    protocol_version = "<bb style='background:green;'>Good - " + protocol_version + "</bb>";
+                                } else {
+
+                                    protocol_version = "<bb style='background:yellow;'>Weak - " + protocol_version + "</bb>";
+                                }
+                                return_data.push({
+                                    'name': "" + json.endpoints[0].details.protocols[i].name,
+                                    'version': "" + protocol_version
+                                })
+                            }
+                        } catch (err) {
+                            console.log(err);
                         }
                         return return_data;
                     }
@@ -150,6 +171,9 @@ include '../helpers/session.php';
                     </div>
                     <div class="card-body">
                         <h4>Cipher Suites</h4>
+                        <bb style="color:blue;">
+                            <a target="_blank" style="color:blue;" href="http://193.106.55.103:8080/penetrate/general/finding.php?id=339"> Press to read more about Weak Cipher Suites</a>
+                        </bb>
                         <table id="CipherSuites" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -169,6 +193,9 @@ include '../helpers/session.php';
                         </br>
 
                         <h4>protocols</h4>
+                        <bb style="color:blue;">
+                            <a target="_blank" style="color:blue;" href="http://193.106.55.103:8080/penetrate/general/finding.php?id=328"> Press to read more about Insufficient Transport Layer Protection TLSv1.0/TLSv1.1</a>
+                        </bb>
                         <table id="protocols" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>

@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,14 +53,28 @@ include '../helpers/session.php';
                 "ajax": {
                     /*NEED TO CHECK FILE EXISTS!!! */
                     "url": "../Results/ServiceScan/<?php echo $UID; ?>.json",
-                    "dataSrc": "Service Scan"
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        if (json == null) {
+                            return return_data;
+                        } else {
+                            for (var key of Object.keys(json)) {
+                                return_data.push({
+                                    'Technology': "" + key,
+                                    'Value': "" + json[key]
+                                })
+                            }
+                            return return_data;
+                        }
+
+                    }
                 },
                 columns: [{
-                    data: 'Name',
-                    title: 'Name'
+                    data: 'Technology',
+                    title: 'Technology'
                 }, {
-                    data: 'Version',
-                    title: 'Version'
+                    data: 'Value',
+                    title: 'Value'
                 }]
             });
 
@@ -123,8 +137,8 @@ include '../helpers/session.php';
                             <table id="services" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Version</th>
+                                        <th>Technology</th>
+                                        <th>Value</th>
 
 
                                     </tr>
@@ -136,8 +150,8 @@ include '../helpers/session.php';
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Version</th>
+                                        <th>Technology</th>
+                                        <th>Value</th>
                                     </tr>
                                 </tfoot>
                             </table>

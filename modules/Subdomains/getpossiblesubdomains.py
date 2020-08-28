@@ -30,8 +30,8 @@ Example of USAGE:
 class SmartSubdomainGuesser(object):
     _COMMON_SUBDOMAINS = ['mobile','info','mobile','media','help','admin','administrator','user','users','register','login','app','api','support','account','he', 'en','alpha', 'beta', 'dev', 'stage', 'test', 'prod', 'staging', 'pre', 'production', 'development', 'testing', 'www', 'backup', 'ww1']
     _LIST_PREFIX = ['alpha', 'beta', 'dev', 'stage', 'test', 'prod', 'staging', 'pre', 'production', 'development', 'testing', 'www', 'backup', 'ww1']
-    _SUBDOMAINS_FILE = "subdomains.txt"
-    _TOP_10000_SUBDOMAINS_FILE = "top_10000_subdomains.txt"
+    _SUBDOMAINS_FILE = "C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\subdomains.txt"
+    _TOP_10000_SUBDOMAINS_FILE = "C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\top_10000_subdomains.txt"
     _DEF_OUTPUT_LEN = 200
 
 
@@ -259,5 +259,6 @@ class SmartSubdomainGuesser(object):
                 self.add_all_subdomains_from_file_with_prefix(file_top_10000_subdomains_lines)
 
             return self.known_subdomains_new[:output_len]
-        except:
+        except AssertionError as error:
+                print(error)
                 return self.known_subdomains_new

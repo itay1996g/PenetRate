@@ -22,14 +22,20 @@ if (isset($_POST['formID'])) {
     //Create Scan :: Regular Operation
     if ($formID == 'Create') {
         if (checkLoggedIn()) {
-            if (isset($_POST['url']) && isset($_POST['loginurl']) && isset($_POST['username']) && isset($_POST['scan_password'])) {
+            if (isset($_POST['url'])) {
                 $form = $_POST;
                 try {
                     $url = Input::str($form['url']);
-                    $loginurl = Input::str($form['loginurl']);
-                    $username = Input::str($form['username']);
-                    $scan_password = Input::str($form['scan_password']);
-                    $openports = $sslscan = $subdomainscan = $mapdirectories = $mapheaders = $clientsidevulnerability = $Generalvulnerability = $servicesscan = '0';
+                    $ip = str_replace("https://", "", $url);
+                    $ip = str_replace("http://", "", $ip);
+                    $ip = str_replace("/", "", $ip);
+                    $ip = gethostbyname($ip);
+
+                    $scan_Cookie = '';
+                    if (isset($_POST['scan_Cookie'])) {
+                        $scan_Cookie = Input::str($form['scan_Cookie']);
+                    }
+                    $openports = $sslscan = $subdomainscan = $mapdirectories = $Crawler = $mapheaders = $clientsidevulnerability = $Generalvulnerability = $servicesscan = '0';
 
                     if (isset($_POST['openports'])) {
                         $openports = '1';
@@ -43,6 +49,10 @@ if (isset($_POST['formID'])) {
                     if (isset($_POST['mapdirectories'])) {
                         $mapdirectories = '1';
                     }
+                    if (isset($_POST['Crawler'])) {
+                        $Crawler = '1';
+                    }
+
                     if (isset($_POST['mapheaders'])) {
                         $mapheaders = '1';
                     }
@@ -61,8 +71,8 @@ if (isset($_POST['formID'])) {
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
-                        $stmt = $conn->prepare("INSERT INTO scans (UserID, URL, Login_URL, username, password, Is_PortsScan, Is_ServicesScan, Is_SSLScan, Is_SubdomainsScan, Is_DirectoriesScan, Is_HeadersScan, Is_ClientSideScan, Is_GeneralVulnerabilitiesScan,Status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,'Created')");
-                        $stmt->bind_param('sssssssssssss', $_SESSION['UserID'], $url, $loginurl, $username, $scan_password, $openports, $servicesscan, $sslscan, $subdomainscan, $mapdirectories, $mapheaders, $clientsidevulnerability, $Generalvulnerability);
+                        $stmt = $conn->prepare("INSERT INTO scans (UserID, URL, scan_Cookie, Is_PortsScan, Is_ServicesScan, Is_SSLScan, Is_SubdomainsScan, Is_DirectoriesScan,Is_CrawlerScan, Is_HeadersScan, Is_ClientSideScan, Is_GeneralVulnerabilitiesScan,Status) values (?,?,?,?,?,?,?,?,?,?,?,?,'Created')");
+                        $stmt->bind_param('ssssssssssss', $_SESSION['UserID'], $url, $scan_Cookie, $openports, $servicesscan, $sslscan, $subdomainscan, $mapdirectories, $Crawler, $mapheaders, $clientsidevulnerability, $Generalvulnerability);
                         if ($stmt->execute()) {
                             $ScanID = $stmt->insert_id;
                             $data = "Created";
@@ -75,15 +85,11 @@ if (isset($_POST['formID'])) {
                             if ($stmt->execute()) {
                                 $data = "Created";
                                 if ($openports == '1') {
-                                    #CHANGE TO REAL IP!!!
-                                    execInBackground('python C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\Portscan\\portscan.py -i 162.241.219.194 -p 1-100 -u ' . $ScanID);
-                                    header("Location: ../users/login.html");
+                                    execInBackground('python C:\\xampp\\htdocs\\PenetRate\\modules\\Portscan\\portscan.py -i ' . $ip . ' -u ' . $ScanID);
                                 }
                             } else {
                                 $data = "Error";
                             }
-
-
 
 
                             $Status = 'Not Scanned';
@@ -96,7 +102,7 @@ if (isset($_POST['formID'])) {
 
                                 $data = "Created";
                                 if ($servicesscan == '1') {
-                                    execInBackground('python3 C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\ServiceScan\\servicescan.py -d ' . $url . ' -u ' . $ScanID);
+                                    execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\ServiceScan\\servicescan.py -d ' . $url . ' -u ' . $ScanID);
                                 }
                             } else {
                                 $data = "Error";
@@ -112,12 +118,11 @@ if (isset($_POST['formID'])) {
                             if ($stmt->execute()) {
                                 $data = "Created";
                                 if ($sslscan == '1') {
-                                    execInBackground('python3 C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\SSLScan\\sslscan.py -d ' . $url . ' -u ' . $ScanID);
+                                    execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\SSLScan\\sslscan.py -d ' . $url . ' -u ' . $ScanID);
                                 }
                             } else {
                                 $data = "Error";
                             }
-
 
 
                             $Status = 'Not Scanned';
@@ -129,28 +134,39 @@ if (isset($_POST['formID'])) {
                             if ($stmt->execute()) {
                                 $data = "Created";
                                 if ($subdomainscan == '1') {
-                                    execInBackground('python3 C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\Subdomains\\runsubdomains.py -d ' . $url . ' -u ' . $ScanID);
+                                    execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\runsubdomains.py -d ' . $url . ' -u ' . $ScanID);
                                 }
                             } else {
                                 $data = "Error";
                             }
-
 
                             $Status = 'Not Scanned';
                             if ($mapdirectories == '1') {
                                 $Status = 'Created';
                             }
+                            $add = '';
                             $stmt = $conn->prepare("INSERT INTO directories_scan (ScanID, Status) values (?,?)");
                             $stmt->bind_param('ss',  $ScanID, $Status);
                             if ($stmt->execute()) {
                                 $data = "Created";
                                 if ($mapdirectories == '1') {
-                                    execInBackground('python3 C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\DirBust\\dirbust.py -d ' . $url . '-f small -u ' . $ScanID);
+                                    $add = '-b -f small';
                                 }
                             } else {
                                 $data = "Error";
                             }
 
+                            $Status = 'Not Scanned';
+                            if ($Crawler == '1') {
+                                $Status = 'Created';
+                            }
+                            $stmt = $conn->prepare("INSERT INTO crawler_scan (ScanID, Status) values (?,?)");
+                            $stmt->bind_param('ss',  $ScanID, $Status);
+                            if ($stmt->execute()) {
+                                $data = "Created";
+                            } else {
+                                $data = "Error";
+                            }
 
                             $Status = 'Not Scanned';
                             if ($mapheaders == '1') {
@@ -176,9 +192,6 @@ if (isset($_POST['formID'])) {
                             $stmt->bind_param('ss',  $ScanID, $Status);
                             if ($stmt->execute()) {
                                 $data = "Created";
-                                if ($clientsidevulnerability == '1') {
-                                    execInBackground('python3 C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\modules\\Crawler\\crawler.py -d ' . $url . ' -u ' . $ScanID);
-                                }
                             } else {
                                 $data = "Error";
                             }
@@ -191,22 +204,35 @@ if (isset($_POST['formID'])) {
                             $stmt->bind_param('ss',  $ScanID, $Status);
                             if ($stmt->execute()) {
                                 $data = "Created";
-                            } else {
-                                $data = "Error";
+                                if ($Generalvulnerability == '1') {
+                                    if ($scan_Cookie != '') {
+                                        execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d ' . $url . ' ' . $add . ' -a -c "' . $scan_Cookie . '" -u ' . $ScanID);
+                                    }
+                                } else if ($Crawler == '1') {
+                                    if ($scan_Cookie != '') {
+                                        execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d ' . $url . ' ' . $add . '  -c "' . $scan_Cookie . '" -u ' . $ScanID);
+                                    } else {
+                                        execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\Crawler\\crawler_main.py -d ' . $url . ' ' . $add . '  -u ' . $ScanID);
+                                    }
+                                }
+                            }
+                            if ($Generalvulnerability == '0' && $Crawler == '0' && $mapdirectories == '1') {
+                                execInBackground('python3 C:\\xampp\\htdocs\\PenetRate\\modules\\DirBust\\dirbust.py -d ' . $url . ' -f small -u ' . $ScanID);
                             }
                         } else {
                             $data = "Error";
                         }
                     } else {
-                        header("Location: ../users/login.html");
+                        $data = "Error";
                     }
+
 
                     echo $data;
                 } catch (Exception $e) {
-                    echo 'Caught exception: ',  $e->getMessage(), "\n";
+                    echo 'ErrorLogin';
                 }
             } else {
-                header("Location: ../users/login.html");
+                echo 'ErrorLogin';
             }
         }
     }
@@ -218,35 +244,53 @@ if (isset($_POST['formID'])) {
     $ScanID = Input::str($form['ScanID']);
     $Status = Input::str($form['Status']);
     $GUID = Input::str($form['GUID']);
+
+
     if ($GUID == 'ETAI_ITAY123AA6548') {
-        $stmt = $conn->prepare("UPDATE " . $table_name . " set Status = ? WHERE ScanID = ?");
-        $stmt->bind_param('ss', $Status, $ScanID);
-        if ($stmt->execute()) {
-            $data = "Updated";
-        } else {
-            $data = "ErrorUpdated";
-        }
-        echo $data;
-        $stmt = $conn->prepare("SELECT COUNT(*) as counting FROM(SELECT count(*) FROM ports_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM headers_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM clientside_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM directories_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM generalvulnerabilities_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM services_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM ssl_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM subdomains_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0)x");
-        $stmt->bind_param('ssssssss', $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID);
+
+        $can_i_go = true;
+        $stmt = $conn->prepare("SELECT Status FROM " . $table_name . " WHERE ScanID = ?");
+        $stmt->bind_param('s', $ScanID);
         $stmt->execute();
         $result = $stmt->get_result();
+
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            if ($row['counting'] > 0) {
-                echo 'Not Finished';
+            if ($row['Status'] == 'Not Scanned') {
+                $can_i_go = false;
+            }
+        }
+
+        if ($can_i_go == true) {
+            $stmt = $conn->prepare("UPDATE " . $table_name . " set Status = ? WHERE ScanID = ?");
+            $stmt->bind_param('ss', $Status, $ScanID);
+            if ($stmt->execute()) {
+                $data = "Updated";
             } else {
-                $Status = 'Finished';
-                $stmt = $conn->prepare("UPDATE scans set Status = ? WHERE ScanID = ?");
-                $stmt->bind_param('ss', $Status, $ScanID);
-                if ($stmt->execute()) {
-                    $data = "Updated_scans";
+                $data = "ErrorUpdated";
+            }
+            echo $data;
+            $stmt = $conn->prepare("SELECT COUNT(*) as counting FROM(SELECT count(*) FROM ports_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM crawler_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM headers_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM clientside_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM directories_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM generalvulnerabilities_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM services_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM ssl_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0 UNION ALL SELECT count(*) FROM subdomains_scan WHERE Status = 'Created' AND ScanID = ? HAVING COUNT(*)>0)x");
+            $stmt->bind_param('sssssssss', $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID, $ScanID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if ($row['counting'] > 0) {
+                    echo 'Not Finished';
                 } else {
-                    $data = "ErrorUpdatedscans";
+                    $Status = 'Finished';
+                    $stmt = $conn->prepare("UPDATE scans set Status = ? WHERE ScanID = ?");
+                    $stmt->bind_param('ss', $Status, $ScanID);
+                    if ($stmt->execute()) {
+                        $data = "Updated_scans";
+                    } else {
+                        $data = "ErrorUpdatedscans";
+                    }
                 }
             }
         }
     }
 } else {
-    header("Location: ../users/login.html");
+    echo '<script>window.location.href = "../users/login.html";</script>';
 }

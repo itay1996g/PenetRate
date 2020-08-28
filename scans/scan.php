@@ -92,28 +92,16 @@ checkLoggedIn();
                                 <label for="url">Webstie URL <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-globe"></i></div>
-                                    <input type="text" class="form-control" id="url" name="url" placeholder="Webstie URL" value="https://ins-isi.com/" required>
+                                    <input type="text" class="form-control" id="url" name="url" placeholder="Webstie URL" value="https://isi-slonim.co.il/" required>
                                 </div>
                             </div>
+ 
+ 
                             <div class="form-group">
-                                <label for="loginurl">Login URL</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon"><i class="ti-desktop"></i></div>
-                                    <input type="text" class="form-control ignore" id="loginurl" name="loginurl" placeholder="Login URL" value="Login URL" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                    <input type="text" class="form-control ignore" id="username" name="username" placeholder="Username" value="Username" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="scan_password">Password</label>
+                                <label for="scan_Cookie">Cookie</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                    <input type="password" class="form-control ignore" id="scan_password" name="scan_password" placeholder="Password" value="Password">
+                                    <input type="text" class="form-control ignore" id="scan_Cookie" name="scan_Cookie" placeholder="Cookie">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -164,6 +152,15 @@ checkLoggedIn();
                             <div class="form-group">
 
                                 <div class="checkbox checkbox-success">
+                                    <input id="Crawler" name="Crawler" type="checkbox">
+
+                                    <label for="Crawler"> Crawler </label>
+                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-original-title="Crawler"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="checkbox checkbox-success">
                                     <input id="mapheaders" name="mapheaders" type="checkbox">
 
                                     <label for="mapheaders"> Map Headers </label>
@@ -175,7 +172,7 @@ checkLoggedIn();
                                 <div class="checkbox checkbox-success">
                                     <input id="clientsidevulnerability" name="clientsidevulnerability" type="checkbox">
 
-                                    <label for="clientsidevulnerability"> Client Side Vulnerability </label>
+                                    <label for="clientsidevulnerability">Sensitive Information</label>
                                     <i class="fa fa-info-circle" data-toggle="tooltip" data-original-title="Client Side Vulnerabilities"></i>
                                 </div>
                             </div>

@@ -160,7 +160,7 @@ checkLoggedIn();
                                     <textarea class="form-control" rows="10" id="payload" style="height: 120px;"></textarea>
                                 </div>
                                 </br>
-                                <a style="color:blue;padding-left:20px;" href="../modules/BruteForcer/pwbruteforce.py" download>Press to download pwbruteforce.py</a>
+                                <a style="color:blue;padding-left:20px;" href="../modules/Bruteforce/pwbruteforce.py" download>Press to download pwbruteforce.py</a>
 
                             </div>
 

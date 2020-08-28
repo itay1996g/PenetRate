@@ -46,7 +46,7 @@ class DirBuster(object):
                     child.pop('children')
                     continue
                 self._remove_empty_childs(child)
-    
+	
     def _check_valid_domain_format(self, addr):
         if not ((addr.startswith('https://') or addr.startswith('http://')) and addr.endswith('/')):
             raise ValueError("[-] Address format is invalid!")

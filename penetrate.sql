@@ -2,7 +2,7 @@
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
+-- Host: 193.106.55.103
 -- Generation Time: Apr 09, 2020 at 10:01 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1

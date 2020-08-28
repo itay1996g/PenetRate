@@ -1,4 +1,4 @@
-help,info,mobile,account,support,api,about,contact,message,info,home,login,signin,join,register,connect,admin,administrator,main,details,account,myaccount,user
+google,help,info,mobile,account,support,api,about,contact,message,info,home,login,signin,join,register,connect,admin,administrator,main,details,account,myaccount,user
 disconnect,logout,signout
 m,mobile,web,app,phone,device,api
 edu,ac,academy,education,scholar,school,lab,learn,library,math,literature,english,history

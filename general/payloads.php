@@ -134,9 +134,6 @@ checkLoggedIn();
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" style="width: 100% !important;">Generate Payload</button>
-                            </br>
-                            </br>
                             </br>
                             <div class="form-group">
                                 <label for="payload">Payloads</label>

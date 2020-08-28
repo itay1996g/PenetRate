@@ -50,7 +50,7 @@ def route_crawl(args):
       crawler.save_results(args['uid'], 'auth')
       save_results_to_json(XSS_RESULTS_PATH, {'XSS': crawler.vuln_results['XSS']}, args['uid'])
       save_results_to_json(CSRF_RESULTS_PATH, {'CSRF': crawler.vuln_results['CSRF']}, args['uid'])
-
+    
     authbypass_scanner = AuthBypassScan(args['uid'], 
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('auth', args['uid']),
                              CRAWLER_RESULTS_PATH + r'/{}_{}.json'.format('unauth', args['uid']))
@@ -62,9 +62,9 @@ def route_crawl(args):
     
     authbypass_scanner.scan()
     sqli_scanner.scan()
-
+    
     send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
-
+   
   send_to_api(args['uid'], CRAWLER_TABLE_NAME)
   send_to_api(args['uid'], CLIENTSIDE_TABLE_NAME)
     
@@ -83,6 +83,6 @@ def main():
   make_results_dir(SENSITIVEINFO_RESULTS_PATH)
   
   route_crawl(args)
-
+ 
 if __name__ == '__main__':
   main()

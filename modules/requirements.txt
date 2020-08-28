@@ -1,9 +1,9 @@
-wmi
-json
-requests
 paramiko
+wmi
 pypiwin32
+nmap
+requests
+json
 free-proxy
-python-nmap
 fake_useragent
 beautifulsoup4

@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">

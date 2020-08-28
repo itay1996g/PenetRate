@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +54,23 @@ include '../helpers/session.php';
                 "ajax": {
                     /*NEED TO CHECK FILE EXISTS!!! */
                     "url": "../Results/Portscan/<?php echo $UID; ?>.json",
-                    "dataSrc": "Open"
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        if (json.Open == null) {
+                            return return_data;
+                        } else {
+                            for (var i = 0; i < json.Open.length; i++) {
+                                return_data.push({
+                                    'ServiceName': "" + json.Open[i].ServiceName,
+                                    'Port': "" + json.Open[i].Port
+                                })
+                            }
+                            return return_data;
+                        }
+                    }
                 },
                 columns: [{
-                        data: 'Service Name',
+                        data: 'ServiceName',
                         title: 'Service Name'
                     },
                     {
@@ -67,14 +80,60 @@ include '../helpers/session.php';
                 ]
             });
 
+            $('#FilteredPORTS').DataTable({
+                "ajax": {
+                    /*NEED TO CHECK FILE EXISTS!!! */
+                    "url": "../Results/Portscan/<?php echo $UID; ?>.json",
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        if (json.Filtered == null) {
+                            return return_data;
+                        } else {
+                            for (var i = 0; i < json.Filtered.length; i++) {
+                                return_data.push({
+                                    'ServiceName': "" + json.Filtered[i].ServiceName,
+                                    'Port': "" + json.Filtered[i].Port
+                                })
+                            }
+                            return return_data;
+                        }
+                    }
+                },
+                columns: [{
+                        data: 'ServiceName',
+                        title: 'Service Name'
+                    },
+                    {
+                        data: 'Port',
+                        title: 'Port'
+                    }
+                ]
+            });
+
+
             $('#Connects').DataTable({
                 "ajax": {
                     /*NEED TO CHECK FILE EXISTS!!! */
                     "url": "../Results/Portscan/<?php echo $UID; ?>.json",
-                    "dataSrc": "Connects"
+                    "dataSrc": function(json) {
+                        var return_data = new Array();
+                        if (json.Connects == null) {
+                            return return_data;
+                        } else {
+                            for (var i = 0; i < json.Connects.length; i++) {
+                                Connects_name = json.Connects[i];
+                                return_data.push({
+                                    'ServiceName': "" + json.Connects[i].ServiceName,
+                                    'Username': "" + json.Connects[i].Username,
+                                    'Password': "" + json.Connects[i].Password
+                                })
+                            }
+                            return return_data;
+                        }
+                    }
                 },
                 columns: [{
-                        data: 'Service Name',
+                        data: 'ServiceName',
                         title: 'Service Name'
                     },
                     {
@@ -151,6 +210,44 @@ include '../helpers/session.php';
                                     </tr>
                                 </thead>
                                 <tbody id="OPENPORTS_tbody">
+
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Service Name</th>
+                                        <th>Port</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /# card -->
+            </div>
+
+
+            <!-- /# column -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-title">
+                        <h4>Filtered Ports</h4>
+                    </div>
+                    <div class="card-body">
+
+
+                        <h4>Filtered Ports</h4>
+                        <div class="table-responsive">
+                            <table id="FilteredPORTS" class="table table-hover table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Service Name</th>
+                                        <th>Port</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="FilteredPORTS_tbody">
 
 
 

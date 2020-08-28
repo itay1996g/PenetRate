@@ -27,7 +27,7 @@ class Crawler(object):
     self.crawled_links = set([])
     self.links_to_crawl = Queue()
     self._personal_info = []
-
+    
     self._init_ssl()
     self._init_headers()
 
@@ -48,6 +48,7 @@ class Crawler(object):
 
   def _init_ssl(self):
     self.myssl = ssl.create_default_context()
+    self.myssl = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
     self.myssl.check_hostname = False
     self.myssl.verify_mode = ssl.CERT_NONE
 
@@ -70,9 +71,10 @@ class Crawler(object):
   def _url_request(self, url):
     try:
       request = Request(url, headers=self.headers)
-      return urlopen(request, context=self.myssl)
+      return urlopen(request, context=self.myssl, timeout=5)
     except Exception as e:
-      raise e
+      print ("URL: {} IS UNREACHABLE".format(url))
+      print(str(e))
 
   def _valid_url_to_crawl(self, url):
     if self._check_same_site(url) and url not in self.crawled_links:

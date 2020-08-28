@@ -14,7 +14,7 @@ checkLoggedIn();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
-    <title>PenetRate - Directories Scan</title>
+    <title>PenetRate - XSS</title>
 
 
 
@@ -39,6 +39,7 @@ checkLoggedIn();
 
     <?php
     if (isset($_GET["UID"])) {
+
         $db = new DBController();
         $conn = $db->connect();
         $UID = $_GET["UID"];
@@ -46,36 +47,55 @@ checkLoggedIn();
 
     ?>
 
-
-
     <script>
         $(document).ready(function() {
 
             $.ajax({
                 type: 'GET',
-                "url": "../Results/Dirbust/<?php echo $UID; ?>.json",
+                "url": "../Results/XssScan/<?php echo $UID; ?>.json",
                 async: false,
                 success: function(response) {
-                    $('#directories').DataTable({
+                    $('#XSS').DataTable({
                         "ajax": {
-                            "url": "../Results/Dirbust/<?php echo $UID; ?>.json",
-                            "dataSrc": "Pages"
+                            /*NEED TO CHECK FILE EXISTS!!! */
+                            "url": "../Results/XssScan/<?php echo $UID; ?>.json",
+                            "dataSrc": function(json) {
+                                var return_data = new Array();
+                                if (json.XSS == null) {
+                                    return return_data;
+                                } else {
+
+                                    for (var i = 0; i < json.XSS.length; i++) {
+                                        return_data.push({
+                                            'URL': "" + json.XSS[i].URL,
+                                            'input_name': "" + json.XSS[i].input_name,
+                                            'payload': '<textarea style="width:100%;">' + json.XSS[i].value + '</textarea>'
+
+                                        })
+                                    }
+                                    return return_data;
+                                }
+
+                            }
                         },
                         columns: [{
-                            data: 'Page',
-                            title: 'Page'
-                        }, {
-                            data: 'Response',
-                            title: 'Response'
-                        }, {
-                            data: 'children',
-                            title: 'children'
-                        }]
+                                data: 'URL',
+                                title: 'URL'
+                            },
+                            {
+                                data: 'input_name',
+                                title: 'Input name'
+                            },
+                            {
+                                data: 'payload',
+                                title: 'Payload'
+                            }
+                        ]
                     });
 
                 },
                 error: function(response) {
-                    $('#directories').DataTable();
+                    $('#XSS').DataTable();
                 }
             });
 
@@ -84,6 +104,7 @@ checkLoggedIn();
 
         });
     </script>
+
     <style>
         table,
         th,
@@ -113,7 +134,7 @@ checkLoggedIn();
         <div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Scans</li>
-                <li class="breadcrumb-item active">Directories Scan</li>
+                <li class="breadcrumb-item active">XSS</li>
             </ol>
         </div>
     </div>
@@ -127,33 +148,35 @@ checkLoggedIn();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>Directories Scan</h4>
+                        <h4>XSS</h4>
                     </div>
                     <div class="card-body">
 
 
-                        <h4>Directories Scan</h4>
+                        <h4>XSS</h4>
+                        <bb style="color:blue;">
+                           <a target="_blank" style="color:blue;" href="http://193.106.55.103:8080/penetrate/general/finding.php?id=217"> Press to read more about XSS</a>
+                        </bb>
                         <div class="table-responsive">
-                            <table id="directories" class="table table-hover table-bordered" style="width:100%">
+                            <table id="XSS" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Page</th>
-                                        <th>Response</th>
-                                        <th>children</th>
-
+                                        <th>URL</th>
+                                        <th>Input name</th>
+                                        <th>Payload</th>
 
                                     </tr>
                                 </thead>
-                                <tbody id="directories_tbody">
+                                <tbody id="XSS_tbody">
 
 
 
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Page</th>
-                                        <th>Response</th>
-                                        <th>children</th>
+                                        <th>URL</th>
+                                        <th>Input name</th>
+                                        <th>Payload</th>
                                     </tr>
                                 </tfoot>
                             </table>

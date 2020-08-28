@@ -96,7 +96,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $Open_Ports = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $Open_Ports = "<a href='http://127.0.0.1:8080/penetrate/scans/ports.php?UID=" . $scan_check . "'>View Results</a>";
+                    $Open_Ports = "<a href='http://193.106.55.103:8080/penetrate/scans/ports.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with ports_scan';
@@ -115,7 +115,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $services = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $services = "<a href='http://127.0.0.1:8080/penetrate/scans/services.php?UID=" . $scan_check . "'>View Results</a>";
+                    $services = "<a href='http://193.106.55.103:8080/penetrate/scans/services.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with services';
@@ -137,7 +137,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $sslscan = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $sslscan = "<a href='http://127.0.0.1:8080/penetrate/scans/sslscan.php?UID=" . $scan_check . "'>View Results</a>";
+                    $sslscan = "<a href='http://193.106.55.103:8080/penetrate/scans/sslscan.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with sslscan';
@@ -156,7 +156,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $subdomains = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $subdomains = "<a href='http://127.0.0.1:8080/penetrate/scans/subdomains.php?UID=" . $scan_check . "'>View Results</a>";
+                    $subdomains = "<a href='http://193.106.55.103:8080/penetrate/scans/subdomains.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with subdomains';
@@ -176,10 +176,28 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $directories = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $directories = "<a href='http://127.0.0.1:8080/penetrate/scans/directories.php?UID=" . $scan_check . "'>View Results</a>";
+                    $directories = "<a href='http://193.106.55.103:8080/penetrate/scans/directories.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with directories';
+            }
+            #Crawler
+            $Crawler = '';
+            $stmt = $conn->prepare("SELECT * FROM crawler_scan WHERE ScanID = ?");
+            $stmt->bind_param('s', $scan_check);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if ($row['Status'] == 'Not Scanned') {
+                    $Crawler = '<bb style="color:red;">Not Scanned<bb>';
+                } else if ($row['Status'] == 'Created') {
+                    $Crawler = '<bb style="color:green;">Scanning<bb>';
+                } else if ($row['Status'] == 'Finished') {
+                    $Crawler = "<a href='http://193.106.55.103:8080/penetrate/scans/crawler.php?UID=" . $scan_check . "'>View Results</a>";
+                }
+            } else {
+                echo 'Error with Crawler';
             }
 
 
@@ -196,7 +214,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $headers = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $headers = "<a href='http://127.0.0.1:8080/penetrate/scans/headers.php?UID=" . $scan_check . "'>View Results</a>";
+                    $headers = "<a href='http://193.106.55.103:8080/penetrate/scans/headers.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with headers';
@@ -215,7 +233,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $sensitiveinfo = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $sensitiveinfo = "<a href='http://127.0.0.1:8080/penetrate/scans/sensitiveinfo.php?UID=" . $scan_check . "'>View Results</a>";
+                    $sensitiveinfo = "<a href='http://193.106.55.103:8080/penetrate/scans/sensitiveinfo.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with sensitiveinfo';
@@ -235,7 +253,7 @@ checkLoggedIn();
                 } else if ($row['Status'] == 'Created') {
                     $generalvulnerabilities_scan = '<bb style="color:green;">Scanning<bb>';
                 } else if ($row['Status'] == 'Finished') {
-                    $generalvulnerabilities_scan = "<a href='http://127.0.0.1:8080/penetrate/scans/generalvulnerabilities_scan.php?UID=" . $scan_check . "'>View Results</a>";
+                    $generalvulnerabilities_scan = "<a href='http://193.106.55.103:8080/penetrate/scans/generalvulnerabilities.php?UID=" . $scan_check . "'>View Results</a>";
                 }
             } else {
                 echo 'Error with generalvulnerabilities_scan';
@@ -283,8 +301,9 @@ checkLoggedIn();
                                         <th>SSL Scan</th>
                                         <th>Subdomain Scan</th>
                                         <th>Map Directories</th>
+                                        <th>Crawler</th>
                                         <th>Map Headers</th>
-                                        <th>Client Side Vulnerability</th>
+                                        <th>Sensitive Information</th>
                                         <th>General Vulnerability</th>
 
 
@@ -297,6 +316,7 @@ checkLoggedIn();
                                     <td><?php echo $sslscan ?></td>
                                     <td><?php echo $subdomains ?></td>
                                     <td><?php echo $directories ?></td>
+                                    <td><?php echo $Crawler ?></td>
                                     <td><?php echo $headers ?></td>
                                     <td><?php echo $sensitiveinfo ?></td>
                                     <td><?php echo $generalvulnerabilities_scan ?></td>

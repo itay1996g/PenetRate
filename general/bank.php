@@ -117,7 +117,7 @@ checkLoggedIn();
 </head>
 
 <body class="fix-header fix-sidebar">
-<?php
+    <?php
     if ($_SESSION['UserRole'] == 'Admin') {
         include('../menuadmin.php');
     } else if ($_SESSION['UserRole'] == 'User') {
@@ -168,7 +168,8 @@ checkLoggedIn();
                                     <?php
                                     $db = new DBController();
                                     $conn = $db->connect();
-                                    $query = "SELECT * from findings_bank";
+                                    $query = "SELECT * from findings_bank ORDER BY FindingID DESC";
+
                                     if ($result = $conn->query($query)) {
                                         while ($row = $result->fetch_assoc()) {
 

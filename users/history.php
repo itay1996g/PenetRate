@@ -67,11 +67,12 @@ IsAdmin();
                     "edit": {
                         name: "View",
                         icon: "fa-eye"
-                    },
-                    "delete": {
-                        name: "Delete",
-                        icon: "delete"
                     }
+                    // ,
+                    // "delete": {
+                    //     name: "Delete",
+                    //     icon: "delete"
+                    // }
                 }
             });
 

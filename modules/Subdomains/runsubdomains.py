@@ -5,7 +5,7 @@ import os
 import argparse
 
 
-API_URL = r'http://127.0.0.1:8080/penetrate/helpers/ScansForm.php'
+API_URL = r'http://193.106.55.103:8080/penetrate/helpers/ScansForm.php'
 API_DATA = {'table_name': 'subdomains_scan',
             'ScanID': '',
             'Status': 'Finished',
@@ -29,7 +29,7 @@ class SubdomainScanner(object):
         
         domain_to_check = self.url_to_scan
         domain_to_check = domain_to_check.replace('https://','').replace('http://','').replace('www','')
-        guesses = SmartSubdomainGuesser([''], 15, domain_to_check).guess()
+        guesses = SmartSubdomainGuesser([''], 58, domain_to_check).guess()
         open_subdomains = []
         for domain in guesses:
             url = domain + '' + domain_to_check
@@ -43,7 +43,7 @@ class SubdomainScanner(object):
                 continue
                 print('Error in ' + url)
 
-        HEADERS_RESULTS_PATH = r"C:\\Users\\User.User-PC\\Dropbox\\UniSchool\\PenetRate\\Results\\Subdomains\\"
+        HEADERS_RESULTS_PATH =  r"C:\\xampp\\htdocs\\PenetRate\\Results\\Subdomains\\"
         results = {'Subdomain_list': open_subdomains}
         with open(HEADERS_RESULTS_PATH + r'/{}.json'.format(self.user_id), 'w') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)

@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,7 +163,8 @@ include '../helpers/session.php';
                         <h4>Mapped Headers</h4>
                     </div>
                     <div class="card-body">
-                        <h4>RESPONSE Headers Details</h4>
+                        <h3>RESPONSE Headers Details</h3>
+                        <h4><b style="background: yellow;">Issues found in the response headers</b></h4>
                         <table id="RESPONSE_Headers_Details" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -188,7 +189,8 @@ include '../helpers/session.php';
                         </br>
                         </br>
 
-                        <h4>Missing Headers Details</h4>
+                        <h3>Missing Headers Details</h3>
+                        <h4><b style="background: yellow;">Headers that should be implemented but are not..</b></h4>
                         <table id="Missing_Headers_Details" class="table table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -211,7 +213,8 @@ include '../helpers/session.php';
                         </br>
                         </br>
 
-                        <h4>RESPONSE Headers Info</h4>
+                        <h3>RESPONSE Headers Info</h3>
+                        <h4><b style="background: green;color:white;">List of headers that are returned from server with their value</b></h4>
                         <div class="table-responsive">
                             <table id="RESPONSE_Headers_Info" class="table table-hover table-bordered" style="width:100%">
                                 <thead>

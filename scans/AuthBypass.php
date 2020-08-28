@@ -14,7 +14,7 @@ checkLoggedIn();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
-    <title>PenetRate - Directories Scan</title>
+    <title>PenetRate - AuthBypass</title>
 
 
 
@@ -39,43 +39,48 @@ checkLoggedIn();
 
     <?php
     if (isset($_GET["UID"])) {
+
         $db = new DBController();
         $conn = $db->connect();
         $UID = $_GET["UID"];
     }
 
     ?>
-
-
-
     <script>
         $(document).ready(function() {
 
             $.ajax({
                 type: 'GET',
-                "url": "../Results/Dirbust/<?php echo $UID; ?>.json",
+                "url": "../Results/AuthBypass/<?php echo $UID; ?>.json",
                 async: false,
                 success: function(response) {
-                    $('#directories').DataTable({
+                    $('#AuthBypass').DataTable({
                         "ajax": {
-                            "url": "../Results/Dirbust/<?php echo $UID; ?>.json",
-                            "dataSrc": "Pages"
+                            "url": "../Results/AuthBypass/<?php echo $UID; ?>.json",
+                            "dataSrc": function(json) {
+                                var return_data = new Array();
+                                if (json.AuthBypass == null) {
+                                    return return_data;
+                                } else {
+                                    for (var i = 0; i < json.AuthBypass.length; i++) {
+                                        return_data.push({
+                                            'URL': "" + json.AuthBypass[i].URL
+                                        })
+                                    }
+                                    return return_data;
+                                }
+
+                            }
                         },
                         columns: [{
-                            data: 'Page',
-                            title: 'Page'
-                        }, {
-                            data: 'Response',
-                            title: 'Response'
-                        }, {
-                            data: 'children',
-                            title: 'children'
+                            data: 'URL',
+                            title: 'URL'
                         }]
                     });
 
                 },
                 error: function(response) {
-                    $('#directories').DataTable();
+                    $('#AuthBypass').DataTable();
                 }
             });
 
@@ -84,6 +89,7 @@ checkLoggedIn();
 
         });
     </script>
+
     <style>
         table,
         th,
@@ -113,7 +119,7 @@ checkLoggedIn();
         <div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Scans</li>
-                <li class="breadcrumb-item active">Directories Scan</li>
+                <li class="breadcrumb-item active">AuthBypass</li>
             </ol>
         </div>
     </div>
@@ -127,33 +133,32 @@ checkLoggedIn();
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>Directories Scan</h4>
+                        <h4>AuthBypass</h4>
                     </div>
                     <div class="card-body">
 
 
-                        <h4>Directories Scan</h4>
+                        <h4>AuthBypass</h4>
+                        <bb style="color:blue;">
+                           <a target="_blank" style="color:blue;" href="http://193.106.55.103:8080/penetrate/general/finding.php?id=234"> Press to read more about AuthBypass</a>
+                        </bb>
                         <div class="table-responsive">
-                            <table id="directories" class="table table-hover table-bordered" style="width:100%">
+                            <table id="AuthBypass" class="table table-hover table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Page</th>
-                                        <th>Response</th>
-                                        <th>children</th>
-
+                                        <th>URL</th>
 
                                     </tr>
                                 </thead>
-                                <tbody id="directories_tbody">
+                                <tbody id="AuthBypass_tbody">
 
 
 
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Page</th>
-                                        <th>Response</th>
-                                        <th>children</th>
+                                        <th>URL</th>
+
                                     </tr>
                                 </tfoot>
                             </table>

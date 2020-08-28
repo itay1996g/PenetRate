@@ -71,7 +71,12 @@ function ScansForm(form) {
 
             } else if (response == 'ErrorUpdated') {
                 UserToastError("Scan Error", "Please enter valid details");
+            } else if (response == 'Error') {
+                UserToastError("Scan Error", "Error");
+            } else if (response == 'ErrorLogin') {
+                location.href = "../users/login.html"
             }
+			
         }
     });
 

@@ -1,6 +1,6 @@
 <?php
 include '../helpers/session.php';
-//checkLoggedIn();
+checkLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,10 +49,39 @@ include '../helpers/session.php';
     <script>
         $(document).ready(function() {
 
+
+            var path = '../Results/sensitiveinfo/';
+            var sufix = '<?php echo $UID; ?>_extract_info.json';
+            var add = '';
+
+            $.ajax({
+                type: 'GET',
+                url: "../Results/sensitiveinfo/unauth_<?php echo $UID; ?>_extract_info.json",
+                async: false,
+                success: function(response) {
+                    add = 'unauth_';
+
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: "../Results/sensitiveinfo/auth_<?php echo $UID; ?>_extract_info.json",
+                async: false,
+                success: function(response) {
+                    add = 'auth_';
+
+                }
+            });
+            path = path+add+sufix;
+
+
+
+
             $('#sensitiveinfo').DataTable({
                 "ajax": {
                     /*NEED TO CHECK FILE EXISTS!!! */
-                    "url": "../Results/sensitiveinfo/<?php echo $UID; ?>.json",
+                    "url": ""+path,
                     "dataSrc": "Info"
                 },
                 columns: [{
