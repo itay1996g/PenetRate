@@ -23,6 +23,7 @@ DEFAULT_PORTS_TO_SCAN = '21, 22, 23, 25, 53, 80, 110, 113, 115, 135, 138, 443, 4
 class PortScanner(object):
 
     def __init__(self, uid, ip):
+        
         self.target_ip = ip
         self.ports_to_scan = DEFAULT_PORTS_TO_SCAN
         self.uid = uid
@@ -30,12 +31,11 @@ class PortScanner(object):
         try:
             socket.inet_aton(ip)
         except socket.error:
-            self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)
-            
-        if self.target_ip == []:
-            raise ValueError("Invalid Address")
-        
-        self.target_ip = self.target_ip[0]
+            try:
+                self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)[0]
+            except IndexError:
+                raise ValueError("Invalid Address")
+           
         try:
             self.scanner = nmap.PortScanner()
         except:
@@ -120,6 +120,7 @@ class PortScanner(object):
         if self.check_syntax():
             self.parse_results(output)
             for port in self.open_ports:
+                print(port)
                 self.check_connection_to_port(int(port['Port']))
         
         self.save_results_to_json()
@@ -135,6 +136,7 @@ class PortScanner(object):
                 try:
                     service_name = socket.getservbyport(port[0])
                 except:
+                    print("Error 1")
                     service_name = 'Unknown'
                 if port[1]['state'] == 'open':
                     self.open_ports.append({'Port':port[0], 'ServiceName' : service_name})
@@ -197,6 +199,7 @@ def main():
     """
     args = get_args()
     try:
+        
         scanner = PortScanner(args['uid'], args['ip'])
         scanner.scan()
     except:
@@ -213,4 +216,4 @@ def main():
     
 if __name__ == '__main__':
     main()
-    
+   
