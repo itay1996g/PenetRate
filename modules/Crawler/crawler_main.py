@@ -59,15 +59,21 @@ def route_crawl(args):
                                user_id=args['uid'],
                                auth_cookie=args['auth_cookie'],
                                auth_crawler_results=True)
-    
-    authbypass_scanner.scan()
-    sqli_scanner.scan()
-    
+
+    try:
+      authbypass_scanner.scan()
+    except:
+      pass
+    try:
+      sqli_scanner.scan()
+    except:
+      pass
+
     send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
-   
+
   send_to_api(args['uid'], CRAWLER_TABLE_NAME)
   send_to_api(args['uid'], CLIENTSIDE_TABLE_NAME)
-    
+  
   if args['dirbust']:
       sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)) + '/../DirBust')
       dirbust_module = __import__("dirbust")
@@ -81,8 +87,18 @@ def main():
   make_results_dir(RESULTS_DIR_PATH)
   make_results_dir(CRAWLER_RESULTS_PATH)
   make_results_dir(SENSITIVEINFO_RESULTS_PATH)
-  
-  route_crawl(args)
- 
+
+  try:
+    route_crawl(args)
+  except:
+    if args['attack']:
+      send_to_api(args['uid'], VULNSCAN_TABLE_NAME)
+
+    if args['dirbust']:
+      send_to_api(args['uid'], dirbust_module.DIRBUST_TABLE_NAME)
+
+    send_to_api(args['uid'], CRAWLER_TABLE_NAME)
+    send_to_api(args['uid'], CLIENTSIDE_TABLE_NAME)
+
 if __name__ == '__main__':
   main()
