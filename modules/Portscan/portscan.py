@@ -32,6 +32,8 @@ class PortScanner(object):
             socket.inet_aton(ip)
         except socket.error:
             try:
+                if ip[-1] != r'/':
+                    ip += r'/'
                 self.target_ip = re.findall(r'https?:\/\/(.*)\/.?', ip)[0]
             except IndexError:
                 raise ValueError("Invalid Address")
@@ -44,7 +46,7 @@ class PortScanner(object):
         self.open_ports = []
         self.filtered_ports = []
         self.connected_ports = []
-        
+
     def check_syntax(self):
         """
         Check if the specified hosts and ports are legal.
@@ -120,7 +122,6 @@ class PortScanner(object):
         if self.check_syntax():
             self.parse_results(output)
             for port in self.open_ports:
-                print(port)
                 self.check_connection_to_port(int(port['Port']))
         
         self.save_results_to_json()
@@ -136,7 +137,6 @@ class PortScanner(object):
                 try:
                     service_name = socket.getservbyport(port[0])
                 except:
-                    print("Error 1")
                     service_name = 'Unknown'
                 if port[1]['state'] == 'open':
                     self.open_ports.append({'Port':port[0], 'ServiceName' : service_name})
@@ -216,4 +216,4 @@ def main():
     
 if __name__ == '__main__':
     main()
-   
+    
