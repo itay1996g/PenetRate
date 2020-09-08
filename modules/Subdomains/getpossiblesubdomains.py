@@ -28,7 +28,7 @@ Example of USAGE:
 '''
 
 class SmartSubdomainGuesser(object):
-    _COMMON_SUBDOMAINS = ['mobile','info','mobile','media','help','admin','administrator','user','users','register','login','app','api','support','account','he', 'en','alpha', 'beta', 'dev', 'stage', 'test', 'prod', 'staging', 'pre', 'production', 'development', 'testing', 'www', 'backup', 'ww1']
+    _COMMON_SUBDOMAINS = ['sites','images','news','mobile','info','mobile','media','help','admin','administrator','user','users','register','login','app','api','support','account','he', 'en','alpha', 'beta', 'dev', 'stage', 'test', 'prod', 'staging', 'pre', 'production', 'development', 'testing', 'www', 'backup', 'ww1']
     _LIST_PREFIX = ['alpha', 'beta', 'dev', 'stage', 'test', 'prod', 'staging', 'pre', 'production', 'development', 'testing', 'www', 'backup', 'ww1']
     _SUBDOMAINS_FILE = "C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\subdomains.txt"
     _TOP_10000_SUBDOMAINS_FILE = "C:\\xampp\\htdocs\\PenetRate\\modules\\Subdomains\\top_10000_subdomains.txt"
@@ -213,22 +213,22 @@ class SmartSubdomainGuesser(object):
 
             #Golden Subdomains - 2
             #For each subdomain, add subdomains that are similar from subdomains text file
-            if self._continue_to_add_flag:
-                for subdomain in self._known_subdomains:
-                    self.add_subdomain_from_same_lines_file(subdomain,file_subdomains_lines)
+            # if self._continue_to_add_flag:
+            #     for subdomain in self._known_subdomains:
+            #         self.add_subdomain_from_same_lines_file(subdomain,file_subdomains_lines)
 
             #Golden Subdomains - 3
             #If known subdomains has a digit, add digits!
-            if self._continue_to_add_flag:
-                self.add_digits()
+            # if self._continue_to_add_flag:
+            #     self.add_digits()
 
 
 
             #Silver Subdomains - 1
             #For each subdomain, add subdomains that are similar from subdomains text file with MOST common PREFIXS to them
-            if self._continue_to_add_flag:           
-                for subdomain in self._known_subdomains:
-                    self.add_subdomain_from_same_lines_file_with_prefix(subdomain,file_subdomains_lines)
+            # if self._continue_to_add_flag:           
+            #     for subdomain in self._known_subdomains:
+            #         self.add_subdomain_from_same_lines_file_with_prefix(subdomain,file_subdomains_lines)
 
             #Silver Subdomains - 2
             #Add all subdomains from subdomains text file
@@ -242,8 +242,8 @@ class SmartSubdomainGuesser(object):
             
             #Iron Subdomains - 1
             #Add variations of subdomains with digits-> Add digits to Golden Subdomains - 1
-            if self._continue_to_add_flag:
-                self.add_common_subdomains_and_prefixes_with_digits()
+            # if self._continue_to_add_flag:
+            #     self.add_common_subdomains_and_prefixes_with_digits()
 
             #Iron Subdomains - 2
             #Add all subdomains from top_10000_subdomains text file
