@@ -28,11 +28,13 @@ class SubdomainScanner(object):
         """
         
         domain_to_check = self.url_to_scan
-        domain_to_check = domain_to_check.replace('https://','').replace('http://','').replace('www','')
+        domain_to_check = domain_to_check.replace('https://','').replace('http://','').replace('www','').replace('/','')
         guesses = SmartSubdomainGuesser([''], 58, domain_to_check).guess()
         open_subdomains = []
+        print(guesses)
+        print(domain_to_check)
         for domain in guesses:
-            url = domain + '' + domain_to_check
+            url = domain + '.' + domain_to_check
             try:
                 if requests.get('https://' + url).status_code == 200:
                     print('Web site exists ' + url)
